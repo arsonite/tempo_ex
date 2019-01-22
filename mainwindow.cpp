@@ -16,7 +16,6 @@ MainWindow::MainWindow(QWidget *parent) :
     controller_ = new Controller(*scene_);
 
     scene_->setBackgroundBrush(Qt::black);
-    //scene->addLine(-100, -100, 100, 100)->setPen(QPen(Qt::red, 10));
 
     ui_->view->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     ui_->view->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);

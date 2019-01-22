@@ -7,13 +7,11 @@
 
 #include <QPen>
 #include <QTimer>
-#include <QDebug>
 
 Star::Star()
 {
     int random_number = rand() % 810;
     setPos(random_number, 0);
-    qDebug() << random_number;
 
     int size = rand() % 5;
     setRect(0, 0, size, size);
@@ -34,5 +32,5 @@ void Star::fly(bool outOfBounds)
         delete this;
         return;
     }
-    setPos(x(), y()+25);
+    setPos(x(), y()+(rand() % 35));
 }

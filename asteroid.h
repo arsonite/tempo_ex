@@ -13,6 +13,7 @@ public:
     bool fly(bool outOfBounds);
 
 private:
+    int health_;
     int speed_;
 };
 

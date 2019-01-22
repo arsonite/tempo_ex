@@ -41,7 +41,7 @@ Controller::Controller(QGraphicsScene &scene) : scene_(&scene)
     spawner->start();
 
     QTimer *stars_bg = new QTimer();
-    stars_bg->setInterval(10);
+    stars_bg->setInterval(50);
     connect(stars_bg, &QTimer::timeout, this, [=](){
         spawnStars();
     });
@@ -106,7 +106,7 @@ void Controller::shoot()
     sfx_shoot->play();
     */
 
-    Projectile *p = new Projectile();
+    Projectile *p = new Projectile(10, 10);
     p->setPos(player_->x(), player_->y());
     scene_->addItem(p);
     qDebug() << "Projectile fired. Number of Entities: " << scene_->items().size();
@@ -122,13 +122,11 @@ void Controller::superCharge()
 
 void Controller::spawnAsteroid()
 {
-    Asteroid *a = new Asteroid();
-    scene_->addItem(a);
+    scene_->addItem(new Asteroid());
     qDebug() << "Number of Entities: " << scene_->items().size();
 }
 
 void Controller::spawnStars()
 {
-    Star *s = new Star();
-    scene_->addItem(s);
+    scene_->addItem(new Star());
 }

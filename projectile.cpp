@@ -6,7 +6,7 @@
 
 #include <QDebug>
 
-Projectile::Projectile()
+Projectile::Projectile(int speed, int dmg): speed_(speed), dmg_(dmg)
 {
     setRect(90/2, -50, 10, 50);
     setPen(QPen(QColor(255, 0, 0)));
@@ -30,12 +30,12 @@ void Projectile::fly(bool outOfBounds)
     }
 
     QList<QGraphicsItem *> colliding_items = collidingItems();
-    for(int i = 0, n = colliding_items.size(); i < n; ++i) {
+    for(int i = 0; i < colliding_items.size(); ++i) {
         if(typeid(*(colliding_items[i])) == typeid(Asteroid)) {
             delete colliding_items[i];
             delete this;
             return;
         }
     }
-    setPos(x(), y()-10);
+    setPos(x(), y()-speed_);
 }
