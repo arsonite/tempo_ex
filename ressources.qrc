@@ -1,0 +1,9 @@
+<RCC>
+    <qresource prefix="/sfx">
+        <file>res/sfx/music_game.mp3</file>
+        <file>res/sfx/shoot.wav</file>
+        <file>res/sfx/thrust.wav</file>
+    </qresource>
+    <qresource prefix="/config"/>
+    <qresource prefix="/saves"/>
+</RCC>
