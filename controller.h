@@ -22,7 +22,7 @@ public:
     void useSpecial();
     void superCharge();
 
-    void spawnAsteroid(int size);
+    void spawnAsteroid();
     void spawnStars();
 
 private:

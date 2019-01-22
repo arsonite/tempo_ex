@@ -1,4 +1,5 @@
 #include "projectile.h"
+#include "asteroid.h"
 
 #include <QPen>
 #include <QTimer>
@@ -14,19 +15,27 @@ Projectile::Projectile()
     timer->setInterval(32);
 
     connect(timer, &QTimer::timeout, this, [=](){
-        this->fly(y() + rect().height() < 0);
+        fly(y() + rect().height() < 0);
     });
 
     timer->start();
 }
 
-bool Projectile::fly(bool outOfBounds)
+void Projectile::fly(bool outOfBounds)
 {
     if(outOfBounds) {
         delete this;
         qDebug() << "Projectile deleted.";
-        return true;
+        return;
+    }
+
+    QList<QGraphicsItem *> colliding_items = collidingItems();
+    for(int i = 0, n = colliding_items.size(); i < n; ++i) {
+        if(typeid(*(colliding_items[i])) == typeid(Asteroid)) {
+            delete colliding_items[i];
+            delete this;
+            return;
+        }
     }
     setPos(x(), y()-10);
-    return false;
 }

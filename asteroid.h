@@ -11,6 +11,9 @@ public:
     Asteroid();
 
     bool fly(bool outOfBounds);
+
+private:
+    int speed_;
 };
 
 #endif // ASTEROID_H

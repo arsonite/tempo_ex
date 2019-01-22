@@ -1,6 +1,9 @@
 #include "controller.h"
 #include "projectile.h"
 #include "asteroid.h"
+#include "star.h"
+
+#include <stdlib.h>
 
 #include <QDebug>
 #include <QMediaPlayer>
@@ -31,20 +34,18 @@ Controller::Controller(QGraphicsScene &scene) : scene_(&scene)
     */
 
     QTimer *spawner = new QTimer();
-    spawner->setInterval(2500);
+    spawner->setInterval(1500);
     connect(spawner, &QTimer::timeout, this, [=](){
-        spawnAsteroid(0);
+        spawnAsteroid();
     });
     spawner->start();
 
-    /*
     QTimer *stars_bg = new QTimer();
     stars_bg->setInterval(10);
     connect(stars_bg, &QTimer::timeout, this, [=](){
         spawnStars();
     });
     stars_bg->start();
-    */
 }
 
 Controller::~Controller()
@@ -119,7 +120,7 @@ void Controller::superCharge()
 {
 }
 
-void Controller::spawnAsteroid(int size)
+void Controller::spawnAsteroid()
 {
     Asteroid *a = new Asteroid();
     scene_->addItem(a);
@@ -128,7 +129,6 @@ void Controller::spawnAsteroid(int size)
 
 void Controller::spawnStars()
 {
-    Asteroid *a = new Asteroid();
-    scene_->addItem(a);
-    qDebug() << "Number of Entities: " << scene_->items().size();
+    Star *s = new Star();
+    scene_->addItem(s);
 }

@@ -9,16 +9,17 @@
 Asteroid::Asteroid()
 {
     int random_number = rand() % 810;
-    setPos(random_number, 0);
+    setPos(random_number, -50);
     qDebug() << random_number;
 
-    setRect(0, 0, 50, 50);
+    int size = (rand() % 50)+50;
+    setRect(0, 0, size, size);
     setPen(QPen(QColor(255, 0, 0)));
 
     QTimer *timer = new QTimer();
     timer->setInterval(32);
     connect(timer, &QTimer::timeout, this, [=](){
-        this->fly(y() + rect().height() >= 710);
+        this->fly(y() + rect().height() >= 660 + size);
     });
     timer->start();
 }

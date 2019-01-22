@@ -10,7 +10,7 @@ Q_OBJECT
 public:
     Projectile();
 
-    bool fly(bool outOfBounds);
+    void fly(bool outOfBounds);
 };
 
 #endif // PROJECTILE_H

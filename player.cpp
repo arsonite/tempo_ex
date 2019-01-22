@@ -12,8 +12,6 @@ Player::Player()
     setFlag(QGraphicsItem::ItemIsFocusable);
 
     setRect(0, 0, 100, 100);
-    //setBrush(QColor(255, 0, 0));
-    //setPen(QPen(Qt::NoPen));
     setPen(QPen(QColor(255, 0, 0)));
 }
 
