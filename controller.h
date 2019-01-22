@@ -22,6 +22,8 @@ public:
     void useSpecial();
     void superCharge();
 
+    void spawnAsteroid(int size);
+
 private:
     QGraphicsScene *scene_;
     QTimer *timer_;

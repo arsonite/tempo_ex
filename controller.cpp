@@ -1,5 +1,6 @@
 #include "controller.h"
 #include "projectile.h"
+#include "asteroid.h"
 
 #include <QDebug>
 #include <QMediaPlayer>
@@ -18,7 +19,7 @@ Controller::Controller(QGraphicsScene &scene) : scene_(&scene)
         //sfx_thrust->play();
 
         player_->moveShip();
-        qDebug() << scene_->items().size();
+        qDebug() << "Projectile fired. Number of Entities: " << scene_->items().size();
     });
 
     scene.addItem(player_);
@@ -26,6 +27,13 @@ Controller::Controller(QGraphicsScene &scene) : scene_(&scene)
     //QMediaPlayer *music_game = new QMediaPlayer();
     //music_game->setMedia(QUrl("qrc:/sfx/res/sfx/music_game.mp3"));
     //music_game->play();
+
+    QTimer *spawner = new QTimer();
+    timer_->setInterval(1000);
+    connect(timer_, &QTimer::timeout, this, [=](){
+        spawnAsteroid(0);
+        qDebug() << "Asteroid spawned. Number of Entities: " << scene_->items().size();
+    });
 }
 
 Controller::~Controller()
@@ -80,8 +88,6 @@ void Controller::switchControl(QKeyEvent *e, bool b)
 
 void Controller::shoot()
 {
-    qDebug() << "shoot()";
-
     //QSoundEffect *sfx_shoot = new QSoundEffect();
     //sfx_shoot->setSource(QUrl("qrc:/sfx/res/sfx/shoot.wav"));
     //sfx_shoot->play();
@@ -93,12 +99,14 @@ void Controller::shoot()
 
 void Controller::useSpecial()
 {
-    qDebug() << "useSpecial()";
-
 }
 
 void Controller::superCharge()
 {
-    qDebug() << "superCharge()";
+}
 
+void Controller::spawnAsteroid(int size)
+{
+    Asteroid *a = new Asteroid();
+    scene_->addItem(a);
 }
