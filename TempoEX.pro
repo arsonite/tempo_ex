@@ -34,7 +34,8 @@ SOURCES += \
         projectile.cpp \
         fileparser.cpp \
     entity.cpp \
-    star.cpp
+    star.cpp \
+    sfxcontroller.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -45,7 +46,8 @@ HEADERS += \
         projectile.h \
         fileparser.h \
     entity.h \
-    star.h
+    star.h \
+    sfxcontroller.h
 
 FORMS += \
         mainwindow.ui
