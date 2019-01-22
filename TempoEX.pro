@@ -33,7 +33,8 @@ SOURCES += \
         asteroid.cpp \
         projectile.cpp \
         fileparser.cpp \
-    entity.cpp
+    entity.cpp \
+    star.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -43,7 +44,8 @@ HEADERS += \
         asteroid.h \
         projectile.h \
         fileparser.h \
-    entity.h
+    entity.h \
+    star.h
 
 FORMS += \
         mainwindow.ui

@@ -8,8 +8,9 @@
 
 Asteroid::Asteroid()
 {
-    int random_number = rand() % 700;
+    int random_number = rand() % 810;
     setPos(random_number, 0);
+    qDebug() << random_number;
 
     setRect(0, 0, 50, 50);
     setPen(QPen(QColor(255, 0, 0)));
@@ -17,7 +18,7 @@ Asteroid::Asteroid()
     QTimer *timer = new QTimer();
     timer->setInterval(32);
     connect(timer, &QTimer::timeout, this, [=](){
-        this->fly(y() + rect().height() >= 600);
+        this->fly(y() + rect().height() >= 710);
     });
     timer->start();
 }
@@ -29,6 +30,6 @@ bool Asteroid::fly(bool outOfBounds)
         qDebug() << "Asteroid deleted.";
         return true;
     }
-    setPos(x(), y()-5);
+    setPos(x(), y()+5);
     return false;
 }

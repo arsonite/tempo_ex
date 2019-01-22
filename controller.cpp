@@ -10,30 +10,41 @@ Controller::Controller(QGraphicsScene &scene) : scene_(&scene)
 {
     player_ = new Player();
     player_->setPos(850/2, 610/2);
-
-    timer_ = new QTimer();
-    timer_->setInterval(32); //Half of 60Hz - 16.7
-    connect(timer_, &QTimer::timeout, this, [=](){
-        //QSoundEffect *sfx_thrust = new QSoundEffect();
-        //sfx_thrust->setSource(QUrl("qrc:/sfx/res/sfx/thrust.wav"));
-        //sfx_thrust->play();
-
-        player_->moveShip();
-        qDebug() << "Projectile fired. Number of Entities: " << scene_->items().size();
-    });
-
     scene.addItem(player_);
 
-    //QMediaPlayer *music_game = new QMediaPlayer();
-    //music_game->setMedia(QUrl("qrc:/sfx/res/sfx/music_game.mp3"));
-    //music_game->play();
+    timer_ = new QTimer();
+    timer_->setInterval((1000/60)*2); //Half of 60Hz - 16.7
+    connect(timer_, &QTimer::timeout, this, [=](){
+        /*
+        QSoundEffect *sfx_thrust = new QSoundEffect();
+        sfx_thrust->setSource(QUrl("qrc:/sfx/res/sfx/thrust.wav"));
+        sfx_thrust->play();
+        */
+
+        player_->moveShip();
+    });
+
+    /*
+    QMediaPlayer *music_game = new QMediaPlayer();
+    music_game->setMedia(QUrl("qrc:/sfx/res/sfx/music_game.mp3"));
+    music_game->play();
+    */
 
     QTimer *spawner = new QTimer();
-    timer_->setInterval(1000);
-    connect(timer_, &QTimer::timeout, this, [=](){
+    spawner->setInterval(2500);
+    connect(spawner, &QTimer::timeout, this, [=](){
         spawnAsteroid(0);
-        qDebug() << "Asteroid spawned. Number of Entities: " << scene_->items().size();
     });
+    spawner->start();
+
+    /*
+    QTimer *stars_bg = new QTimer();
+    stars_bg->setInterval(10);
+    connect(stars_bg, &QTimer::timeout, this, [=](){
+        spawnStars();
+    });
+    stars_bg->start();
+    */
 }
 
 Controller::~Controller()
@@ -88,13 +99,16 @@ void Controller::switchControl(QKeyEvent *e, bool b)
 
 void Controller::shoot()
 {
-    //QSoundEffect *sfx_shoot = new QSoundEffect();
-    //sfx_shoot->setSource(QUrl("qrc:/sfx/res/sfx/shoot.wav"));
-    //sfx_shoot->play();
+    /*
+    QSoundEffect *sfx_shoot = new QSoundEffect();
+    sfx_shoot->setSource(QUrl("qrc:/sfx/res/sfx/shoot.wav"));
+    sfx_shoot->play();
+    */
 
     Projectile *p = new Projectile();
     p->setPos(player_->x(), player_->y());
     scene_->addItem(p);
+    qDebug() << "Projectile fired. Number of Entities: " << scene_->items().size();
 }
 
 void Controller::useSpecial()
@@ -109,4 +123,12 @@ void Controller::spawnAsteroid(int size)
 {
     Asteroid *a = new Asteroid();
     scene_->addItem(a);
+    qDebug() << "Number of Entities: " << scene_->items().size();
+}
+
+void Controller::spawnStars()
+{
+    Asteroid *a = new Asteroid();
+    scene_->addItem(a);
+    qDebug() << "Number of Entities: " << scene_->items().size();
 }

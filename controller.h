@@ -23,6 +23,7 @@ public:
     void superCharge();
 
     void spawnAsteroid(int size);
+    void spawnStars();
 
 private:
     QGraphicsScene *scene_;
