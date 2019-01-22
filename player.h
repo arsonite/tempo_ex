@@ -22,8 +22,8 @@ public:
 
     void moveX(int incr);
     void moveY(int incr);
-    void increasePoints();
-    void decreasePoints();
+
+    void advance(int point) override;
 
     /* Collision detection */
     void wallCollisionRedirect();
@@ -39,6 +39,8 @@ public slots:
 
 private slots:
     std::array<bool, 4> keysPressed_;
+
+    int points_;
 };
 
 #endif // PLAYER_H

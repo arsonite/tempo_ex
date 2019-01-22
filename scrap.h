@@ -10,14 +10,20 @@ Q_OBJECT
 public:
     Scrap();
 
-    bool fly(bool outOfBounds);
+    void fly(bool outOfBounds);
 
     void advance(int dmg) override;
 
+    void dropPoint();
+
 private:
+    int size_;
     int health_;
     int speed_;
     int scraps_;
+    int oldValue_;
+
+    bool destroyed_;
 };
 
 #endif // ASTEROID_H

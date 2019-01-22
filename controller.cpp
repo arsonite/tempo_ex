@@ -34,7 +34,7 @@ Controller::Controller(QGraphicsScene &scene) : scene_(&scene)
     */
 
     QTimer *spawner = new QTimer();
-    spawner->setInterval(1500);
+    spawner->setInterval(2500);
     connect(spawner, &QTimer::timeout, this, [=](){
         spawnAsteroid();
     });
@@ -44,6 +44,7 @@ Controller::Controller(QGraphicsScene &scene) : scene_(&scene)
     stars_bg->setInterval(50);
     connect(stars_bg, &QTimer::timeout, this, [=](){
         spawnStars();
+        // build probe if player is destroyed into here maybe?
     });
     stars_bg->start();
 }

@@ -13,6 +13,8 @@ Player::Player()
 
     setRect(0, 0, 100, 100);
     setPen(QPen(QColor(255, 0, 0)));
+
+    points_ = 0;
 }
 
 double Player::x() const
@@ -43,6 +45,16 @@ void Player::moveX(int incr)
 void Player::moveY(int incr)
 {
     setY(this->y()+incr);
+}
+
+void Player::advance(int point)
+{
+    points_+= point;
+    qDebug() << "Player has: " << points_;
+
+    if(points_ < 0) {
+        delete this;
+    }
 }
 
 void Player::keyPress(int i, bool b)

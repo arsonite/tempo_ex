@@ -1,4 +1,5 @@
 #include "scrap.h"
+#include "player.h"
 
 #include <stdlib.h>
 
@@ -8,11 +9,14 @@
 
 Scrap::Scrap()
 {
+    destroyed_ = false;
+
     int random_number = rand() % 810;
     setPos(random_number, -100);
 
     int size = (rand() % 50) + 50;
-    health_ = size;
+    size_ = size;
+    oldValue_ = health_ = size;
     setRect(0, 0, size, size);
     //setPen(QPen(QColor(255, 0, 0)));
     setPen(QPen(Qt::NoPen));
@@ -47,33 +51,60 @@ Scrap::Scrap()
     timer->start();
 }
 
-bool Scrap::fly(bool outOfBounds)
+void Scrap::fly(bool outOfBounds)
 {
     if(outOfBounds) {
         delete this;
         qDebug() << "Asteroid deleted.";
-        return true;
+        return;
     }
+
+    QList<QGraphicsItem *> colliding_items = collidingItems();
+    for(int i = 0; i < colliding_items.size(); ++i) {
+        if(typeid(*(colliding_items[i])) == typeid(Player)) {
+            if(destroyed_) {
+                colliding_items[i]->advance(1);
+                delete this;
+                return;
+            }
+            colliding_items[i]->advance(-1);
+        }
+    }
+
     setPos(x(), y() + 5);
-    return false;
+    return;
 }
 
 void Scrap::advance(int dmg)
 {
-    int oldValue = health_;
-    health_-= dmg;
-
-    if(health_ <= 0) {
-        delete this;
+    if(destroyed_) {
         return;
     }
 
-    double n = scraps_ * (((health_ * 100.0) / oldValue) / 100.0);
+    health_-= dmg;
+
+    if(health_ <= 0) {
+        destroyed_ = true;
+        dropPoint();
+        return;
+    }
+
+    double n = scraps_ * (((health_ * 100.0) / oldValue_) / 100);
     scraps_ = int (n);
     for(int i = 0; i < childItems().size(); i++) {
-        if(i > n) {
-            continue;
+        if(i <= scraps_) {
+            delete childItems().at(i);
         }
+    }
+}
+
+void Scrap::dropPoint()
+{
+    for(int i = 0; i < childItems().size(); i++) {
         delete childItems().at(i);
     }
+    QGraphicsEllipseItem *point = new QGraphicsEllipseItem(this);
+    point->setRect(size_/2, size_/2, 20, 20);
+    point->setBrush(QBrush(QColor(0, 255, 0)));
+    point->setPen(QPen(Qt::NoPen));
 }
