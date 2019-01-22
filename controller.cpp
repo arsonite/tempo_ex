@@ -1,6 +1,6 @@
 #include "controller.h"
 #include "projectile.h"
-#include "asteroid.h"
+#include "scrap.h"
 #include "star.h"
 
 #include <stdlib.h>
@@ -122,7 +122,7 @@ void Controller::superCharge()
 
 void Controller::spawnAsteroid()
 {
-    scene_->addItem(new Asteroid());
+    scene_->addItem(new Scrap());
     qDebug() << "Number of Entities: " << scene_->items().size();
 }
 

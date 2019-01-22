@@ -1,14 +1,14 @@
-#ifndef ASTEROID_H
-#define ASTEROID_H
+#ifndef SCRAP_H
+#define SCRAP_H
 
 #include <QGraphicsRectItem>
 #include <QObject>
 
-class Asteroid: public QObject, public QGraphicsRectItem
+class Scrap: public QObject, public QGraphicsRectItem
 {
 Q_OBJECT
 public:
-    Asteroid();
+    Scrap();
 
     bool fly(bool outOfBounds);
 

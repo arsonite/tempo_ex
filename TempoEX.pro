@@ -30,24 +30,24 @@ SOURCES += \
         mainwindow.cpp \
         player.cpp \
         controller.cpp \
-        asteroid.cpp \
         projectile.cpp \
         fileparser.cpp \
     entity.cpp \
     star.cpp \
-    sfxcontroller.cpp
+    sfxcontroller.cpp \
+    scrap.cpp
 
 HEADERS += \
         mainwindow.h \
         player.h \
         view.h \
         controller.h \
-        asteroid.h \
         projectile.h \
         fileparser.h \
     entity.h \
     star.h \
-    sfxcontroller.h
+    sfxcontroller.h \
+    scrap.h
 
 FORMS += \
         mainwindow.ui
