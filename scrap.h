@@ -12,9 +12,12 @@ public:
 
     bool fly(bool outOfBounds);
 
+    void advance(int dmg) override;
+
 private:
     int health_;
     int speed_;
+    int scraps_;
 };
 
 #endif // ASTEROID_H

@@ -106,7 +106,7 @@ void Controller::shoot()
     sfx_shoot->play();
     */
 
-    Projectile *p = new Projectile(10, 10);
+    Projectile *p = new Projectile(10, 25);
     p->setPos(player_->x(), player_->y());
     scene_->addItem(p);
     qDebug() << "Projectile fired. Number of Entities: " << scene_->items().size();

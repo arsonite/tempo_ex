@@ -11,13 +11,14 @@ Scrap::Scrap()
     int random_number = rand() % 810;
     setPos(random_number, -100);
 
-    int size = (rand() % 50)+50;
+    int size = (rand() % 50) + 50;
     health_ = size;
     setRect(0, 0, size, size);
     //setPen(QPen(QColor(255, 0, 0)));
     setPen(QPen(Qt::NoPen));
 
-    int n = (rand() % 10)+10;
+    int n = (rand() % 10) + 10;
+    scraps_ = n;
     for(int i = 0; i < n; i++) {
         QGraphicsRectItem *r = new QGraphicsRectItem(this);
         int xSize = (rand() % size);
@@ -32,8 +33,10 @@ Scrap::Scrap()
         r->setRect(0, 0, xSize, ySize);
         r->setPos(t->map(r->pos()));
         r->setRotation(r->rotation() + angle);
+
         r->setPen(QPen(Qt::NoPen));
-        r->setBrush(QBrush(QColor(0, 0, 0)));
+        int greyscale = 50 + (i * 10);
+        r->setBrush(QBrush(QColor(greyscale, greyscale, greyscale)));
     }
 
     QTimer *timer = new QTimer();
@@ -51,6 +54,26 @@ bool Scrap::fly(bool outOfBounds)
         qDebug() << "Asteroid deleted.";
         return true;
     }
-    setPos(x(), y()+5);
+    setPos(x(), y() + 5);
     return false;
+}
+
+void Scrap::advance(int dmg)
+{
+    int oldValue = health_;
+    health_-= dmg;
+
+    if(health_ <= 0) {
+        delete this;
+        return;
+    }
+
+    double n = scraps_ * (((health_ * 100.0) / oldValue) / 100.0);
+    scraps_ = int (n);
+    for(int i = 0; i < childItems().size(); i++) {
+        if(i > n) {
+            continue;
+        }
+        delete childItems().at(i);
+    }
 }

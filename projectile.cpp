@@ -32,7 +32,7 @@ void Projectile::fly(bool outOfBounds)
     QList<QGraphicsItem *> colliding_items = collidingItems();
     for(int i = 0; i < colliding_items.size(); ++i) {
         if(typeid(*(colliding_items[i])) == typeid(Scrap)) {
-            delete colliding_items[i];
+            colliding_items[i]->advance(dmg_);
             delete this;
             return;
         }
