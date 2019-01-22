@@ -32,7 +32,8 @@ SOURCES += \
         controller.cpp \
         asteroid.cpp \
         projectile.cpp \
-        fileparser.cpp
+        fileparser.cpp \
+    entity.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -41,7 +42,8 @@ HEADERS += \
         controller.h \
         asteroid.h \
         projectile.h \
-        fileparser.h
+        fileparser.h \
+    entity.h
 
 FORMS += \
         mainwindow.ui
