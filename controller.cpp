@@ -10,7 +10,7 @@
 #include <QMediaPlayer>
 #include <QSoundEffect>
 
-Controller::Controller(QGraphicsScene &scene) : scene_(&scene)
+Controller::Controller(QGraphicsScene &scene, QLabel &points) : scene_(&scene), points_(&points)
 {
     player_ = new Player();
     player_->setPos(850/2, 610/2);
@@ -43,19 +43,15 @@ Controller::Controller(QGraphicsScene &scene) : scene_(&scene)
 
     QTimer *asteroidSpawner = new QTimer();
     asteroidSpawner->setInterval(5000);
-    connect(scrapSpawner, &QTimer::timeout, this, [=](){
+    connect(asteroidSpawner, &QTimer::timeout, this, [=](){
         scene_->addItem(new Asteroid());
     });
     asteroidSpawner->start();
 
-    QGraphicsRectItem *stars = new QGraphicsRectItem();
-    stars->setRect(0, 0, 900, 700);
-    scene_->addItem(stars);
     QTimer *starsSpawner = new QTimer();
     starsSpawner->setInterval(50);
     connect(starsSpawner, &QTimer::timeout, this, [=](){
-        new Star(*stars); // unnecessary computing
-        // build probe if player is destroyed into here maybe?
+        spawnStar();
     });
     starsSpawner->start();
 }
@@ -130,4 +126,11 @@ void Controller::useSpecial()
 
 void Controller::superCharge()
 {
+}
+
+void Controller::spawnStar()
+{
+    scene_->addItem(new Star()); // unnecessary computing
+    // build probe if player is destroyed into here maybe?
+    points_->setNum(player_->getPoints());
 }

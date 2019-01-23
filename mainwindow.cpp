@@ -14,7 +14,7 @@ MainWindow::MainWindow(QWidget *parent) :
     this->setFixedSize(900, 700);
 
     QGraphicsScene *scene_ = new QGraphicsScene(this);
-    controller_ = new Controller(*scene_);
+    controller_ = new Controller(*scene_, *ui_->points);
     scene_->setBackgroundBrush(Qt::black);
 
     ui_->view->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);

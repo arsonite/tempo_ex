@@ -1,20 +1,17 @@
 #ifndef ASTEROID_H
 #define ASTEROID_H
 
-#include <QGraphicsRectItem>
-#include <QObject>
+#include <entity.h>
 
-class Asteroid: public QObject, public QGraphicsRectItem
+class Asteroid: public Entity
 {
-Q_OBJECT
 public:
     Asteroid();
 
+private:
     void fly(bool outOfBounds);
 
-private:
-    int size_;
-    int speed_;
+    double rotation_;
 };
 
 #endif // ASTEROID_H

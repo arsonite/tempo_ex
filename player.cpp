@@ -53,7 +53,8 @@ void Player::advance(int point)
     qDebug() << "Player has: " << points_;
 
     if(points_ < 0) {
-        delete this;
+        //delete this; // better solution so game doesnt crash
+        qDebug() << "PLAYER IS DEAD!!!!";
     }
 }
 
@@ -94,4 +95,9 @@ void Player::wallCollisionRedirect()
     if(y() < 0) {
         y(0);
     }
+}
+
+int Player::getPoints()
+{
+    return points_;
 }

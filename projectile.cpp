@@ -1,5 +1,6 @@
 #include "projectile.h"
 #include "scrap.h"
+#include "asteroid.h"
 
 #include <QPen>
 #include <QTimer>
@@ -31,7 +32,8 @@ void Projectile::fly(bool outOfBounds)
 
     QList<QGraphicsItem *> colliding_items = collidingItems();
     for(int i = 0; i < colliding_items.size(); ++i) {
-        if(typeid(*(colliding_items[i])) == typeid(Scrap)) {
+        if(typeid(*(colliding_items[i])) == typeid(Scrap)
+                || typeid(*(colliding_items[i])) == typeid(Asteroid)) {
             colliding_items[i]->advance(dmg_);
             delete this;
             return;

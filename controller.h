@@ -4,6 +4,7 @@
 #include "player.h"
 
 #include <QGraphicsScene>
+#include <QLabel>
 #include <QTimer>
 #include <QKeyEvent>
 
@@ -11,7 +12,7 @@ class Controller : public QObject
 {
 Q_OBJECT
 public:
-    Controller(QGraphicsScene &scene);
+    Controller(QGraphicsScene &scene, QLabel &points);
     ~Controller();
 
     void keyPressEvent(QKeyEvent *e);
@@ -22,8 +23,14 @@ public:
     void useSpecial();
     void superCharge();
 
+    void spawnAsteroid();
+    void spawnScrap();
+    void spawnStar();
+
 private:
     QGraphicsScene *scene_;
+    QLabel *points_;
+
     QTimer *timer_;
 
     Player *player_;

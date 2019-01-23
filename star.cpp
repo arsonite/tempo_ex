@@ -8,10 +8,8 @@
 #include <QPen>
 #include <QTimer>
 
-Star::Star(QGraphicsRectItem &bg)
+Star::Star()
 {
-    setParentItem(&bg);
-
     int random_number = rand() % 810;
     setPos(random_number, 0);
 

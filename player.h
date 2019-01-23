@@ -31,6 +31,8 @@ public:
     bool enemyCollision();
     bool projectileCollision();
 
+    int getPoints();
+
     void win();
     void loose();
 
