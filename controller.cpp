@@ -1,6 +1,7 @@
 #include "controller.h"
 #include "projectile.h"
 #include "scrap.h"
+#include "asteroid.h"
 #include "star.h"
 
 #include <stdlib.h>
@@ -13,7 +14,7 @@ Controller::Controller(QGraphicsScene &scene) : scene_(&scene)
 {
     player_ = new Player();
     player_->setPos(850/2, 610/2);
-    scene.addItem(player_);
+    scene_->addItem(player_);
 
     timer_ = new QTimer();
     timer_->setInterval((1000/60)*2); //Half of 60Hz - 16.7
@@ -33,20 +34,30 @@ Controller::Controller(QGraphicsScene &scene) : scene_(&scene)
     music_game->play();
     */
 
-    QTimer *spawner = new QTimer();
-    spawner->setInterval(2500);
-    connect(spawner, &QTimer::timeout, this, [=](){
-        spawnAsteroid();
+    QTimer *scrapSpawner = new QTimer();
+    scrapSpawner->setInterval(2500);
+    connect(scrapSpawner, &QTimer::timeout, this, [=](){
+        scene_->addItem(new Scrap());
     });
-    spawner->start();
+    scrapSpawner->start();
 
-    QTimer *stars_bg = new QTimer();
-    stars_bg->setInterval(50);
-    connect(stars_bg, &QTimer::timeout, this, [=](){
-        spawnStars();
+    QTimer *asteroidSpawner = new QTimer();
+    asteroidSpawner->setInterval(5000);
+    connect(scrapSpawner, &QTimer::timeout, this, [=](){
+        scene_->addItem(new Asteroid());
+    });
+    asteroidSpawner->start();
+
+    QGraphicsRectItem *stars = new QGraphicsRectItem();
+    stars->setRect(0, 0, 900, 700);
+    scene_->addItem(stars);
+    QTimer *starsSpawner = new QTimer();
+    starsSpawner->setInterval(50);
+    connect(starsSpawner, &QTimer::timeout, this, [=](){
+        new Star(*stars); // unnecessary computing
         // build probe if player is destroyed into here maybe?
     });
-    stars_bg->start();
+    starsSpawner->start();
 }
 
 Controller::~Controller()
@@ -119,15 +130,4 @@ void Controller::useSpecial()
 
 void Controller::superCharge()
 {
-}
-
-void Controller::spawnAsteroid()
-{
-    scene_->addItem(new Scrap());
-    qDebug() << "Number of Entities: " << scene_->items().size();
-}
-
-void Controller::spawnStars()
-{
-    scene_->addItem(new Star());
 }

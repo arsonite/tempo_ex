@@ -35,7 +35,8 @@ SOURCES += \
     entity.cpp \
     star.cpp \
     sfxcontroller.cpp \
-    scrap.cpp
+    scrap.cpp \
+    asteroid.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -47,7 +48,8 @@ HEADERS += \
     entity.h \
     star.h \
     sfxcontroller.h \
-    scrap.h
+    scrap.h \
+    asteroid.h
 
 FORMS += \
         mainwindow.ui

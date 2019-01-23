@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "star.h"
 
 #include <QDebug>
 #include <QGraphicsScene>
@@ -14,7 +15,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
     QGraphicsScene *scene_ = new QGraphicsScene(this);
     controller_ = new Controller(*scene_);
-
     scene_->setBackgroundBrush(Qt::black);
 
     ui_->view->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);

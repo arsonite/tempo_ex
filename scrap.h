@@ -26,4 +26,4 @@ private:
     bool destroyed_;
 };
 
-#endif // ASTEROID_H
+#endif // SCRAP_H
