@@ -36,7 +36,7 @@ SOURCES += \
         star.cpp \
         scrap.cpp \
         asteroid.cpp \
-        soundcontroller.cpp
+    soundcontroller.cpp
 
 HEADERS += \
         mainwindow.h \

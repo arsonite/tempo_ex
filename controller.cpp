@@ -11,7 +11,7 @@
 
 Controller::Controller(QGraphicsScene &scene, QLabel &points) : scene_(&scene), points_(&points)
 {
-    SoundController::init();
+
 
     player_ = new Player();
     player_->setPos(850/2, 610/2);
@@ -21,7 +21,6 @@ Controller::Controller(QGraphicsScene &scene, QLabel &points) : scene_(&scene), 
     timer_->setInterval((1000/60)*2); //Half of 60Hz - 16.7
     connect(timer_, &QTimer::timeout, this, [=](){
         player_->moveShip();
-        SoundController::playSFX("thrust");
     });
 
     QTimer *scrapSpawner = new QTimer();
