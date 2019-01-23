@@ -32,11 +32,11 @@ SOURCES += \
         controller.cpp \
         projectile.cpp \
         fileparser.cpp \
-    entity.cpp \
-    star.cpp \
-    sfxcontroller.cpp \
-    scrap.cpp \
-    asteroid.cpp
+        entity.cpp \
+        star.cpp \
+        scrap.cpp \
+        asteroid.cpp \
+        soundcontroller.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -45,11 +45,11 @@ HEADERS += \
         controller.h \
         projectile.h \
         fileparser.h \
-    entity.h \
-    star.h \
-    sfxcontroller.h \
-    scrap.h \
-    asteroid.h
+        entity.h \
+        star.h \
+        scrap.h \
+        asteroid.h \
+        soundcontroller.h
 
 FORMS += \
         mainwindow.ui

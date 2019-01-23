@@ -7,3 +7,12 @@ shoot: Space;
 special: B;
 supercharge: C;
 ############
+
+##GAME##
+cores: 8;
+########
+
+##AUDIO##
+muted: false;
+volume: 100;
+#########

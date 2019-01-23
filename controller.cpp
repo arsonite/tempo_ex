@@ -1,4 +1,5 @@
 #include "controller.h"
+#include "soundcontroller.h"
 #include "projectile.h"
 #include "scrap.h"
 #include "asteroid.h"
@@ -7,11 +8,11 @@
 #include <stdlib.h>
 
 #include <QDebug>
-#include <QMediaPlayer>
-#include <QSoundEffect>
 
 Controller::Controller(QGraphicsScene &scene, QLabel &points) : scene_(&scene), points_(&points)
 {
+    SoundController::init();
+
     player_ = new Player();
     player_->setPos(850/2, 610/2);
     scene_->addItem(player_);
@@ -19,20 +20,9 @@ Controller::Controller(QGraphicsScene &scene, QLabel &points) : scene_(&scene), 
     timer_ = new QTimer();
     timer_->setInterval((1000/60)*2); //Half of 60Hz - 16.7
     connect(timer_, &QTimer::timeout, this, [=](){
-        /*
-        QSoundEffect *sfx_thrust = new QSoundEffect();
-        sfx_thrust->setSource(QUrl("qrc:/sfx/res/sfx/thrust.wav"));
-        sfx_thrust->play();
-        */
-
         player_->moveShip();
+        SoundController::playSFX("thrust");
     });
-
-    /*
-    QMediaPlayer *music_game = new QMediaPlayer();
-    music_game->setMedia(QUrl("qrc:/sfx/res/sfx/music_game.mp3"));
-    music_game->play();
-    */
 
     QTimer *scrapSpawner = new QTimer();
     scrapSpawner->setInterval(2500);
@@ -108,11 +98,9 @@ void Controller::switchControl(QKeyEvent *e, bool b)
 
 void Controller::shoot()
 {
-    /*
     QSoundEffect *sfx_shoot = new QSoundEffect();
     sfx_shoot->setSource(QUrl("qrc:/sfx/res/sfx/shoot.wav"));
     sfx_shoot->play();
-    */
 
     Projectile *p = new Projectile(10, 25);
     p->setPos(player_->x(), player_->y());
@@ -130,7 +118,10 @@ void Controller::superCharge()
 
 void Controller::spawnStar()
 {
+    int p = player_->getPoints();
     scene_->addItem(new Star()); // unnecessary computing
-    // build probe if player is destroyed into here maybe?
-    points_->setNum(player_->getPoints());
+    points_->setNum(p);
+    if(p < 0) {
+        //gameover_ = true;
+    }
 }

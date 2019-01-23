@@ -21,5 +21,7 @@
         <file>res/sfx/damage_2.wav</file>
         <file>res/sfx/click.mp3</file>
         <file>res/sfx/cannon_shot.wav</file>
+        <file>res/db/savegame.txt</file>
+        <file>res/db/config.txt</file>
     </qresource>
 </RCC>

@@ -32,6 +32,7 @@ public:
     bool projectileCollision();
 
     int getPoints();
+    int getRemainingHealth();
 
     void win();
     void loose();

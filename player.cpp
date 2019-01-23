@@ -50,12 +50,6 @@ void Player::moveY(int incr)
 void Player::advance(int point)
 {
     points_+= point;
-    qDebug() << "Player has: " << points_;
-
-    if(points_ < 0) {
-        //delete this; // better solution so game doesnt crash
-        qDebug() << "PLAYER IS DEAD!!!!";
-    }
 }
 
 void Player::keyPress(int i, bool b)
@@ -98,6 +92,11 @@ void Player::wallCollisionRedirect()
 }
 
 int Player::getPoints()
+{
+    return points_;
+}
+
+int Player::getRemainingHealth()
 {
     return points_;
 }
