@@ -7,7 +7,7 @@
 
 #include <QDebug>
 
-Projectile::Projectile(int speed, int dmg): speed_(speed), dmg_(dmg)
+Projectile::Projectile(int speed, int dmg, GameController *g): speed_(speed), dmg_(dmg), g_(g)
 {
     setRect(90/2, -50, 10, 50);
     setPen(QPen(QColor(255, 0, 0)));
@@ -18,12 +18,13 @@ Projectile::Projectile(int speed, int dmg): speed_(speed), dmg_(dmg)
     connect(timer, &QTimer::timeout, this, [=](){
         fly(y() + rect().height() < 0);
     });
-
     timer->start();
 }
 
 void Projectile::fly(bool outOfBounds)
 {
+    if(g_->gameIsPaused()) return;
+
     if(outOfBounds) {
         delete this;
         qDebug() << "Projectile deleted.";

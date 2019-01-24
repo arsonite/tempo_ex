@@ -1,27 +1,5 @@
 <RCC>
     <qresource prefix="/res">
-        <file>res/music/jingle_gameover.wav</file>
-        <file>res/music/jingle_lost.wav</file>
-        <file>res/music/jingle_win.wav</file>
-        <file>res/music/music_game.mp3</file>
-        <file>res/music/music_intro.mp3</file>
-        <file>res/music/music_lost.mp3</file>
-        <file>res/music/music_win.mp3</file>
-        <file>res/sfx/thrust.wav</file>
-        <file>res/sfx/supercharge.wav</file>
-        <file>res/sfx/splashy_click.wav</file>
-        <file>res/sfx/soft_flick.mp3</file>
-        <file>res/sfx/plop.flac</file>
-        <file>res/sfx/launch_rocket.mp3</file>
-        <file>res/sfx/laser_salve.wav</file>
-        <file>res/sfx/explode.wav</file>
-        <file>res/sfx/explode_2.wav</file>
-        <file>res/sfx/collect.wav</file>
-        <file>res/sfx/damage.wav</file>
-        <file>res/sfx/damage_2.wav</file>
-        <file>res/sfx/click.mp3</file>
-        <file>res/sfx/cannon_shot.wav</file>
-        <file>res/db/savegame.txt</file>
-        <file>res/db/config.txt</file>
+        <file>res/font/8-Bit Wonder.TTF</file>
     </qresource>
 </RCC>

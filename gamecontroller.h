@@ -27,12 +27,20 @@ public:
     void spawnScrap();
     void spawnStar();
 
+    void pauseGame();
+    bool gameIsPaused();
+
 private:
     QGraphicsScene *scene_;
     QLabel *points_;
 
     QTimer *timer_;
+    QTimer *scrapSpawner_;
+    QTimer *asteroidSpawner_;
+    QTimer *starsSpawner_;
 
     Player *player_;
+
+    bool gameIsPaused_;
 };
 #endif // CONTROLLER_H
