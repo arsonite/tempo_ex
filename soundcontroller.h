@@ -3,6 +3,7 @@
 
 #include <QString>
 #include <QSoundEffect>
+#include <QMediaPlaylist>
 #include <QMediaPlayer>
 
 class SoundController {
@@ -15,6 +16,8 @@ public:
 
 private:
     QSoundEffect *sfxThrust_;
+
+    QMediaPlaylist *playlist_;
 
     QMediaPlayer *musicIntro_;
 };

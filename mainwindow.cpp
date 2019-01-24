@@ -34,15 +34,15 @@ MainWindow::MainWindow(QWidget *parent) :
     QGraphicsScene *startView_ = new QGraphicsScene(this);
 
     QMovie *gif = new QMovie(":/res/res/bg.gif");
-    QLabel *display = new QLabel();
-    display->move(-1540, -1750);
-    display->resize(4000, 4000);
-    display->setMovie(gif);
-    display->setStyleSheet("QLabel { background-color : transparent; }");
+    display_ = new QLabel();
+    display_->move(-1540, -1750);
+    display_->resize(4000, 4000);
+    display_->setMovie(gif);
+    display_->setStyleSheet("QLabel { background-color : transparent; }");
 
     gif->start();
 
-    startView_->addWidget(display);
+    startView_->addWidget(display_);
 
     //startView_->setBackgroundBrush(Qt::black);
 
@@ -86,7 +86,12 @@ MainWindow::MainWindow(QWidget *parent) :
     gameView_->setBackgroundBrush(Qt::black);
 
     /* Setting locks */
-    locks_ = {false, true, true, true, true, true, true, true};
+    locks_ = new std::map<QString, bool>();
+    locks_->insert(std::make_pair<QString, bool>("startView", false));
+    locks_->insert(std::make_pair<QString, bool>("gameView", true));
+
+    i_ = 0;
+    counter_ = 0;
 }
 
 MainWindow::~MainWindow()
@@ -111,13 +116,51 @@ bool MainWindow::assignedKey(int const key) const
 
 void MainWindow::keyPressEvent(QKeyEvent *e)
 {
-    if(assignedKey(e->key())) return
-    gameController_->keyPressEvent(e);
+    if(!assignedKey(e->key())) return;
+    //if(!locks_->at("gameView")) gameController_->keyPressEvent(e);
+
+    lastKey_ = e->key();
+
+    QTimer *ease = new QTimer();
+    int interval = 16;
+    ease->setInterval(interval);
+    connect(ease, &QTimer::timeout, this, [=]() {
+        navigate();
+        counter_ += interval;
+
+        if(counter_ >= TRANSITION_DURATION_) {
+            i_ = 0;
+            counter_ = 0;
+            ease->stop();
+        }
+    });
+    ease->start();
 }
 
 void MainWindow::keyReleaseEvent(QKeyEvent *e)
 {
-    if(assignedKey(e->key())) return
-    gameController_->keyReleaseEvent(e);
+    if(assignedKey(e->key())) return;
+    //if(!locks_->at("gameView")) gameController_->keyPressEvent(e);
 }
 
+void MainWindow::navigate()
+{
+    i_++;
+    int i = i_ * (5 - i_); //Quadratic bezier curve
+
+    switch(lastKey_)  {
+        case Qt::Key_W:
+            display_->move(display_->x(), display_->y()-i);
+            break;
+        case Qt::Key_S:
+            display_->move(display_->x(), display_->y()+i);
+            break;
+        case Qt::Key_D:
+            display_->move(display_->x()+i, display_->y());
+            break;
+        case Qt::Key_A:
+            display_->move(display_->x()-i, display_->y());
+            break;
+        default: break;
+    }
+}

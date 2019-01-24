@@ -3,7 +3,7 @@
 
 #include "gamecontroller.h"
 
-#include <array>
+#include <map>
 
 #include <QMainWindow>
 #include <QGraphicsScene>
@@ -22,10 +22,13 @@ public:
 
     bool assignedKey(int const key) const;
 
+    void navigate();
+
 private:
     Ui::MainWindow *ui_;
 
     QGraphicsScene *startView_;
+    QLabel *display_;
 
     QGraphicsScene *shopView;
     QGraphicsScene *infoView;
@@ -33,12 +36,17 @@ private:
     QGraphicsScene *optionsView_;
 
     QGraphicsScene *gameView_;
+    GameController *gameController_;
     //QGraphicsScene *winSceen_;
     //QGraphicsScene *lostScreen_;
 
-    GameController *gameController_;
+    std::map<QString, bool> *locks_;
 
-    std::array<bool, 8> locks_;
+    int i_;
+    int counter_;
+    int lastKey_;
+
+    const int TRANSITION_DURATION_ = 256;
 
 protected:
     void keyPressEvent(QKeyEvent *e) override;
