@@ -2,15 +2,17 @@
 #define SOUNDCONTROLLER_
 
 #include <QString>
-#include <QMap>
-
 #include <QSoundEffect>
 #include <QMediaPlayer>
 
 class SoundController {
 public:
-    typedef QMap<QString, QSoundEffect> sfx;
-    static sfx fillSFXMap();
+    SoundController();
+
+    void thrust();
+
+private:
+    QSoundEffect *sfx_trust_;
 };
 
 #endif // SOUNDCONTROLLER_

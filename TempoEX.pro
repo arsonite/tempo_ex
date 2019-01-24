@@ -36,7 +36,7 @@ SOURCES += \
         star.cpp \
         scrap.cpp \
         asteroid.cpp \
-    soundcontroller.cpp
+        soundcontroller.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -49,7 +49,8 @@ HEADERS += \
         star.h \
         scrap.h \
         asteroid.h \
-        soundcontroller.h
+        soundcontroller.h \
+    my_vector.h
 
 FORMS += \
         mainwindow.ui
