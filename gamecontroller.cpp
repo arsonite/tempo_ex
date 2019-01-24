@@ -1,4 +1,4 @@
-#include "controller.h"
+#include "gamecontroller.h"
 #include "soundcontroller.h"
 #include "projectile.h"
 #include "scrap.h"
@@ -9,9 +9,9 @@
 
 #include <QDebug>
 
-Controller::Controller(QGraphicsScene &scene, QLabel &points) : scene_(&scene), points_(&points)
+GameController::GameController(QGraphicsScene &scene, QLabel &points) : scene_(&scene), points_(&points)
 {
-    SoundController *s = new SoundController();
+    SoundGameController *s = new SoundGameController();
 
     player_ = new Player();
     player_->setPos(850/2, 610/2);
@@ -20,7 +20,7 @@ Controller::Controller(QGraphicsScene &scene, QLabel &points) : scene_(&scene), 
     timer_ = new QTimer();
     timer_->setInterval((1000/60)*2); //Half of 60Hz - 16.7
     connect(timer_, &QTimer::timeout, this, [=](){
-        s->thrust();
+        //s->playSFX("thrust");
         player_->moveShip();
     });
 
@@ -46,12 +46,12 @@ Controller::Controller(QGraphicsScene &scene, QLabel &points) : scene_(&scene), 
     starsSpawner->start();
 }
 
-Controller::~Controller()
+GameController::~GameController()
 {
     delete scene_;
 }
 
-void Controller::keyPressEvent(QKeyEvent *e)
+void GameController::keyPressEvent(QKeyEvent *e)
 {
     qDebug() << "keyPressEvent()";
     switch(e->key())  {
@@ -71,13 +71,13 @@ void Controller::keyPressEvent(QKeyEvent *e)
     }
 }
 
-void Controller::keyReleaseEvent(QKeyEvent *e)
+void GameController::keyReleaseEvent(QKeyEvent *e)
 {
     timer_->stop();
     switchControl(e, false);
 }
 
-void Controller::switchControl(QKeyEvent *e, bool b)
+void GameController::switchControl(QKeyEvent *e, bool b)
 {
     switch(e->key())  {
         case Qt::Key_W:
@@ -96,7 +96,7 @@ void Controller::switchControl(QKeyEvent *e, bool b)
     }
 }
 
-void Controller::shoot()
+void GameController::shoot()
 {
     QSoundEffect *sfx_shoot = new QSoundEffect();
     sfx_shoot->setSource(QUrl("qrc:/sfx/res/sfx/shoot.wav"));
@@ -108,15 +108,15 @@ void Controller::shoot()
     qDebug() << "Projectile fired. Number of Entities: " << scene_->items().size();
 }
 
-void Controller::useSpecial()
+void GameController::useSpecial()
 {
 }
 
-void Controller::superCharge()
+void GameController::superCharge()
 {
 }
 
-void Controller::spawnStar()
+void GameController::spawnStar()
 {
     int p = player_->getPoints();
     scene_->addItem(new Star()); // unnecessary computing

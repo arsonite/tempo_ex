@@ -1,7 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include "controller.h"
+#include "gamecontroller.h"
 
 #include <QMainWindow>
 #include <QGraphicsScene>
@@ -22,7 +22,19 @@ public:
 
 private:
     Ui::MainWindow *ui_;
-    Controller *controller_;
+
+    QGraphicsScene *startView_;
+
+    QGraphicsScene *shopView;
+    QGraphicsScene *infoView;
+    QGraphicsScene *customizeView_;
+    QGraphicsScene *optionsView_;
+
+    QGraphicsScene *gameView_;
+    //QGraphicsScene *winSceen_;
+    //QGraphicsScene *lostScreen_;
+
+    GameController *gameController_;
 
 protected:
   void keyPressEvent(QKeyEvent *e) override;

@@ -13,16 +13,23 @@ MainWindow::MainWindow(QWidget *parent) :
     ui_->setupUi(this);
     this->setFixedSize(900, 700);
 
-    QGraphicsScene *scene_ = new QGraphicsScene(this);
-    controller_ = new Controller(*scene_, *ui_->points);
-    scene_->setBackgroundBrush(Qt::black);
+    QGraphicsScene *startView_ = new QGraphicsScene(this);
+
+    QGraphicsScene *shopView_ = new QGraphicsScene(this);
+    QGraphicsScene *infoView_ = new QGraphicsScene(this);
+    QGraphicsScene *customizeView_ = new QGraphicsScene(this);
+    QGraphicsScene *optionsView_ = new QGraphicsScene(this);
+
+    QGraphicsScene *gameView_ = new QGraphicsScene(this);
+    //gameController_ = new GameController(*gameView_, *ui_->points);
+    //gameView_->setBackgroundBrush(Qt::black);
+    //ui_->view->setScene(gameView_);
 
     ui_->view->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     ui_->view->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     ui_->view->resize(900, 700);
     ui_->view->setSceneRect(0, 0, 900, 700);
     ui_->view->setAlignment(Qt::AlignTop | Qt::AlignLeft);
-    ui_->view->setScene(scene_);
 }
 
 MainWindow::~MainWindow()

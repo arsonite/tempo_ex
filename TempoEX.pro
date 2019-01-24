@@ -29,20 +29,19 @@ SOURCES += \
         main.cpp \
         mainwindow.cpp \
         player.cpp \
-        controller.cpp \
         projectile.cpp \
         fileparser.cpp \
         entity.cpp \
         star.cpp \
         scrap.cpp \
         asteroid.cpp \
-        soundcontroller.cpp
+        soundcontroller.cpp \
+    gamecontroller.cpp
 
 HEADERS += \
         mainwindow.h \
         player.h \
         view.h \
-        controller.h \
         projectile.h \
         fileparser.h \
         entity.h \
@@ -50,7 +49,7 @@ HEADERS += \
         scrap.h \
         asteroid.h \
         soundcontroller.h \
-    my_vector.h
+    gamecontroller.h
 
 FORMS += \
         mainwindow.ui

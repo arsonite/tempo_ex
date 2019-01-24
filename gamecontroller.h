@@ -8,12 +8,12 @@
 #include <QTimer>
 #include <QKeyEvent>
 
-class Controller : public QObject
+class GameController : public QObject
 {
 Q_OBJECT
 public:
-    Controller(QGraphicsScene &scene, QLabel &points);
-    ~Controller();
+    GameController(QGraphicsScene &scene, QLabel &points);
+    ~GameController();
 
     void keyPressEvent(QKeyEvent *e);
     void keyReleaseEvent(QKeyEvent *e);

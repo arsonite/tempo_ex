@@ -8,5 +8,8 @@ SoundController::SoundController()
 
 void SoundController::thrust()
 {
+    if(sfx_trust_->isPlaying()) {
+        return;
+    }
     sfx_trust_->play();
 }

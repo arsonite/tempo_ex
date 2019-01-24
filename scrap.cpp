@@ -71,7 +71,7 @@ void Scrap::fly(bool outOfBounds)
         }
     }
 
-    setPos(x(), y() + 5);
+    setPos(x(), y() + ((rand() % 3) + 2));
     return;
 }
 
