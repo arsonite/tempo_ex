@@ -11,8 +11,12 @@ public:
 
     void thrust();
 
+    void intro();
+
 private:
-    QSoundEffect *sfx_trust_;
+    QSoundEffect *sfxThrust_;
+
+    QMediaPlayer *musicIntro_;
 };
 
 #endif // SOUNDCONTROLLER_

@@ -78,8 +78,6 @@ void Asteroid::fly(bool outOfBounds)
         }
     }
 
-    qDebug() << colliding_items;
-
     setRotation(rotation() + rotation_);
     setPos(x(), y() + speed_);
     return;

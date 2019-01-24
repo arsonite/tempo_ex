@@ -2,14 +2,22 @@
 
 SoundController::SoundController()
 {
-    sfx_trust_ = new QSoundEffect();
-    //sfx_trust_->setSource(QUrl("qrc:/res/res/sfx/thrust.wav"));
+    //sfxThrust_ = new QSoundEffect();
+    //sfxThrust_->setSource(QUrl("qrc:/res/res/sfx/thrust.wav"));
+
+    musicIntro_ = new QMediaPlayer();
+    musicIntro_->setMedia(QUrl("qrc:/res/res/music/music_intro.mp3"));
 }
 
 void SoundController::thrust()
 {
-    if(sfx_trust_->isPlaying()) {
+    if(sfxThrust_->isPlaying()) {
         return;
     }
-    sfx_trust_->play();
+    sfxThrust_->play();
+}
+
+void SoundController::intro()
+{
+    musicIntro_->play();
 }

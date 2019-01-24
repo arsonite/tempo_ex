@@ -2,6 +2,7 @@
 #define CONTROLLER_H
 
 #include "player.h"
+#include "soundcontroller.h"
 
 #include <QGraphicsScene>
 #include <QLabel>
@@ -12,7 +13,7 @@ class GameController : public QObject
 {
 Q_OBJECT
 public:
-    GameController(QGraphicsScene &scene, QLabel &points);
+    GameController(QGraphicsScene &scene, QLabel &points, SoundController &s);
     ~GameController();
 
     void keyPressEvent(QKeyEvent *e);

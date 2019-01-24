@@ -1,5 +1,4 @@
 #include "gamecontroller.h"
-#include "soundcontroller.h"
 #include "projectile.h"
 #include "scrap.h"
 #include "asteroid.h"
@@ -9,10 +8,8 @@
 
 #include <QDebug>
 
-GameController::GameController(QGraphicsScene &scene, QLabel &points) : scene_(&scene), points_(&points)
+GameController::GameController(QGraphicsScene &scene, QLabel &points, SoundController &s) : scene_(&scene), points_(&points)
 {
-    SoundController *s = new SoundController();
-
     player_ = new Player(-2); //z-index: -2
     player_->setPos(850/2, 610/2);
     scene_->addItem(player_);

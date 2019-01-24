@@ -1,5 +1,7 @@
 <RCC>
     <qresource prefix="/res">
-        <file>res/font/8-Bit Wonder.TTF</file>
+        <file>res/music/music_intro.mp3</file>
+        <file>res/8-Bit Wonder.TTF</file>
+        <file>res/bg.gif</file>
     </qresource>
 </RCC>

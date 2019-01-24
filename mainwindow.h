@@ -3,6 +3,8 @@
 
 #include "gamecontroller.h"
 
+#include <array>
+
 #include <QMainWindow>
 #include <QGraphicsScene>
 #include <QKeyEvent>
@@ -36,9 +38,11 @@ private:
 
     GameController *gameController_;
 
+    std::array<bool, 8> locks_;
+
 protected:
-  void keyPressEvent(QKeyEvent *e) override;
-  void keyReleaseEvent(QKeyEvent *e) override;
+    void keyPressEvent(QKeyEvent *e) override;
+    void keyReleaseEvent(QKeyEvent *e) override;
 };
 
 #endif // MAINWINDOW_H
