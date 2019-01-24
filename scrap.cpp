@@ -7,8 +7,10 @@
 #include <QTimer>
 #include <QDebug>
 
-Scrap::Scrap()
+Scrap::Scrap(int zValue)
 {
+    setZValue(zValue);
+
     destroyed_ = false;
 
     int random_number = rand() % 810;

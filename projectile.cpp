@@ -7,8 +7,10 @@
 
 #include <QDebug>
 
-Projectile::Projectile(int speed, int dmg, GameController *g): speed_(speed), dmg_(dmg), g_(g)
+Projectile::Projectile(int zValue, int speed, int dmg, GameController *g): speed_(speed), dmg_(dmg), g_(g)
 {
+    setZValue(zValue);
+
     setRect(90/2, -50, 10, 50);
     setPen(QPen(QColor(255, 0, 0)));
 

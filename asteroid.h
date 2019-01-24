@@ -6,7 +6,7 @@
 class Asteroid: public Entity
 {
 public:
-    Asteroid();
+    Asteroid(int zValue);
 
 private:
     void fly(bool outOfBounds);

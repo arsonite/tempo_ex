@@ -31,20 +31,23 @@ MainWindow::MainWindow(QWidget *parent) :
     QLabel *pointsLabel = new QLabel();
     QLabel *points = new QLabel();
 
-    int id = QFontDatabase::addApplicationFont("qrc:/res/res/font/8-Bit Wonder.TTF");
+    int id = QFontDatabase::addApplicationFont(":/res/res/font/8-Bit Wonder.TTF");
+    qDebug() << id;
     QString customFont = QFontDatabase::applicationFontFamilies(id).at(0);
     QFont bit(customFont);
-    bit.setWeight(20);
+    bit.setPointSize(20);
 
-    pointsLabel->setText("Points: ");
     pointsLabel->setFont(bit);
-    pointsLabel->move(350, 350);
+    pointsLabel->setText("Points: ");
+    pointsLabel->move(900/2, 700/2);
     pointsLabel->resize(100, 100);
+    pointsLabel->setAlignment(Qt::AlignCenter);
+    pointsLabel->setStyleSheet("QLabel { background-color : transparent; color : white; }");
 
+    QGraphicsScene *gameView_ = new QGraphicsScene(this);
     gameView_->addWidget(pointsLabel);
     gameView_->addWidget(points);
 
-    QGraphicsScene *gameView_ = new QGraphicsScene(this);
     gameController_ = new GameController(*gameView_, *points);
     gameView_->setBackgroundBrush(Qt::black);
 

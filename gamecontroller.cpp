@@ -13,7 +13,7 @@ GameController::GameController(QGraphicsScene &scene, QLabel &points) : scene_(&
 {
     SoundController *s = new SoundController();
 
-    player_ = new Player();
+    player_ = new Player(-2); //z-index: -2
     player_->setPos(850/2, 610/2);
     scene_->addItem(player_);
 
@@ -27,14 +27,14 @@ GameController::GameController(QGraphicsScene &scene, QLabel &points) : scene_(&
     scrapSpawner_ = new QTimer();
     scrapSpawner_->setInterval(2500);
     connect(scrapSpawner_, &QTimer::timeout, this, [=](){
-        scene_->addItem(new Scrap());
+        scene_->addItem(new Scrap(-2)); //z-index: -2
     });
     scrapSpawner_->start();
 
     asteroidSpawner_ = new QTimer();
     asteroidSpawner_->setInterval(5000);
     connect(asteroidSpawner_, &QTimer::timeout, this, [=](){
-        scene_->addItem(new Asteroid());
+        scene_->addItem(new Asteroid(-2)); //z-index: -2
     });
     asteroidSpawner_->start();
 
@@ -109,7 +109,7 @@ void GameController::shoot()
     sfx_shoot->setSource(QUrl("qrc:/sfx/res/sfx/shoot.wav"));
     sfx_shoot->play();
 
-    Projectile *p = new Projectile(10, 25, this);
+    Projectile *p = new Projectile(0, 10, 25, this);
     p->setPos(player_->x(), player_->y());
     scene_->addItem(p);
     qDebug() << "Projectile fired. Number of Entities: " << scene_->items().size();
@@ -126,7 +126,7 @@ void GameController::superCharge()
 void GameController::spawnStar()
 {
     int p = player_->getPoints();
-    scene_->addItem(new Star()); // unnecessary computing
+    scene_->addItem(new Star(-3));  //z-index: -3
     points_->setNum(p);
     if(p < 0) {
         //gameover_ = true;

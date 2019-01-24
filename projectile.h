@@ -10,7 +10,7 @@ class Projectile: public QObject, public QGraphicsRectItem
 {
 Q_OBJECT
 public:
-    Projectile(int speed, int dmg, GameController *g);
+    Projectile(int zValue, int speed, int dmg, GameController *g);
 
     void fly(bool outOfBounds);
 

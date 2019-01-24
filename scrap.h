@@ -8,7 +8,7 @@ class Scrap: public QObject, public QGraphicsRectItem
 {
 Q_OBJECT
 public:
-    Scrap();
+    Scrap(int zValue);
 
     void fly(bool outOfBounds);
 

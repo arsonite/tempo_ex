@@ -7,8 +7,10 @@
 #include <QTimer>
 #include <QDebug>
 
-Asteroid::Asteroid()
+Asteroid::Asteroid(int zValue)
 {
+    setZValue(zValue);
+
     int random_number = rand() % 810;
     setPos(random_number, -100);
 
@@ -75,6 +77,8 @@ void Asteroid::fly(bool outOfBounds)
             colliding_items[i]->advance(-1);
         }
     }
+
+    qDebug() << colliding_items;
 
     setRotation(rotation() + rotation_);
     setPos(x(), y() + speed_);

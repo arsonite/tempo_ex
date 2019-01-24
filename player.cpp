@@ -6,8 +6,10 @@
 #include <QDebug>
 #include <QPen>
 
-Player::Player()
+Player::Player(int zValue)
 {
+    setZValue(zValue);
+
     keysPressed_ = {false, false, false, false};
     setFlag(QGraphicsItem::ItemIsFocusable);
 

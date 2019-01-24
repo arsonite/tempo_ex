@@ -8,7 +8,7 @@ class Star: public QObject, public QGraphicsEllipseItem
 {
 Q_OBJECT
 public:
-    Star();
+    Star(int zValue);
 
     void fly(bool outOfBounds);
 
