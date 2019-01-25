@@ -12,7 +12,7 @@
 GameController::GameController(QGraphicsScene &scene, QLabel &points, SoundController &s) : scene_(&scene), points_(&points)
 {
     player_ = new Player(1, -2); //z-index: -2
-    player_->setPos((900-player_->getShip()->getHitbox().y())/2, (700-player_->getShip()->getHitbox().x()));
+    player_->setPos((900-player_->getShip()->getHitbox().y()/2)/2, (700-player_->getShip()->getHitbox().x()/2)/2);
     scene_->addItem(player_);
 
     timer_ = new QTimer();
@@ -105,8 +105,9 @@ void GameController::shoot()
     std::vector<Weapon*> weapons = player_->getShip()->getWeapons();
     for(int i = 0; i < weapons.size(); i++) {
         Projectile *p = new Projectile(0, 10, 25, this);
+        QRectF rect = weapons[i]->rect();
         p->setPos(player_->pos().x(), player_->pos().y());
-        p->setRect(weapons[i]->rect().x()-weapons[i]->rect().width()/2, weapons[i]->rect().x()-weapons[i]->rect().height()*2, 10, 50);
+        p->setRect(rect.x()-rect.width()/2, rect.x()-rect.height()*4, 10, 50);
         scene_->addItem(p);
     }
 }
