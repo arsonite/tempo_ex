@@ -1,4 +1,4 @@
-#include "ship.h"
+#include <ship.h>
 
 #include <QBrush>
 #include <QPen>
@@ -32,12 +32,7 @@ void Ship::constructBasic()
     hitboxX_ = 50;
     hitboxY_ = 100;
 
-    QGraphicsRectItem *cannon1 = new QGraphicsRectItem(this);
-    int rCannonW = 5;
-    int rCannonH = 20;
-    cannon1->setRect(hitboxX_/2-rCannonW/2, 0, rCannonW, rCannonH);
-    cannon1->setBrush(QBrush(QColor(250, 250, 250)));
-    cannon1->setPen(QPen(Qt::NoPen));
+    weapons_.push_back(new Weapon(this, 1, hitboxX_, 0));
 
     QGraphicsRectItem *r1 = new QGraphicsRectItem(this);
     int r1W = 25;
@@ -110,3 +105,7 @@ QPoint Ship::getHitbox()
     return QPoint(hitboxX_, hitboxY_);
 }
 
+std::vector<Weapon*> Ship::getWeapons()
+{
+    return weapons_;
+}

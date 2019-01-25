@@ -6,13 +6,18 @@
 class Weapon: public QGraphicsRectItem
 {
 public:
-    Weapon(int c);
+    Weapon(QGraphicsRectItem *parent, int c, int x, int y);
 
     void equipLaser();
     void equipCannon();
     void equipRockets();
 
 private:
+    int height_;
+    int width_;
+    int c_;
+    int x_;
+    int y_;
     int dmg_;
     int speed_;
     int fireRate_;

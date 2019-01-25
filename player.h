@@ -39,6 +39,8 @@ public:
     void win();
     void loose();
 
+    Ship *getShip();
+
 public slots:
     void moveShip();
 

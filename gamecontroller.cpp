@@ -12,7 +12,7 @@
 GameController::GameController(QGraphicsScene &scene, QLabel &points, SoundController &s) : scene_(&scene), points_(&points)
 {
     player_ = new Player(1, -2); //z-index: -2
-    player_->setPos((900-100)/2, (700-100)/2);
+    player_->setPos((900-player_->getShip()->getHitbox().y())/2, (700-player_->getShip()->getHitbox().x()));
     scene_->addItem(player_);
 
     timer_ = new QTimer();
@@ -102,14 +102,13 @@ void GameController::switchControl(QKeyEvent *e, bool b)
 
 void GameController::shoot()
 {
-    QSoundEffect *sfx_shoot = new QSoundEffect();
-    sfx_shoot->setSource(QUrl("qrc:/sfx/res/sfx/shoot.wav"));
-    sfx_shoot->play();
-
-    Projectile *p = new Projectile(0, 10, 25, this);
-    p->setPos(player_->x(), player_->y());
-    scene_->addItem(p);
-    qDebug() << "Projectile fired. Number of Entities: " << scene_->items().size();
+    std::vector<Weapon*> weapons = player_->getShip()->getWeapons();
+    for(int i = 0; i < weapons.size(); i++) {
+        Projectile *p = new Projectile(0, 10, 25, this);
+        p->setPos(player_->pos().x(), player_->pos().y());
+        p->setRect(weapons[i]->rect().x()-weapons[i]->rect().width()/2, weapons[i]->rect().x()-weapons[i]->rect().height()*2, 10, 50);
+        scene_->addItem(p);
+    }
 }
 
 void GameController::useSpecial()

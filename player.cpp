@@ -14,7 +14,7 @@ Player::Player(int shipC, int zValue)
     setFlag(QGraphicsItem::ItemIsFocusable);
     setFocus();
 
-    s_ = new Ship(1, this);
+    s_ = new Ship(shipC, this);
 
     setRect(0, 0, 100, 50);
 
@@ -103,4 +103,9 @@ int Player::getPoints()
 int Player::getRemainingHealth()
 {
     return points_;
+}
+
+Ship *Player::getShip()
+{
+    return s_;
 }
