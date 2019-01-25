@@ -34,31 +34,23 @@ MainWindow::MainWindow(QWidget *parent) :
     QGraphicsScene *startView_ = new QGraphicsScene(this);
 
     QMovie *gif = new QMovie(":/res/res/bg.gif");
+    QString style = "QLabel { background-color : transparent; color : white; }";
     display_ = new QLabel();
     display_->move(-1540, -1750);
     display_->resize(4000, 4000);
     display_->setMovie(gif);
-    display_->setStyleSheet("QLabel { background-color : transparent; }");
-
+    display_->setStyleSheet(style);
     gif->start();
-
     startView_->addWidget(display_);
 
-    //startView_->setBackgroundBrush(Qt::black);
+    infoLabel_ = new QGraphicsTextItem("Info");
+    infoLabel_->setFont(bit);
+    infoLabel_->setPos(375, -800);
+    infoLabel_->setScale(2);
+    infoLabel_->setZValue(10);
+    startView_->addItem(infoLabel_);
 
     ui_->view->setScene(startView_);
-
-    /* ShopView */
-    QGraphicsScene *shopView_ = new QGraphicsScene(this);
-
-    /* InfoView */
-    QGraphicsScene *infoView_ = new QGraphicsScene(this);
-
-    /* CustomizeView */
-    QGraphicsScene *customizeView_ = new QGraphicsScene(this);
-
-    /* OptionsView */
-    QGraphicsScene *optionsView_ = new QGraphicsScene(this);
 
     /* GameView */
     QLabel *pointsLabel = new QLabel();
@@ -69,7 +61,7 @@ MainWindow::MainWindow(QWidget *parent) :
     pointsLabel->move(395, 10);
     pointsLabel->resize(115, 20);
     pointsLabel->setAlignment(Qt::AlignCenter);
-    pointsLabel->setStyleSheet("QLabel { background-color : transparent; color : white; }");
+    pointsLabel->setStyleSheet(style);
 
     points->setFont(bit);
     points->setText("0");
@@ -86,9 +78,13 @@ MainWindow::MainWindow(QWidget *parent) :
     gameView_->setBackgroundBrush(Qt::black);
 
     /* Setting locks */
-    locks_ = new std::map<QString, bool>();
-    locks_->insert(std::make_pair<QString, bool>("startView", false));
-    locks_->insert(std::make_pair<QString, bool>("gameView", true));
+    locks_ = new QMap<QString, bool>();
+    locks_->insert("startView", false);
+    locks_->insert("gameView", true);
+    locks_->insert("infoView", true);
+    locks_->insert("shopView", true);
+    locks_->insert("customizeView", true);
+    locks_->insert("optionsView", true);
 
     i_ = 0;
     counter_ = 0;
@@ -117,7 +113,8 @@ bool MainWindow::assignedKey(int const key) const
 void MainWindow::keyPressEvent(QKeyEvent *e)
 {
     if(!assignedKey(e->key())) return;
-    //if(!locks_->at("gameView")) gameController_->keyPressEvent(e);
+    if(!locks_->value("gameView")) gameController_->keyPressEvent(e);
+    if(i_ != 0) return;
 
     lastKey_ = e->key();
 
@@ -140,20 +137,31 @@ void MainWindow::keyPressEvent(QKeyEvent *e)
 void MainWindow::keyReleaseEvent(QKeyEvent *e)
 {
     if(assignedKey(e->key())) return;
-    //if(!locks_->at("gameView")) gameController_->keyPressEvent(e);
+    if(!locks_->value("gameView")) gameController_->keyPressEvent(e);
 }
 
 void MainWindow::navigate()
 {
+
+    if(lastKey_ == Qt::Key_W) {
+    } else if(lastKey_ == Qt::Key_S) {
+    } else if(lastKey_ == Qt::Key_D) {
+    } else if(lastKey_ == Qt::Key_A) {
+    }
+}
+
+void MainWindow::moveView()
+{
     i_++;
     int i = i_ * (5 - i_); //Quadratic bezier curve
-
-    switch(lastKey_)  {
+    switch(lastKey_) {
         case Qt::Key_W:
             display_->move(display_->x(), display_->y()-i);
+            infoLabel_->setPos(infoLabel_->x(), infoLabel_->y()-i);
             break;
         case Qt::Key_S:
             display_->move(display_->x(), display_->y()+i);
+            infoLabel_->setPos(infoLabel_->x(), infoLabel_->y()+i);
             break;
         case Qt::Key_D:
             display_->move(display_->x()+i, display_->y());
@@ -161,6 +169,5 @@ void MainWindow::navigate()
         case Qt::Key_A:
             display_->move(display_->x()-i, display_->y());
             break;
-        default: break;
     }
 }
