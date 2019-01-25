@@ -6,7 +6,7 @@
 #include <QDebug>
 #include <QPen>
 
-Player::Player(int zValue)
+Player::Player(Ship *s, int zValue): s_(s)
 {
     setZValue(zValue);
 
@@ -15,7 +15,6 @@ Player::Player(int zValue)
     setFocus();
 
     setRect(0, 0, 100, 100);
-    setPen(QPen(QColor(255, 0, 0)));
 
     points_ = 0;
 }

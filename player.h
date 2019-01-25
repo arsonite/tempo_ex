@@ -1,6 +1,8 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
+#include "ship.h"
+
 #include <array>
 
 #include <QGraphicsItem>
@@ -10,7 +12,7 @@
 class Player: public QGraphicsRectItem
 {
 public:
-    Player(int zValue);
+    Player(Ship *s, int zValue);
 
     double x() const;
     double y() const;
@@ -41,6 +43,8 @@ public slots:
     void moveShip();
 
 private slots:
+    Ship *s_;
+
     std::array<bool, 4> keysPressed_;
 
     int points_;

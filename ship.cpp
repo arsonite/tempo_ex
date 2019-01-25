@@ -20,7 +20,6 @@ Ship::Ship(int c)
             break;
     }
 
-
     QPoint s1P((900-hitboxX_)/2, (700-hitboxY_)/2);
     setPen(QPen(QColor(255, 0, 0)));
     setRect(0, 0, hitboxX_, hitboxY_);
@@ -29,8 +28,15 @@ Ship::Ship(int c)
 
 void Ship::constructBasic()
 {
-    hitboxX_ = 100;
+    hitboxX_ = 50;
     hitboxY_ = 100;
+
+    QGraphicsRectItem *cannon1 = new QGraphicsRectItem(this);
+    int rCannonW = 5;
+    int rCannonH = 20;
+    cannon1->setRect(hitboxX_/2-rCannonW/2, 0, rCannonW, rCannonH);
+    cannon1->setBrush(QBrush(QColor(250, 250, 250)));
+    cannon1->setPen(QPen(Qt::NoPen));
 
     QGraphicsRectItem *r1 = new QGraphicsRectItem(this);
     int r1W = 25;
@@ -46,26 +52,56 @@ void Ship::constructBasic()
     e1->setPen(QPen(Qt::NoPen));
 
     QGraphicsRectItem *r2 = new QGraphicsRectItem(this);
-    int r2W = 10;
+    int r2W = 25;
     int r2H = 50;
-    r2->setRect(hitboxX_/2-r2W, 25, r2W, r2H);
-    r2->setBrush(QBrush(QColor(250, 250, 250)));
+    r2->setRect(hitboxX_/2-r2W/2, 30, r2W, r2H);
+    r2->setBrush(QBrush(QColor(60, 80, 100)));
     r2->setPen(QPen(Qt::NoPen));
+
+    QGraphicsRectItem *r3 = new QGraphicsRectItem(this);
+    int r3W = 5;
+    int r3H = 50;
+    r3->setRect(hitboxX_/2-r3W/2, 30, r3W, r3H);
+    r3->setBrush(QBrush(QColor(200, 200, 255)));
+    r3->setPen(QPen(Qt::NoPen));
+
+    QGraphicsPolygonItem *leftFlap = new QGraphicsPolygonItem(this);
+    QPolygonF leftFlapTriangle;
+    leftFlapTriangle.append(QPoint(0, 0));
+    leftFlapTriangle.append(QPoint(-25, 35));
+    leftFlapTriangle.append(QPoint(0, 35));
+    leftFlap->setPolygon(leftFlapTriangle);
+    leftFlap->setBrush(QBrush(QColor(45, 90, 180)));
+    leftFlap->setPen(QPen(Qt::NoPen));
+    leftFlap->setPos(hitboxX_/2-1.8, 65);
+
+    QGraphicsPolygonItem *rightFlap = new QGraphicsPolygonItem(this);
+    QPolygonF rightFlapTriangle;
+    rightFlapTriangle.append(QPoint(0, 0));
+    rightFlapTriangle.append(QPoint(25, 35));
+    rightFlapTriangle.append(QPoint(0, 35));
+    rightFlap->setPolygon(rightFlapTriangle);
+    rightFlap->setBrush(QBrush(QColor(45, 90, 180)));
+    rightFlap->setPen(QPen(Qt::NoPen));
+    rightFlap->setPos(hitboxX_/2+2.8, 65);
 }
 
 void Ship::constructFighter()
 {
-
+    hitboxX_ = 125;
+    hitboxY_ = 125;
 }
 
 void Ship::constructCruiser()
 {
-
+    hitboxX_ = 150;
+    hitboxY_ = 150;
 }
 
 void Ship::constructDreadnought()
 {
-
+    hitboxX_ = 175;
+    hitboxY_ = 175;
 }
 
 QPoint Ship::getHitbox()

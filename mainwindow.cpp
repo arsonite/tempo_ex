@@ -89,12 +89,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
     i_ = 0;
     counter_ = 0;
-
-    /* Ship & weapon construction */
-    /*
-    Ship *ship = new Ship(1);
-    startView_->addItem(ship);
-    */
 }
 
 MainWindow::~MainWindow()
@@ -125,8 +119,8 @@ void MainWindow::keyPressEvent(QKeyEvent *e)
         gameController_->keyPressEvent(e);
         return;
     }
-    lastKey_ = e->key();
-    navigate();
+    //lastKey_ = e->key();
+    //navigate();
 }
 
 void MainWindow::keyReleaseEvent(QKeyEvent *e)
