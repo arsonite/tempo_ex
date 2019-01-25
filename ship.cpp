@@ -3,7 +3,7 @@
 #include <QBrush>
 #include <QPen>
 
-Ship::Ship(int c)
+Ship::Ship(int c, QGraphicsRectItem *parent)
 {
     switch(c) {
         case 1:
@@ -20,10 +20,11 @@ Ship::Ship(int c)
             break;
     }
 
-    QPoint s1P((900-hitboxX_)/2, (700-hitboxY_)/2);
-    setPen(QPen(QColor(255, 0, 0)));
+    setPen(QPen(Qt::NoPen));
     setRect(0, 0, hitboxX_, hitboxY_);
-    setPos(s1P);
+    setPos(0, 0);
+
+    setParentItem(parent);
 }
 
 void Ship::constructBasic()

@@ -6,7 +6,7 @@
 class Ship: public QGraphicsRectItem
 {
 public:
-    Ship(int c);
+    Ship(int c, QGraphicsRectItem *parent);
 
     QPoint getHitbox();
 

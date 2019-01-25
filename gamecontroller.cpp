@@ -11,7 +11,7 @@
 
 GameController::GameController(QGraphicsScene &scene, QLabel &points, SoundController &s) : scene_(&scene), points_(&points)
 {
-    player_ = new Player(new Ship(1), -2); //z-index: -2
+    player_ = new Player(1, -2); //z-index: -2
     player_->setPos((900-100)/2, (700-100)/2);
     scene_->addItem(player_);
 

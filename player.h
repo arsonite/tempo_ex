@@ -12,7 +12,7 @@
 class Player: public QGraphicsRectItem
 {
 public:
-    Player(Ship *s, int zValue);
+    Player(int shipC, int zValue);
 
     double x() const;
     double y() const;

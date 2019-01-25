@@ -6,7 +6,7 @@
 #include <QDebug>
 #include <QPen>
 
-Player::Player(Ship *s, int zValue): s_(s)
+Player::Player(int shipC, int zValue)
 {
     setZValue(zValue);
 
@@ -14,7 +14,9 @@ Player::Player(Ship *s, int zValue): s_(s)
     setFlag(QGraphicsItem::ItemIsFocusable);
     setFocus();
 
-    setRect(0, 0, 100, 100);
+    s_ = new Ship(1, this);
+
+    setRect(0, 0, 100, 50);
 
     points_ = 0;
 }
