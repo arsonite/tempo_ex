@@ -36,7 +36,9 @@ SOURCES += \
         scrap.cpp \
         asteroid.cpp \
         soundcontroller.cpp \
-    gamecontroller.cpp
+    gamecontroller.cpp \
+    ship.cpp \
+    weapon.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -49,7 +51,9 @@ HEADERS += \
         scrap.h \
         asteroid.h \
         soundcontroller.h \
-    gamecontroller.h
+    gamecontroller.h \
+    ship.h \
+    weapon.h
 
 FORMS += \
         mainwindow.ui

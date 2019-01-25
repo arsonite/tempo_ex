@@ -22,7 +22,15 @@ public:
     bool assignedKey(int const key) const;
 
     void navigate();
-    void moveView();
+
+    void moveToStart(int i);
+    void moveToInfo(int i);
+    void moveToCustomize(int i);
+    void moveToOptions(int i);
+    void moveToShop(int i);
+
+    void keyPressEvent(QKeyEvent *e) override;
+    void keyReleaseEvent(QKeyEvent *e) override;
 
 private:
     Ui::MainWindow *ui_;
@@ -48,8 +56,7 @@ private:
     const int TRANSITION_DURATION_ = 256;
 
 protected:
-    void keyPressEvent(QKeyEvent *e) override;
-    void keyReleaseEvent(QKeyEvent *e) override;
+
 };
 
 #endif // MAINWINDOW_H

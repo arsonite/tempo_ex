@@ -20,7 +20,6 @@ Scrap::Scrap(int zValue)
     size_ = size;
     oldValue_ = health_ = size;
     setRect(0, 0, size, size);
-    //setPen(QPen(QColor(255, 0, 0)));
     setPen(QPen(Qt::NoPen));
 
     int n = (rand() % 10) + 10;

@@ -12,6 +12,7 @@ Player::Player(int zValue)
 
     keysPressed_ = {false, false, false, false};
     setFlag(QGraphicsItem::ItemIsFocusable);
+    setFocus();
 
     setRect(0, 0, 100, 100);
     setPen(QPen(QColor(255, 0, 0)));

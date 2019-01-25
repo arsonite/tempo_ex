@@ -11,7 +11,7 @@
 GameController::GameController(QGraphicsScene &scene, QLabel &points, SoundController &s) : scene_(&scene), points_(&points)
 {
     player_ = new Player(-2); //z-index: -2
-    player_->setPos(850/2, 610/2);
+    player_->setPos((900-100)/2, (700-100)/2);
     scene_->addItem(player_);
 
     timer_ = new QTimer();
@@ -52,7 +52,6 @@ GameController::~GameController()
 
 void GameController::keyPressEvent(QKeyEvent *e)
 {
-    qDebug() << "keyPressEvent()";
     switch(e->key())  {
         case Qt::Key_Space:
             shoot();
@@ -67,6 +66,7 @@ void GameController::keyPressEvent(QKeyEvent *e)
             pauseGame();
             break;
         default:
+            timer_->start();
             switchControl(e, true);
             break;
     }
@@ -82,7 +82,6 @@ void GameController::switchControl(QKeyEvent *e, bool b)
 {
     if(gameIsPaused_) return;
 
-    timer_->start();
     switch(e->key())  {
         case Qt::Key_W:
             player_->keyPress(0, b);
