@@ -52,20 +52,37 @@ void Player::moveY(int incr)
     setY(this->y()+incr);
 }
 
-void Player::advance(int i)
+void Player::advance(int code)
 {
-    if(i < 0) {
-        health_--;
-        for(int i = 0; i < healthBar_->size(); i++) {
-            if(i <= health_) {
-                healthBar_->at(i)->setBrush(QBrush(QColor(255, 75, 75)));
-                continue;
-            }
-            healthBar_->at(i)->setBrush(QBrush(QColor(100, 0, 0)));
-        }
-        return;
+    switch(code) {
+        case 0: //Point
+            points_++;
+            break;
+        case 1: //Point multiplicator
+        case 2: //Health decrease
+            if(health_ <= 0) return;
+            health_--;
+            capsizeHealthBar();
+            break;
+        case 3: //Health increase
+            if(health_ >= MAX_HEALTH_) break;
+            health_++;
+            capsizeHealthBar();
+            break;
+        case 4: //Ammunation
+            break;
     }
-    points_++;
+}
+
+void Player::capsizeHealthBar()
+{
+    for(int i = 0; i < healthBar_->size(); i++) {
+        if(i <= health_-1) {
+            healthBar_->at(i)->setBrush(QBrush(QColor(255, 75, 75)));
+            continue;
+        }
+        healthBar_->at(i)->setBrush(QBrush(QColor(50, 0, 0)));
+    }
 }
 
 void Player::keyPress(int i, bool b)

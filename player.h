@@ -26,6 +26,7 @@ public:
     void moveY(int incr);
 
     void advance(int dmg) override;
+    void capsizeHealthBar();
 
     /* Collision detection */
     void wallCollisionRedirect();

@@ -30,7 +30,7 @@ GameController::GameController(QGraphicsScene *scene, SoundController *s): scene
     scrapSpawner_->start();
 
     asteroidSpawner_ = new QTimer();
-    asteroidSpawner_->setInterval(5000);
+    asteroidSpawner_->setInterval(3500);
     connect(asteroidSpawner_, &QTimer::timeout, this, [=](){
         scene_->addItem(new Asteroid(-2)); //z-index: -2
     });

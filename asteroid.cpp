@@ -13,14 +13,13 @@ Asteroid::Asteroid(int zValue)
 
     setZValue(zValue);
 
-    int random_number = rand() % 810;
-    setPos(random_number, -100);
+    /* Gold Asteroid */
+    isGold_ = rand() % 100 < 10;
+    speed_ = (rand() % 2) + (isGold_ ? + 3 : + 18);
+    rotation_ = (rand() % 1) + (isGold_ ? - 0.5 : + 1);
 
-    bool randomizer = rand() % 2 == 0;
-
-    speed_ = (rand() % 5) + (randomizer ? + 15 : + 5);
-    rotation_ = (rand() % 1) + (randomizer ? + 1 : - 0.5);
-
+    int pos = rand() % 810;
+    setPos(pos, -100);
     int size = (rand() % 50) + 50;
     setRect(0, 0, size, size);
     setPen(QPen(Qt::NoPen));
@@ -42,9 +41,13 @@ Asteroid::Asteroid(int zValue)
             r->setRect(0, 0, rSize, rSize);
             r->setPos(t->map(r->pos()));
             r->setRotation(r->rotation() + angle);
-
             r->setPen(QPen(Qt::NoPen));
-            r->setBrush(QBrush(QColor(60 + m, 0 + m, 0)));
+
+            if(isGold_) {
+                r->setBrush(QBrush(QColor(120 + m, 100 + m, 0)));
+            } else {
+                r->setBrush(QBrush(QColor(60 + m, 0 + m, 0)));
+            }
             continue;
         }
 
@@ -52,9 +55,13 @@ Asteroid::Asteroid(int zValue)
         e->setRect(0, 0, rSize, rSize);
         e->setPos(t->map(e->pos()));
         e->setRotation(e->rotation() + angle);
-
         e->setPen(QPen(Qt::NoPen));
-        e->setBrush(QBrush(QColor(60 + m, 0 + m, 0)));
+
+        if(isGold_) {
+            e->setBrush(QBrush(QColor(120 + m, 100 + m, 0)));
+        } else {
+            e->setBrush(QBrush(QColor(60 + m, 0 + m, 0)));
+        }
     }
 
     QTimer *timer = new QTimer();

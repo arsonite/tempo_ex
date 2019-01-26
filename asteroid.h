@@ -18,6 +18,7 @@ private:
     double rotation_;
 
     bool collided_;
+    bool isGold_;
 };
 
 #endif // ASTEROID_H

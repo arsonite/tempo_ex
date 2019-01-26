@@ -29,9 +29,10 @@ void Projectile::fly(bool outOfBounds)
 
     if(outOfBounds) {
         delete this;
-        qDebug() << "Projectile deleted.";
         return;
     }
+
+    setPos(x(), y()-speed_);
 
     QList<QGraphicsItem *> colliding_items = collidingItems();
     for(int i = 0; i < colliding_items.size(); ++i) {
@@ -42,5 +43,4 @@ void Projectile::fly(bool outOfBounds)
             return;
         }
     }
-    setPos(x(), y()-speed_);
 }

@@ -68,12 +68,12 @@ void Scrap::fly(bool outOfBounds)
         if(typeid(*(colliding_items[i])) == typeid(Player)) {
             containsPlayer = true;
             if(destroyed_) {
-                colliding_items[i]->advance(1);
+                colliding_items[i]->advance(0); //Increase points by one
                 delete this;
                 return;
             }
             if(collided_) return;
-            colliding_items[i]->advance(-1);
+            colliding_items[i]->advance(2); //Decrease Health by one
             collided_ = true;
             return;
         }
