@@ -13,7 +13,7 @@ class GameController : public QObject
 {
 Q_OBJECT
 public:
-    GameController(QGraphicsScene &scene, QLabel &points, SoundController &s);
+    GameController(QGraphicsScene *scene, SoundController *s);
     ~GameController();
 
     void keyPressEvent(QKeyEvent *e);
@@ -33,9 +33,14 @@ public:
 
     Player* getPlayer();
 
+    void setPointLabel(QLabel *points);
+    void setHealthBar(std::vector<QGraphicsEllipseItem*> *healthBar);
+
 private:
     QGraphicsScene *scene_;
     QLabel *points_;
+
+    SoundController *s_;
 
     QTimer *timer_;
     QTimer *scrapSpawner_;

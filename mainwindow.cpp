@@ -70,6 +70,8 @@ MainWindow::MainWindow(QWidget *parent) :
     QGraphicsScene *gameView_ = new QGraphicsScene(this);
     gameView_->setBackgroundBrush(Qt::black);
 
+    gameController_ = new GameController(gameView_, s);
+
     QLabel *pointsLabel = new QLabel();
     pointsLabel->setFont(bit);
     pointsLabel->setText("Points");
@@ -87,26 +89,46 @@ MainWindow::MainWindow(QWidget *parent) :
     points->setAlignment(Qt::AlignCenter);
     points->setStyleSheet("QLabel { background-color : transparent; color : #00FF00; }");
     gameView_->addWidget(points);
-
-    gameController_ = new GameController(*gameView_, *points, *s);
+    gameController_->setPointLabel(points);
 
     QLabel *reloadText = new QLabel();
-    points->setFont(bit);
-    points->setStyleSheet("QLabel { background-color : transparent; color : #FF0000; }");
+    reloadText->setFont(bit);
+    reloadText->setStyleSheet("QLabel { background-color : transparent; color : #FF0000; }");
+    gameView_->addWidget(reloadText);
 
     QGraphicsRectItem *reloadBar = new QGraphicsRectItem();
+    reloadBar->setRect(900/2-200/2, 700-125, 200, 25);
+    reloadBar->setBrush(QBrush(QColor(100, 100, 250)));
+    reloadBar->setPen(QPen(Qt::NoPen));
+    gameView_->addItem(reloadBar);
 
     QGraphicsRectItem *reloadBarFrame = new QGraphicsRectItem();
+    reloadBarFrame->setRect(900/2-200/2, 700-125, 200, 25);
+    reloadBarFrame->setPen(QPen(QColor(50, 50, 125)));
+    gameView_->addItem(reloadBarFrame);
 
     QLabel *healthLabel = new QLabel();
+    bit.setPointSize(14);
+    healthLabel->setFont(bit);
+    healthLabel->setText("Health");
+    healthLabel->move(336, 620);
+    healthLabel->resize(115, 14);
+    healthLabel->setAlignment(Qt::AlignCenter);
+    healthLabel->setStyleSheet("QLabel { background-color : transparent; color : #FFF; }");
+    gameView_->addWidget(healthLabel);
 
-    QGraphicsEllipseItem *health = new QGraphicsEllipseItem();
-    health->setRect(0, 0, 20, 20);
-    health->setBrush(QBrush(Qt::))
-
-    for(int i = 0; i < gameController_->getPlayer()->getMaxHealth(); i++) {
-
+    const int n = gameController_->getPlayer()->getMaxHealth();
+    std::vector<QGraphicsEllipseItem*> *healthBar = new std::vector<QGraphicsEllipseItem*>();
+    healthBar->reserve(n);
+    for(int i = 0; i < n; i++) {
+        QGraphicsEllipseItem *health = new QGraphicsEllipseItem();
+        health->setRect(900/2-5 + (i * 19), 700-77, 10, 10);
+        health->setBrush(QBrush(QColor(255, 75, 75)));
+        health->setPen(QPen(Qt::NoPen));
+        gameView_->addItem(health);
+        healthBar->push_back(health);
     }
+    gameController_->setHealthBar(healthBar);
 
     ui_->view->setScene(gameView_);
 }

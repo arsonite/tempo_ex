@@ -9,7 +9,7 @@
 
 #include <QDebug>
 
-GameController::GameController(QGraphicsScene &scene, QLabel &points, SoundController &s) : scene_(&scene), points_(&points)
+GameController::GameController(QGraphicsScene *scene, SoundController *s): scene_(scene), s_(s)
 {
     player_ = new Player(1, -2); //z-index: -2
     player_->setPos((900-player_->getShip()->getHitbox().y()/2)/2, (700-player_->getShip()->getHitbox().x()/2)/2);
@@ -53,7 +53,6 @@ GameController::~GameController()
 
 void GameController::keyPressEvent(QKeyEvent *e)
 {
-    timer_->stop();
     switch(e->key())  {
         case Qt::Key_Space:
             shoot();
@@ -68,7 +67,6 @@ void GameController::keyPressEvent(QKeyEvent *e)
             pauseGame();
             break;
         default:
-            timer_->start();
             switchControl(e, true);
             break;
     }
@@ -83,6 +81,8 @@ void GameController::keyReleaseEvent(QKeyEvent *e)
 void GameController::switchControl(QKeyEvent *e, bool b)
 {
     if(gameIsPaused_) return;
+    if(timer_->isActive()) timer_->stop();
+    timer_->start();
 
     switch(e->key())  {
         case Qt::Key_W:
@@ -154,4 +154,16 @@ bool GameController::gameIsPaused()
 Player* GameController::getPlayer()
 {
     return player_;
+}
+
+void GameController::setPointLabel(QLabel *points)
+{
+    points_ = points;
+}
+
+
+
+void GameController::setHealthBar(std::vector<QGraphicsEllipseItem*> *healthBar)
+{
+    player_->setHealthBar(healthBar);
 }

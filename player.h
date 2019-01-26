@@ -42,10 +42,14 @@ public:
 
     Ship *getShip();
 
+    void setHealthBar(std::vector<QGraphicsEllipseItem*> *healthBar);
+
 public slots:
     void moveShip();
 
 private slots:
+    std::vector<QGraphicsEllipseItem*> *healthBar_;
+
     Ship *s_;
 
     std::array<bool, 4> keysPressed_;

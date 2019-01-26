@@ -56,7 +56,13 @@ void Player::advance(int i)
 {
     if(i < 0) {
         health_--;
-        qDebug() << health_;
+        for(int i = 0; i < healthBar_->size(); i++) {
+            if(i <= health_) {
+                healthBar_->at(i)->setBrush(QBrush(QColor(255, 75, 75)));
+                continue;
+            }
+            healthBar_->at(i)->setBrush(QBrush(QColor(100, 0, 0)));
+        }
         return;
     }
     points_++;
@@ -119,3 +125,9 @@ Ship *Player::getShip()
 {
     return s_;
 }
+
+void Player::setHealthBar(std::vector<QGraphicsEllipseItem*> *healthBar)
+{
+    healthBar_ = healthBar;
+}
+
