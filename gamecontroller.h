@@ -31,6 +31,8 @@ public:
     void pauseGame();
     bool gameIsPaused();
 
+    Player* getPlayer();
+
 private:
     QGraphicsScene *scene_;
     QLabel *points_;

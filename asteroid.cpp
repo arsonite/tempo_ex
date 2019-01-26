@@ -9,6 +9,8 @@
 
 Asteroid::Asteroid(int zValue)
 {
+    collided_ = false;
+
     setZValue(zValue);
 
     int random_number = rand() % 810;
@@ -67,18 +69,22 @@ void Asteroid::fly(bool outOfBounds)
 {
     if(outOfBounds) {
         delete this;
-        qDebug() << "Asteroid deleted.";
         return;
-    }
-
-    QList<QGraphicsItem *> colliding_items = collidingItems();
-    for(int i = 0; i < colliding_items.size(); ++i) {
-        if(typeid(*(colliding_items[i])) == typeid(Player)) {
-            colliding_items[i]->advance(-1);
-        }
     }
 
     setRotation(rotation() + rotation_);
     setPos(x(), y() + speed_);
-    return;
+
+    bool containsPlayer = false;
+    QList<QGraphicsItem *> colliding_items = collidingItems();
+    for(int i = 0; i < colliding_items.size(); ++i) {
+        if(typeid(*(colliding_items[i])) == typeid(Player)) {
+            containsPlayer = true;
+            if(collided_) return;
+            colliding_items[i]->advance(-1);
+            collided_ = true;
+            return;
+        }
+    }
+    if(!containsPlayer) collided_ = false;
 }

@@ -53,6 +53,7 @@ GameController::~GameController()
 
 void GameController::keyPressEvent(QKeyEvent *e)
 {
+    timer_->stop();
     switch(e->key())  {
         case Qt::Key_Space:
             shoot();
@@ -148,4 +149,9 @@ void GameController::pauseGame()
 bool GameController::gameIsPaused()
 {
     return gameIsPaused_;
+}
+
+Player* GameController::getPlayer()
+{
+    return player_;
 }

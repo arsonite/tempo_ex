@@ -16,6 +16,9 @@ public:
 
     std::vector<Weapon*> getWeapons();
 
+    int getClass();
+    int getHealth();
+
 private:
     void constructBasic();
     void constructFighter();
@@ -24,6 +27,8 @@ private:
 
     int hitboxX_;
     int hitboxY_;
+    int c_;
+    int health_;
 
     std::vector<Weapon*> weapons_;
 };

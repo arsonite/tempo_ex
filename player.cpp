@@ -15,6 +15,7 @@ Player::Player(int shipC, int zValue)
     setFocus();
 
     s_ = new Ship(shipC, this);
+    MAX_HEALTH_ = health_ = s_->getHealth();
 
     setRect(0, 0, 100, 50);
 
@@ -51,9 +52,14 @@ void Player::moveY(int incr)
     setY(this->y()+incr);
 }
 
-void Player::advance(int point)
+void Player::advance(int i)
 {
-    points_+= point;
+    if(i < 0) {
+        health_--;
+        qDebug() << health_;
+        return;
+    }
+    points_++;
 }
 
 void Player::keyPress(int i, bool b)
@@ -76,7 +82,6 @@ void Player::moveShip()
         moveX(10);
     }
     wallCollisionRedirect();
-    qDebug() << "moveShip(" << "x: " << x() << ", y: " << y() << ")";
 }
 
 void Player::wallCollisionRedirect()
@@ -102,7 +107,12 @@ int Player::getPoints()
 
 int Player::getRemainingHealth()
 {
-    return points_;
+    return health_;
+}
+
+int Player::getMaxHealth()
+{
+    return MAX_HEALTH_;
 }
 
 Ship *Player::getShip()

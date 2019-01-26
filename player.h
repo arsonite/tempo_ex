@@ -25,7 +25,7 @@ public:
     void moveX(int incr);
     void moveY(int incr);
 
-    void advance(int point) override;
+    void advance(int dmg) override;
 
     /* Collision detection */
     void wallCollisionRedirect();
@@ -35,6 +35,7 @@ public:
 
     int getPoints();
     int getRemainingHealth();
+    int getMaxHealth();
 
     void win();
     void loose();
@@ -50,6 +51,8 @@ private slots:
     std::array<bool, 4> keysPressed_;
 
     int points_;
+    int health_;
+    int MAX_HEALTH_;
 };
 
 #endif // PLAYER_H

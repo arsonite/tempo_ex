@@ -31,7 +31,6 @@ SOURCES += \
         player.cpp \
         projectile.cpp \
         fileparser.cpp \
-        entity.cpp \
         star.cpp \
         scrap.cpp \
         asteroid.cpp \
@@ -46,7 +45,6 @@ HEADERS += \
         view.h \
         projectile.h \
         fileparser.h \
-        entity.h \
         star.h \
         scrap.h \
         asteroid.h \

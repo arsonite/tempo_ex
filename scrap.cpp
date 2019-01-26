@@ -11,6 +11,7 @@ Scrap::Scrap(int zValue)
 {
     setZValue(zValue);
 
+    collided_ = false;
     destroyed_ = false;
 
     int random_number = rand() % 810;
@@ -56,24 +57,28 @@ void Scrap::fly(bool outOfBounds)
 {
     if(outOfBounds) {
         delete this;
-        qDebug() << "Asteroid deleted.";
         return;
     }
 
+    setPos(x(), y() + ((rand() % 3) + 2));
+
+    bool containsPlayer = false;
     QList<QGraphicsItem *> colliding_items = collidingItems();
     for(int i = 0; i < colliding_items.size(); ++i) {
         if(typeid(*(colliding_items[i])) == typeid(Player)) {
+            containsPlayer = true;
             if(destroyed_) {
                 colliding_items[i]->advance(1);
                 delete this;
                 return;
             }
+            if(collided_) return;
             colliding_items[i]->advance(-1);
+            collided_ = true;
+            return;
         }
     }
-
-    setPos(x(), y() + ((rand() % 3) + 2));
-    return;
+    if(!containsPlayer) collided_ = false;
 }
 
 void Scrap::advance(int dmg)
@@ -92,7 +97,6 @@ void Scrap::advance(int dmg)
     }
 
     double n = scraps_ * (((health_ * 100.0) / oldValue_) / 100);
-    qDebug() << n;
     scraps_ = n < 0 ? 0 : int (n);
     for(int i = 0; i < childItems().count(); i++) {
         if(i <= scraps_) {
@@ -103,11 +107,12 @@ void Scrap::advance(int dmg)
 
 void Scrap::dropPoint()
 {
-    while(childItems().count() != 0) {
+    while(childItems().count() > 0) {
         delete childItems().first();
     }
     QGraphicsEllipseItem *point = new QGraphicsEllipseItem(this);
-    point->setRect(size_/2, size_/2, 20, 20);
+    int pointWidth = 20;
+    point->setRect(size_/2-pointWidth/2, size_/2-pointWidth/2, pointWidth, pointWidth);
     point->setBrush(QBrush(QColor(0, 255, 0)));
     point->setPen(QPen(Qt::NoPen));
 }

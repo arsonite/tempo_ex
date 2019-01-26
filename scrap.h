@@ -23,6 +23,7 @@ private:
     int scraps_;
     int oldValue_;
 
+    bool collided_;
     bool destroyed_;
 };
 

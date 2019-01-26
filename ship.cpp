@@ -3,7 +3,7 @@
 #include <QBrush>
 #include <QPen>
 
-Ship::Ship(int c, QGraphicsRectItem *parent)
+Ship::Ship(int c, QGraphicsRectItem *parent): c_(c), health_(2+c)
 {
     switch(c) {
         case 1:
@@ -108,4 +108,14 @@ QPoint Ship::getHitbox()
 std::vector<Weapon*> Ship::getWeapons()
 {
     return weapons_;
+}
+
+int Ship::getClass()
+{
+    return c_;
+}
+
+int Ship::getHealth()
+{
+    return health_;
 }

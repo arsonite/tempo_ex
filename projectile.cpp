@@ -11,6 +11,7 @@ Projectile::Projectile(int zValue, int speed, int dmg, GameController *g): speed
 {
     setZValue(zValue);
 
+    int speed_;
     setPen(QPen(QColor(255, 0, 0)));
 
     QTimer *timer = new QTimer();

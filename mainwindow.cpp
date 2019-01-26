@@ -52,32 +52,6 @@ MainWindow::MainWindow(QWidget *parent) :
     infoLabel_->setZValue(10);
     startView_->addItem(infoLabel_);
 
-    //ui_->view->setScene(startView_);
-
-    /* GameView */
-    QLabel *pointsLabel = new QLabel();
-    QLabel *points = new QLabel();
-    pointsLabel->setFont(bit);
-    pointsLabel->setText("Points");
-    pointsLabel->move(395, 10);
-    pointsLabel->resize(115, 20);
-    pointsLabel->setAlignment(Qt::AlignCenter);
-    pointsLabel->setStyleSheet(style);
-    points->setFont(bit);
-    points->setText("0");
-    points->move(395, 40);
-    points->resize(115, 20);
-    points->setAlignment(Qt::AlignCenter);
-    points->setStyleSheet("QLabel { background-color : transparent; color : #00FF00; }");
-
-    QGraphicsScene *gameView_ = new QGraphicsScene(this);
-    gameView_->addWidget(pointsLabel);
-    gameView_->addWidget(points);
-    gameView_->setBackgroundBrush(Qt::black);
-    gameController_ = new GameController(*gameView_, *points, *s);
-
-    ui_->view->setScene(gameView_);
-
     /* Setting up locks */
     locks_ = new QMap<QString, bool>();
     locks_->insert("startView", false);
@@ -89,6 +63,52 @@ MainWindow::MainWindow(QWidget *parent) :
 
     i_ = 0;
     counter_ = 0;
+
+    //ui_->view->setScene(startView_);
+
+    /* GameView */
+    QGraphicsScene *gameView_ = new QGraphicsScene(this);
+    gameView_->setBackgroundBrush(Qt::black);
+
+    QLabel *pointsLabel = new QLabel();
+    pointsLabel->setFont(bit);
+    pointsLabel->setText("Points");
+    pointsLabel->move(395, 10);
+    pointsLabel->resize(115, 20);
+    pointsLabel->setAlignment(Qt::AlignCenter);
+    pointsLabel->setStyleSheet(style);
+    gameView_->addWidget(pointsLabel);
+
+    QLabel *points = new QLabel();
+    points->setFont(bit);
+    points->setText("0");
+    points->move(395, 40);
+    points->resize(115, 20);
+    points->setAlignment(Qt::AlignCenter);
+    points->setStyleSheet("QLabel { background-color : transparent; color : #00FF00; }");
+    gameView_->addWidget(points);
+
+    gameController_ = new GameController(*gameView_, *points, *s);
+
+    QLabel *reloadText = new QLabel();
+    points->setFont(bit);
+    points->setStyleSheet("QLabel { background-color : transparent; color : #FF0000; }");
+
+    QGraphicsRectItem *reloadBar = new QGraphicsRectItem();
+
+    QGraphicsRectItem *reloadBarFrame = new QGraphicsRectItem();
+
+    QLabel *healthLabel = new QLabel();
+
+    QGraphicsEllipseItem *health = new QGraphicsEllipseItem();
+    health->setRect(0, 0, 20, 20);
+    health->setBrush(QBrush(Qt::))
+
+    for(int i = 0; i < gameController_->getPlayer()->getMaxHealth(); i++) {
+
+    }
+
+    ui_->view->setScene(gameView_);
 }
 
 MainWindow::~MainWindow()
