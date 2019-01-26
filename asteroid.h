@@ -10,14 +10,25 @@ Q_OBJECT
 public:
     Asteroid(int zValue);
 
-private:
     void fly(bool outOfBounds);
 
+    void advance(int dmg);
+    void drop();
+
+    bool isDestroyed();
+
+private:
+    int size_;
     int speed_;
+    int scraps_;
+    int drop_;
+    int health_;
+    int MAX_HEALTH_;
 
     double rotation_;
 
     bool collided_;
+    bool destroyed_;
     bool isGold_;
 };
 

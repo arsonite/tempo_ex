@@ -12,16 +12,18 @@ public:
 
     void fly(bool outOfBounds);
 
-    void advance(int dmg) override;
+    void advance(int dmg) override; //Overriding to prevent need for typecasting
 
     void dropPoint();
 
+    bool isDestroyed();
+
 private:
     int size_;
-    int health_;
     int speed_;
     int scraps_;
-    int oldValue_;
+    int health_;
+    int MAX_HEALTH_;
 
     bool collided_;
     bool destroyed_;

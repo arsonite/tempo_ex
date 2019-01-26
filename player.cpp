@@ -55,21 +55,22 @@ void Player::moveY(int incr)
 void Player::advance(int code)
 {
     switch(code) {
-        case 0: //Point
-            points_++;
-            break;
-        case 1: //Point multiplicator
-        case 2: //Health decrease
-            if(health_ <= 0) return;
-            health_--;
-            capsizeHealthBar();
-            break;
-        case 3: //Health increase
-            if(health_ >= MAX_HEALTH_) break;
+        case 0: //Health increase
+        if(health_ >= MAX_HEALTH_) break;
             health_++;
             capsizeHealthBar();
             break;
-        case 4: //Ammunation
+        case 1: //Point multiplicator
+            break;
+        case 2: //Ammunation
+            break;
+        case 3: //Point
+            points_++;
+            break;
+        case 4: //Health decrease
+            if(health_ <= 0) return;
+            health_--;
+            capsizeHealthBar();
             break;
     }
 }

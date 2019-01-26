@@ -17,20 +17,18 @@ Scrap::Scrap(int zValue)
     int random_number = rand() % 810;
     setPos(random_number, -100);
 
-    int size = (rand() % 50) + 50;
-    size_ = size;
-    oldValue_ = health_ = size;
-    setRect(0, 0, size, size);
+    MAX_HEALTH_ = health_ = size_ = (rand() % 50) + 50;
+    setRect(0, 0, size_, size_);
     setPen(QPen(Qt::NoPen));
 
     int n = (rand() % 10) + 10;
     scraps_ = n;
     for(int i = 0; i < n; i++) {
         QGraphicsRectItem *r = new QGraphicsRectItem(this);
-        int xSize = (rand() % size);
-        int ySize = (rand() % size);
+        int xSize = (rand() % size_);
+        int ySize = (rand() % size_);
 
-        QPoint *q = new QPoint(size/2, size/2);
+        QPoint *q = new QPoint(size_/2, size_/2);
         QTransform *t = new QTransform();
         auto angle = rand() % 360;
         t->translate(q->x(), q->y());
@@ -48,7 +46,7 @@ Scrap::Scrap(int zValue)
     QTimer *timer = new QTimer();
     timer->setInterval(32);
     connect(timer, &QTimer::timeout, this, [=](){
-        this->fly(y() + rect().height() >= 660 + size);
+        this->fly(y() + rect().height() >= 660 + size_);
     });
     timer->start();
 }
@@ -68,12 +66,12 @@ void Scrap::fly(bool outOfBounds)
         if(typeid(*(colliding_items[i])) == typeid(Player)) {
             containsPlayer = true;
             if(destroyed_) {
-                colliding_items[i]->advance(0); //Increase points by one
+                colliding_items[i]->advance(3); //Increase points by one
                 delete this;
                 return;
             }
             if(collided_) return;
-            colliding_items[i]->advance(2); //Decrease Health by one
+            colliding_items[i]->advance(4); //Decrease Health by one
             collided_ = true;
             return;
         }
@@ -83,9 +81,7 @@ void Scrap::fly(bool outOfBounds)
 
 void Scrap::advance(int dmg)
 {
-    if(destroyed_) {
-        return;
-    }
+    if(destroyed_) return;
 
     health_-= dmg;
 
@@ -96,7 +92,7 @@ void Scrap::advance(int dmg)
         return;
     }
 
-    double n = scraps_ * (((health_ * 100.0) / oldValue_) / 100);
+    double n = scraps_ * (((health_ * 100.0) / MAX_HEALTH_) / 100);
     scraps_ = n < 0 ? 0 : int (n);
     for(int i = 0; i < childItems().count(); i++) {
         if(i <= scraps_) {
@@ -115,4 +111,9 @@ void Scrap::dropPoint()
     point->setRect(size_/2-pointWidth/2, size_/2-pointWidth/2, pointWidth, pointWidth);
     point->setBrush(QBrush(QColor(0, 255, 0)));
     point->setPen(QPen(Qt::NoPen));
+}
+
+bool Scrap::isDestroyed()
+{
+    return destroyed_;
 }

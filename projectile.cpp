@@ -36,8 +36,13 @@ void Projectile::fly(bool outOfBounds)
 
     QList<QGraphicsItem *> colliding_items = collidingItems();
     for(int i = 0; i < colliding_items.size(); ++i) {
-        if(typeid(*(colliding_items[i])) == typeid(Scrap)
-                || typeid(*(colliding_items[i])) == typeid(Asteroid)) {
+        if(typeid(*(colliding_items[i])) == typeid(Scrap)) {
+            if(static_cast<Scrap*>(colliding_items[i])->isDestroyed()) continue;
+            colliding_items[i]->advance(dmg_);
+            delete this;
+            return;
+        } else if(typeid(*(colliding_items[i])) == typeid(Asteroid)) {
+            if(static_cast<Asteroid*>(colliding_items[i])->isDestroyed()) continue;
             colliding_items[i]->advance(dmg_);
             delete this;
             return;
