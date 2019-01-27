@@ -11,7 +11,7 @@
 
 GameController::GameController(QGraphicsScene *scene, SoundController *s): scene_(scene), s_(s)
 {
-    player_ = new Player(1, -2); //z-index: -2
+    player_ = new Player(1, 3, -2); //z-index: -2
     player_->setPos((900-player_->getShip()->getHitbox().y()/2)/2, (700-player_->getShip()->getHitbox().x()/2)/2);
     scene_->addItem(player_);
 
@@ -200,4 +200,10 @@ void GameController::setReloadBar(QGraphicsRectItem *reloadBar)
 void GameController::setReloadText(QLabel *reloadText)
 {
     reloadText_ = reloadText;
+}
+
+void GameController::setMultiplicatorLabel(QLabel *multiplicatorLabel)
+{
+    multiplicatorLabel_ = multiplicatorLabel;
+    player_->setMultiplicatorLabel(multiplicatorLabel_);
 }

@@ -6,7 +6,7 @@
 #include <QDebug>
 #include <QPen>
 
-Player::Player(int shipC, int zValue)
+Player::Player(int shipC, int weaponC, int zValue)
 {
     setZValue(zValue);
 
@@ -14,12 +14,13 @@ Player::Player(int shipC, int zValue)
     setFlag(QGraphicsItem::ItemIsFocusable);
     setFocus();
 
-    s_ = new Ship(shipC, this);
+    s_ = new Ship(shipC, weaponC, this);
     MAX_HEALTH_ = health_ = s_->getHealth();
 
     setRect(0, 0, 100, 50);
 
     points_ = 0;
+    multiplicator_ = 1;
 }
 
 double Player::x() const
@@ -61,14 +62,26 @@ void Player::advance(int code)
             capsizeHealthBar();
             break;
         case 1: //Point multiplicator
+            if(multiplicator_ == INT_MAX) return;
+            multiplicator_ *= 2;
+            if(multiplicator_ * 2 > INT_MAX) multiplicator_ = INT_MAX;
+            multiplicatorLabel_->setVisible(true);
+            multiplicatorLabel_->setText(QString::number(multiplicator_) + "x");
             break;
         case 2: //Point
-            points_++;
+            if(points_ == INT_MAX) return;
+            points_+= (multiplicator_ * 1);
+            if(points_ + 1 > INT_MAX) points_ = INT_MAX;
             break;
         case 3: //Health decrease
             if(health_ <= 0) return;
             health_--;
             capsizeHealthBar();
+            break;
+        case 4: //Reset multiplier
+            multiplicator_ = 1;
+            multiplicatorLabel_->setVisible(false);
+            multiplicatorLabel_->setText(QString::number(multiplicator_) + "x");
             break;
     }
 }
@@ -147,5 +160,10 @@ Ship *Player::getShip()
 void Player::setHealthBar(std::vector<QGraphicsEllipseItem*> *healthBar)
 {
     healthBar_ = healthBar;
+}
+
+void Player::setMultiplicatorLabel(QLabel *multiplicatorLabel)
+{
+    multiplicatorLabel_ = multiplicatorLabel;
 }
 

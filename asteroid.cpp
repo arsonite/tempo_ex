@@ -97,6 +97,7 @@ void Asteroid::fly(bool outOfBounds)
             }
             if(collided_) return;
             colliding_items[i]->advance(3); //Decrease Health by one
+            colliding_items[i]->advance(4); //Reset multiplier
             collided_ = true;
             return;
         }
@@ -128,7 +129,7 @@ void Asteroid::drop()
 {
     while(childItems().count() > 0) delete childItems().first();
 
-    drop_ = (rand() % 100) / 50;
+    drop_ = (rand() % 99) / 50;
     if(drop_ == 0) {
         QGraphicsEllipseItem *health = new QGraphicsEllipseItem(this);
         int pointWidth = 20;

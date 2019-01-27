@@ -72,6 +72,7 @@ void Scrap::fly(bool outOfBounds)
             }
             if(collided_) return;
             colliding_items[i]->advance(3); //Decrease Health by one
+            colliding_items[i]->advance(4); //Reset multiplier
             collided_ = true;
             return;
         }

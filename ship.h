@@ -10,7 +10,7 @@
 class Ship: public QGraphicsRectItem
 {
 public:
-    Ship(int c, QGraphicsRectItem *parent);
+    Ship(int c, int weaponC, QGraphicsRectItem *parent);
 
     QPoint getHitbox();
 
@@ -28,6 +28,7 @@ private:
     int hitboxX_;
     int hitboxY_;
     int c_;
+    int weaponC_;
     int health_;
 
     std::vector<Weapon*> weapons_;

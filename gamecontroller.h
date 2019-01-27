@@ -38,12 +38,14 @@ public:
     void setHealthBar(std::vector<QGraphicsEllipseItem*> *healthBar);
     void setReloadBar(QGraphicsRectItem *reloadBar);
     void setReloadText(QLabel *reloadText);
+    void setMultiplicatorLabel(QLabel *multiplicatorLabel);
 
 private:
     QGraphicsScene *scene_;
     QLabel *points_;
     QGraphicsRectItem *reloadBar_;
     QLabel *reloadText_;
+    QLabel *multiplicatorLabel_;
 
     SoundController *s_;
 

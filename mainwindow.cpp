@@ -41,7 +41,7 @@ MainWindow::MainWindow(QWidget *parent) :
     display_->resize(4000, 4000);
     display_->setMovie(gif);
     display_->setStyleSheet(style);
-    //gif->start();
+    gif->start();
     startView_->addWidget(display_);
 
     infoLabel_ = new QGraphicsTextItem("Info");
@@ -50,6 +50,15 @@ MainWindow::MainWindow(QWidget *parent) :
     infoLabel_->setScale(2);
     infoLabel_->setZValue(10);
     startView_->addItem(infoLabel_);
+
+    QLabel *pressStartLabel = new QLabel();
+    pressStartLabel->setFont(bit);
+    pressStartLabel->setText("Press [Space]");
+    pressStartLabel->move(395, 10);
+    pressStartLabel->resize(115, 20);
+    pressStartLabel->setAlignment(Qt::AlignCenter);
+    pressStartLabel->setStyleSheet(style);
+    startView_->addWidget(pressStartLabel);
 
     /* Setting up locks */
     locks_ = new QMap<QString, bool>();
@@ -66,6 +75,8 @@ MainWindow::MainWindow(QWidget *parent) :
     //ui_->view->setScene(startView_);
 
     /* GameView */
+    gif->stop();
+
     QGraphicsScene *gameView_ = new QGraphicsScene(this);
     gameView_->setBackgroundBrush(Qt::black);
 
@@ -89,6 +100,16 @@ MainWindow::MainWindow(QWidget *parent) :
     points->setStyleSheet("QLabel { background-color : transparent; color : #00FF00; }");
     gameView_->addWidget(points);
     gameController_->setPointLabel(points);
+
+    QLabel *multiplicator = new QLabel();
+    multiplicator->setFont(bit);
+    multiplicator->move(275, 10);
+    multiplicator->resize(115, 20);
+    multiplicator->setAlignment(Qt::AlignRight);
+    multiplicator->setStyleSheet("QLabel { background-color : transparent; color : #00FF00; }");
+    multiplicator->setVisible(false);
+    gameView_->addWidget(multiplicator);
+    gameController_->setMultiplicatorLabel(multiplicator);
 
     QLabel *reloadText = new QLabel();
     reloadText->setText("Reloading...");

@@ -8,11 +8,12 @@
 #include <QGraphicsItem>
 #include <QGraphicsRectItem>
 #include <QGraphicsEllipseItem>
+#include <QLabel>
 
 class Player: public QGraphicsRectItem
 {
 public:
-    Player(int shipC, int zValue);
+    Player(int shipC, int weaponC, int zValue);
 
     double x() const;
     double y() const;
@@ -41,18 +42,22 @@ public:
     Ship *getShip();
 
     void setHealthBar(std::vector<QGraphicsEllipseItem*> *healthBar);
+    void setMultiplicatorLabel(QLabel *multiplicatorLabel);
 
 public slots:
     void moveShip();
 
 private slots:
-    std::vector<QGraphicsEllipseItem*> *healthBar_;
+    QLabel *multiplicatorLabel_;
 
     Ship *s_;
+
+    std::vector<QGraphicsEllipseItem*> *healthBar_;
 
     std::array<bool, 4> keysPressed_;
 
     int points_;
+    int multiplicator_;
     int health_;
     int MAX_HEALTH_;
 };
