@@ -15,13 +15,14 @@ GameController::GameController(QGraphicsScene *scene, SoundController *s): scene
     player_->setPos((900-player_->getShip()->getHitbox().y()/2)/2, (700-player_->getShip()->getHitbox().x()/2)/2);
     scene_->addItem(player_);
 
+    /* Timer for player move animation */
     timer_ = new QTimer();
     timer_->setInterval((1000/60)*2); //Half of 60Hz - 16.7
     connect(timer_, &QTimer::timeout, this, [=](){
-        //s->playSFX("thrust");
         player_->moveShip();
     });
 
+    /* Spawner for scrapmetal */
     scrapSpawner_ = new QTimer();
     scrapSpawner_->setInterval(2500);
     connect(scrapSpawner_, &QTimer::timeout, this, [=](){
@@ -29,6 +30,7 @@ GameController::GameController(QGraphicsScene *scene, SoundController *s): scene
     });
     scrapSpawner_->start();
 
+    /* Spawner for normal and golden asteroids */
     asteroidSpawner_ = new QTimer();
     asteroidSpawner_->setInterval(3500);
     connect(asteroidSpawner_, &QTimer::timeout, this, [=](){
@@ -36,6 +38,7 @@ GameController::GameController(QGraphicsScene *scene, SoundController *s): scene
     });
     asteroidSpawner_->start();
 
+    /* Spawner for background stars */
     starsSpawner_ = new QTimer();
     starsSpawner_->setInterval(50);
     connect(starsSpawner_, &QTimer::timeout, this, [=](){
@@ -43,7 +46,26 @@ GameController::GameController(QGraphicsScene *scene, SoundController *s): scene
     });
     starsSpawner_->start();
 
+    /* Weapon cooldown timer */
+    int interval = 100;
+    cooldownTimer_ = 0;
+    cooldown_ = new QTimer();
+    cooldown_->setInterval(interval);
+    connect(cooldown_, &QTimer::timeout, this, [=](){
+        int maxValue = player_->getShip()->getWeapons()[0]->getReloadTime();
+        if(cooldownTimer_ >= maxValue) {
+            reloadText_->setVisible(false);
+            cooldownTimer_ = 0;
+            cooldown_->stop();
+            isOnCooldown_ = false;
+        }
+        double perc = 200 * ((cooldownTimer_ * 100.0 / maxValue) / 100.0);
+        reloadBar_->setRect(900/2-200/2, 700-125, perc, 25);
+        cooldownTimer_+= interval;
+    });
+
     gameIsPaused_ = false;
+    isOnCooldown_ = false;
 }
 
 GameController::~GameController()
@@ -56,9 +78,6 @@ void GameController::keyPressEvent(QKeyEvent *e)
     switch(e->key())  {
         case Qt::Key_Space:
             shoot();
-            break;
-        case Qt::Key_B:
-            useSpecial();
             break;
         case Qt::Key_C:
             superCharge();
@@ -103,18 +122,25 @@ void GameController::switchControl(QKeyEvent *e, bool b)
 
 void GameController::shoot()
 {
+    if(isOnCooldown_) return;
+    cooldown_->start();
+    reloadText_->setVisible(true);
+    isOnCooldown_ = true;
+
     std::vector<Weapon*> weapons = player_->getShip()->getWeapons();
     for(int i = 0; i < weapons.size(); i++) {
-        Projectile *p = new Projectile(0, 10, 25, this);
-        QRectF rect = weapons[i]->rect();
-        p->setPos(player_->pos().x(), player_->pos().y());
-        p->setRect(rect.x()-rect.width()/2, rect.x()-rect.height()*4, 10, 50);
-        scene_->addItem(p);
+        int c = 0;
+        int n = 1;
+        if(weapons[0]->getClass() == 2) n = 5;
+        while(c < n) {
+            Projectile *p = new Projectile(0,  weapons[i], c * 5, this);
+            QRectF rect = weapons[i]->rect();
+            p->setPos(player_->pos().x(), player_->pos().y());
+            p->setRect(rect.x()-rect.width()/2-5/2, rect.y()-rect.height(), 15, 15);
+            scene_->addItem(p);
+            c++;
+        }
     }
-}
-
-void GameController::useSpecial()
-{
 }
 
 void GameController::superCharge()
@@ -161,9 +187,17 @@ void GameController::setPointLabel(QLabel *points)
     points_ = points;
 }
 
-
-
 void GameController::setHealthBar(std::vector<QGraphicsEllipseItem*> *healthBar)
 {
     player_->setHealthBar(healthBar);
+}
+
+void GameController::setReloadBar(QGraphicsRectItem *reloadBar)
+{
+    reloadBar_ = reloadBar;
+}
+
+void GameController::setReloadText(QLabel *reloadText)
+{
+    reloadText_ = reloadText;
 }

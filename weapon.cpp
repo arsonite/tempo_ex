@@ -7,13 +7,22 @@ Weapon::Weapon(QGraphicsRectItem *parent, int c, int x, int y): c_(c), x_(x), y_
 {
     switch(c) {
         case 1:
-            equipLaser();
+            dmg_ = 10;
+            speed_.setX(0);
+            speed_.setY(15);
+            reloadTime_ = 50;
             break;
         case 2:
-            equipCannon();
+            dmg_ = 25;
+            speed_.setX(-10);
+            speed_.setY(10);
+            reloadTime_ = 500;
             break;
         case 3:
-            equipRockets();
+            dmg_ = 50;
+            speed_.setX(0);
+            speed_.setY(25);
+            reloadTime_ = 1000;
             break;
     }
 
@@ -25,17 +34,27 @@ Weapon::Weapon(QGraphicsRectItem *parent, int c, int x, int y): c_(c), x_(x), y_
     setParentItem(parent);
 }
 
-void Weapon::equipLaser()
+void Weapon::setSpeed(QPoint speed)
 {
-
+    speed_ = speed;
 }
 
-void Weapon::equipCannon()
+QPoint Weapon::getSpeed()
 {
-
+    return speed_;
 }
 
-void Weapon::equipRockets()
+int Weapon::getClass()
 {
+    return c_;
+}
 
+int Weapon::getDamage()
+{
+    return dmg_;
+}
+
+int Weapon::getReloadTime()
+{
+    return reloadTime_;
 }

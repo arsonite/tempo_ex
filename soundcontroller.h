@@ -1,6 +1,8 @@
 #ifndef SOUNDCONTROLLER_
 #define SOUNDCONTROLLER_
 
+#include <map>
+
 #include <QString>
 #include <QSoundEffect>
 #include <QMediaPlaylist>
@@ -15,6 +17,8 @@ public:
     void intro();
 
 private:
+    std::map<QString, QSoundEffect*> sfx_;
+
     QSoundEffect *sfxThrust_;
 
     QMediaPlaylist *playlist_;

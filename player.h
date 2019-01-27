@@ -30,9 +30,6 @@ public:
 
     /* Collision detection */
     void wallCollisionRedirect();
-    bool asteroidCollision();
-    bool enemyCollision();
-    bool projectileCollision();
 
     int getPoints();
     int getRemainingHealth();

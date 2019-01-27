@@ -20,10 +20,11 @@ public:
     void keyReleaseEvent(QKeyEvent *e);
     void switchControl(QKeyEvent *e, bool b);
 
+    /* Offensive control mechanisms of spaceship */
     void shoot();
-    void useSpecial();
     void superCharge();
 
+    /* Spawning functions */
     void spawnAsteroid();
     void spawnScrap();
     void spawnStar();
@@ -35,10 +36,14 @@ public:
 
     void setPointLabel(QLabel *points);
     void setHealthBar(std::vector<QGraphicsEllipseItem*> *healthBar);
+    void setReloadBar(QGraphicsRectItem *reloadBar);
+    void setReloadText(QLabel *reloadText);
 
 private:
     QGraphicsScene *scene_;
     QLabel *points_;
+    QGraphicsRectItem *reloadBar_;
+    QLabel *reloadText_;
 
     SoundController *s_;
 
@@ -46,9 +51,13 @@ private:
     QTimer *scrapSpawner_;
     QTimer *asteroidSpawner_;
     QTimer *starsSpawner_;
+    QTimer *cooldown_;
 
     Player *player_;
 
+    int cooldownTimer_;
+
     bool gameIsPaused_;
+    bool isOnCooldown_;
 };
 #endif // CONTROLLER_H

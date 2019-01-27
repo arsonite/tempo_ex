@@ -27,7 +27,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
     /* Loading custom 8-Bit font */
     int id = QFontDatabase::addApplicationFont(":/res/res/8-Bit Wonder.TTF");
-    qDebug() << id;
     QString customFont = QFontDatabase::applicationFontFamilies(id).at(0);
     QFont bit(customFont);
     bit.setPointSize(20);
@@ -92,15 +91,21 @@ MainWindow::MainWindow(QWidget *parent) :
     gameController_->setPointLabel(points);
 
     QLabel *reloadText = new QLabel();
+    reloadText->setText("Reloading...");
+    bit.setPointSize(18);
     reloadText->setFont(bit);
-    reloadText->setStyleSheet("QLabel { background-color : transparent; color : #FF0000; }");
+    reloadText->setStyleSheet("QLabel { background-color : transparent; color : #635EFE; }");
+    reloadText->setVisible(false);
+    reloadText->move(900/2-100, 700-155);
     gameView_->addWidget(reloadText);
+    gameController_->setReloadText(reloadText);
 
     QGraphicsRectItem *reloadBar = new QGraphicsRectItem();
     reloadBar->setRect(900/2-200/2, 700-125, 200, 25);
     reloadBar->setBrush(QBrush(QColor(100, 100, 250)));
     reloadBar->setPen(QPen(Qt::NoPen));
     gameView_->addItem(reloadBar);
+    gameController_->setReloadBar(reloadBar);
 
     QGraphicsRectItem *reloadBarFrame = new QGraphicsRectItem();
     reloadBarFrame->setRect(900/2-200/2, 700-125, 200, 25);
@@ -140,8 +145,7 @@ MainWindow::~MainWindow()
 
 bool MainWindow::assignedKey(int const key) const
 {
-    if(key == Qt::Key_B
-            || key == Qt::Key_C
+    if(key == Qt::Key_C
             || key == Qt::Key_Space
             || key == Qt::Key_W
             || key == Qt::Key_S

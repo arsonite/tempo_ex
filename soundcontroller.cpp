@@ -5,6 +5,8 @@ SoundController::SoundController()
     //sfxThrust_ = new QSoundEffect();
     //sfxThrust_->setSource(QUrl("qrc:/res/res/sfx/thrust.wav"));
 
+    sfx_ = std::map<QString, QSoundEffect*>();
+
     musicIntro_ = new QMediaPlayer();
     musicIntro_->setMedia(QUrl("qrc:/res/res/music/music_intro.mp3"));
 

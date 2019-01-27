@@ -6,6 +6,7 @@
 #include <QPen>
 #include <QTimer>
 #include <QDebug>
+#include <QFontDatabase>
 
 Asteroid::Asteroid(int zValue)
 {
@@ -90,12 +91,12 @@ void Asteroid::fly(bool outOfBounds)
         if(typeid(*(colliding_items[i])) == typeid(Player)) {
             containsPlayer = true;
             if(destroyed_) {
-                colliding_items[i]->advance(drop_); //Increase points by one
+                colliding_items[i]->advance(drop_);
                 delete this;
                 return;
             }
             if(collided_) return;
-            colliding_items[i]->advance(4); //Decrease Health by one
+            colliding_items[i]->advance(3); //Decrease Health by one
             collided_ = true;
             return;
         }
@@ -118,7 +119,6 @@ void Asteroid::advance(int dmg)
 
     double n = scraps_ * (((health_ * 100.0) / MAX_HEALTH_) / 100);
     scraps_ = n < 0 ? 0 : int (n);
-    qDebug() << scraps_;
     for(int i = 0; i < childItems().count(); i++) {
         if(i <= scraps_) {
             delete childItems().at(i);
@@ -132,20 +132,24 @@ void Asteroid::drop()
         delete childItems().first();
     }
 
-    drop_ = ((rand() % 100) - 2) / 33;
-    switch(drop_) {
-        case 0: {
-            QGraphicsEllipseItem *health = new QGraphicsEllipseItem(this);
-            int pointWidth = 20;
-            health->setRect(size_/2-pointWidth/2, size_/2-pointWidth/2, pointWidth, pointWidth);
-            health->setBrush(QBrush(QColor(255, 75, 75)));
-            health->setPen(QPen(Qt::NoPen));
-            }break;
-        case 1: {
-            }break;
-        case 2: {
-            }break;
+    drop_ = (rand() % 100) / 50;
+    if(drop_ == 0) {
+        QGraphicsEllipseItem *health = new QGraphicsEllipseItem(this);
+        int pointWidth = 20;
+        health->setRect(size_/2-pointWidth/2, size_/2-pointWidth/2, pointWidth, pointWidth);
+        health->setBrush(QBrush(QColor(255, 75, 75)));
+        health->setPen(QPen(Qt::NoPen));
+        return;
     }
+    /* Font anders lösen, redundanz */
+    int id = QFontDatabase::addApplicationFont(":/res/res/8-Bit Wonder.TTF");
+    QString customFont = QFontDatabase::applicationFontFamilies(id).at(0);
+    QFont bit(customFont);
+    bit.setPointSize(20);
+    QGraphicsTextItem *multi = new QGraphicsTextItem("2X");
+    multi->setFont(bit);
+    multi->setParentItem(this);
+    multi->setPos(size_/2-20/2, size_/2-20/2);
 }
 
 bool Asteroid::isDestroyed()

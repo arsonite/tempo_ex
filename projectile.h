@@ -6,19 +6,20 @@
 #include <QGraphicsRectItem>
 #include <QObject>
 
-class Projectile: public QObject, public QGraphicsRectItem
+class Projectile: public QObject, public QGraphicsEllipseItem
 {
 Q_OBJECT
 public:
-    Projectile(int zValue, int speed, int dmg, GameController *g);
+    Projectile(int zValue, Weapon *w, int modifier, GameController *g);
 
     void fly(bool outOfBounds);
 
 private:
-    int speed_;
-    int dmg_;
+    Weapon *w_;
 
     GameController *g_;
+
+    int modifier_;
 };
 
 #endif // PROJECTILE_H

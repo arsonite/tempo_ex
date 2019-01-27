@@ -62,12 +62,10 @@ void Player::advance(int code)
             break;
         case 1: //Point multiplicator
             break;
-        case 2: //Ammunation
-            break;
-        case 3: //Point
+        case 2: //Point
             points_++;
             break;
-        case 4: //Health decrease
+        case 3: //Health decrease
             if(health_ <= 0) return;
             health_--;
             capsizeHealthBar();
@@ -110,14 +108,16 @@ void Player::moveShip()
 
 void Player::wallCollisionRedirect()
 {
-    if(x() > 910-100) {
-        x(910-100);
+    int tempX = 900-getShip()->getHitbox().x();
+    int tempY = 700-getShip()->getHitbox().y()-getShip()->getHitbox().y()/2;
+    if(x() > tempX) {
+        x(tempX);
     }
     if(x() < 0) {
         x(0);
     }
-    if(y() > 660-100) {
-        y(660-100);
+    if(y() > tempY) {
+        y(tempY);
     }
     if(y() < 0) {
         y(0);

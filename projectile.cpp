@@ -7,12 +7,12 @@
 
 #include <QDebug>
 
-Projectile::Projectile(int zValue, int speed, int dmg, GameController *g): speed_(speed), dmg_(dmg), g_(g)
+Projectile::Projectile(int zValue, Weapon *w, int modifier, GameController *g): w_(w), modifier_(modifier), g_(g)
 {
     setZValue(zValue);
 
-    int speed_;
-    setPen(QPen(QColor(255, 0, 0)));
+    setBrush(QBrush(QColor(250, 250, 50)));
+    setPen(QPen(Qt::NoPen));
 
     QTimer *timer = new QTimer();
     timer->setInterval(32);
@@ -32,18 +32,18 @@ void Projectile::fly(bool outOfBounds)
         return;
     }
 
-    setPos(x(), y()-speed_);
+    setPos(x()+w_->getSpeed().x() + modifier_, y()-w_->getSpeed().y());
 
     QList<QGraphicsItem *> colliding_items = collidingItems();
     for(int i = 0; i < colliding_items.size(); ++i) {
         if(typeid(*(colliding_items[i])) == typeid(Scrap)) {
             if(static_cast<Scrap*>(colliding_items[i])->isDestroyed()) continue;
-            colliding_items[i]->advance(dmg_);
+            colliding_items[i]->advance(w_->getDamage());
             delete this;
             return;
         } else if(typeid(*(colliding_items[i])) == typeid(Asteroid)) {
             if(static_cast<Asteroid*>(colliding_items[i])->isDestroyed()) continue;
-            colliding_items[i]->advance(dmg_);
+            colliding_items[i]->advance(w_->getDamage());
             delete this;
             return;
         }
