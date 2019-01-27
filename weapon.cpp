@@ -7,13 +7,13 @@ Weapon::Weapon(QGraphicsRectItem *parent, int c, int x, int y): c_(c), x_(x), y_
 {
     switch(c) {
         case 1:
-            dmg_ = 10;
+            dmg_ = 20;
             speed_.setX(0);
             speed_.setY(15);
-            reloadTime_ = 50;
+            reloadTime_ = 250;
             break;
         case 2:
-            dmg_ = 25;
+            dmg_ = 35;
             speed_.setX(-10);
             speed_.setY(10);
             reloadTime_ = 500;

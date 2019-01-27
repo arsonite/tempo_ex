@@ -101,7 +101,7 @@ MainWindow::MainWindow(QWidget *parent) :
     gameController_->setReloadText(reloadText);
 
     QGraphicsRectItem *reloadBar = new QGraphicsRectItem();
-    reloadBar->setRect(900/2-200/2, 700-125, 200, 25);
+    reloadBar->setRect(900/2-200/2, 700-125, 0, 25);
     reloadBar->setBrush(QBrush(QColor(100, 100, 250)));
     reloadBar->setPen(QPen(Qt::NoPen));
     gameView_->addItem(reloadBar);

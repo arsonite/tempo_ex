@@ -32,7 +32,7 @@ void Ship::constructBasic()
     hitboxX_ = 50;
     hitboxY_ = 100;
 
-    weapons_.push_back(new Weapon(this, 2, hitboxX_, 0));
+    weapons_.push_back(new Weapon(this, 1, hitboxX_, 0));
 
     QGraphicsRectItem *r1 = new QGraphicsRectItem(this);
     int r1W = 25;

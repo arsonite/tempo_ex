@@ -85,27 +85,24 @@ void Scrap::advance(int dmg)
 
     health_-= dmg;
 
-    if(health_ <= 0) {
-        destroyed_ = true;
-        dropPoint();
-        scraps_ = 0;
-        return;
-    }
-
-    double n = scraps_ * (((health_ * 100.0) / MAX_HEALTH_) / 100);
+    double n = scraps_ * (((health_ * 100.0) / MAX_HEALTH_) / 100.0);
     scraps_ = n < 0 ? 0 : int (n);
     for(int i = 0; i < childItems().count(); i++) {
-        if(i <= scraps_) {
-            delete childItems().at(i);
-        }
+        if(i > scraps_) break;
+        delete childItems().at(i);
+    }
+
+    if(scraps_ <= 0) {
+        destroyed_ = true;
+        dropPoint();
+        return;
     }
 }
 
 void Scrap::dropPoint()
 {
-    while(childItems().count() > 0) {
-        delete childItems().first();
-    }
+    while(childItems().count() > 0) delete childItems().first();
+
     QGraphicsEllipseItem *point = new QGraphicsEllipseItem(this);
     int pointWidth = 20;
     point->setRect(size_/2-pointWidth/2, size_/2-pointWidth/2, pointWidth, pointWidth);

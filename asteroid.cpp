@@ -109,14 +109,6 @@ void Asteroid::advance(int dmg)
     if(!isGold_ || destroyed_) return;
 
     health_-= dmg;
-
-    if(health_ <= 0) {
-        destroyed_ = true;
-        drop();
-        scraps_ = 0;
-        return;
-    }
-
     double n = scraps_ * (((health_ * 100.0) / MAX_HEALTH_) / 100);
     scraps_ = n < 0 ? 0 : int (n);
     for(int i = 0; i < childItems().count(); i++) {
@@ -124,13 +116,17 @@ void Asteroid::advance(int dmg)
             delete childItems().at(i);
         }
     }
+
+    if(scraps_ <= 0) {
+        destroyed_ = true;
+        drop();
+        return;
+    }
 }
 
 void Asteroid::drop()
 {
-    while(childItems().count() > 0) {
-        delete childItems().first();
-    }
+    while(childItems().count() > 0) delete childItems().first();
 
     drop_ = (rand() % 100) / 50;
     if(drop_ == 0) {
