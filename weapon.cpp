@@ -13,13 +13,13 @@ Weapon::Weapon(QGraphicsRectItem *parent, int c, int x, int y): c_(c), x_(x), y_
             reloadTime_ = 250;
             break;
         case 2:
-            dmg_ = 40;
+            dmg_ = 30;
             speed_.setX(-10);
             speed_.setY(10);
             reloadTime_ = 500;
             break;
         case 3:
-            dmg_ = 80;
+            dmg_ = 40;
             speed_.setX(0);
             speed_.setY(25);
             reloadTime_ = 1000;

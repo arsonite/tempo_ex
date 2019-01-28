@@ -104,17 +104,18 @@ void Player::keyPress(int i, bool b)
 
 void Player::moveShip()
 {
+    int speed = s_->getSpeed();
     if(keysPressed_[0]) {
-        moveY(-10);
+        moveY(-speed);
     }
     if(keysPressed_[1]) {
-        moveY(10);
+        moveY(speed);
     }
     if(keysPressed_[2]) {
-        moveX(-10);
+        moveX(-speed);
     }
     if(keysPressed_[3]) {
-        moveX(10);
+        moveX(speed);
     }
     wallCollisionRedirect();
 }

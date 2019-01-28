@@ -18,7 +18,7 @@ Projectile::Projectile(int zValue, Weapon *w, int modifier, GameController *g): 
     timer->setInterval(32);
 
     connect(timer, &QTimer::timeout, this, [=](){
-        fly(y() + rect().height() < 0);
+        fly(y() + rect().height() + 20 < 0);
     });
     timer->start();
 }

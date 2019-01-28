@@ -11,7 +11,7 @@
 
 GameController::GameController(QGraphicsScene *scene, SoundController *s): scene_(scene), s_(s)
 {
-    player_ = new Player(1, 3, -2); //z-index: -2
+    player_ = new Player(1, 1, -2); //z-index: -2
     player_->setPos((900-player_->getShip()->getHitbox().y()/2)/2, (700-player_->getShip()->getHitbox().x()/2)/2);
     scene_->addItem(player_);
 
@@ -24,7 +24,7 @@ GameController::GameController(QGraphicsScene *scene, SoundController *s): scene
 
     /* Spawner for scrapmetal */
     scrapSpawner_ = new QTimer();
-    scrapSpawner_->setInterval(2500);
+    scrapSpawner_->setInterval(2000);
     connect(scrapSpawner_, &QTimer::timeout, this, [=](){
         scene_->addItem(new Scrap(-2)); //z-index: -2
     });
@@ -32,7 +32,7 @@ GameController::GameController(QGraphicsScene *scene, SoundController *s): scene
 
     /* Spawner for normal and golden asteroids */
     asteroidSpawner_ = new QTimer();
-    asteroidSpawner_->setInterval(3500);
+    asteroidSpawner_->setInterval(3000);
     connect(asteroidSpawner_, &QTimer::timeout, this, [=](){
         scene_->addItem(new Asteroid(-2)); //z-index: -2
     });
@@ -152,9 +152,6 @@ void GameController::spawnStar()
     int p = player_->getPoints();
     scene_->addItem(new Star(-3));  //z-index: -3
     points_->setNum(p);
-    if(p < 0) {
-        //gameover_ = true;
-    }
 }
 
 void GameController::pauseGame()

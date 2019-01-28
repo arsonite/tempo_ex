@@ -15,7 +15,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui_(new Ui::MainWindow)
 {
     SoundController *s = new SoundController();
-    s->intro();
+    //s->intro();
 
     ui_->setupUi(this);
     this->setFixedSize(900, 700);

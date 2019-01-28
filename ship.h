@@ -18,18 +18,19 @@ public:
 
     int getClass();
     int getHealth();
+    int getSpeed();
 
 private:
-    void constructBasic();
+    void constructRocket();
     void constructFighter();
     void constructCruiser();
-    void constructDreadnought();
 
     int hitboxX_;
     int hitboxY_;
     int c_;
     int weaponC_;
     int health_;
+    int speed_;
 
     std::vector<Weapon*> weapons_;
 };
