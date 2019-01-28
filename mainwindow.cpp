@@ -157,13 +157,14 @@ MainWindow::MainWindow(QWidget *parent) :
     }
     gameController_->setHealthBar(healthBar);
 
-    QGraphicsRectItem *pauseView = new QGraphicsRectItem();
-    pauseView->setZValue(0);
-    pauseView->setRect(0, 0, 900, 700);
-    pauseView->setBrush(QColor(0, 0, 0));
-    pauseView->setPen(QPen(Qt::NoPen));
-    pauseView->setOpacity(0.85);
-    gameView_->addItem(pauseView);
+    QGraphicsRectItem *pauseMenu = new QGraphicsRectItem();
+    pauseMenu->setZValue(0);
+    pauseMenu->setRect(0, 0, 900, 700);
+    pauseMenu->setBrush(QColor(0, 0, 0));
+    pauseMenu->setPen(QPen(Qt::NoPen));
+    pauseMenu->setOpacity(0.85);
+    pauseMenu->setVisible(false);
+    gameView_->addItem(pauseMenu);
 
     QLabel *pausedLabel = new QLabel();
     bit.setPointSize(40);
@@ -173,6 +174,7 @@ MainWindow::MainWindow(QWidget *parent) :
     pausedLabel->resize(250, 40);
     pausedLabel->setAlignment(Qt::AlignCenter);
     pausedLabel->setStyleSheet("QLabel { background-color : transparent; color : #FFF; }");
+    pausedLabel->setVisible(false);
     gameView_->addWidget(pausedLabel);
 
     ClickableQLabel *backToStart = new ClickableQLabel();
@@ -183,9 +185,10 @@ MainWindow::MainWindow(QWidget *parent) :
     backToStart->resize(400, 40);
     backToStart->setAlignment(Qt::AlignCenter);
     backToStart->setStyleSheet("QLabel { background-color : transparent; color : #FFF; }");
+    backToStart->setVisible(false);
     gameView_->addWidget(backToStart);
 
-
+    gameController_->setPauseMenu(pauseMenu, pausedLabel, backToStart);
 
     ui_->view->setScene(gameView_);
 }

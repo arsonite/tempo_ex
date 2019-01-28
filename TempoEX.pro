@@ -53,8 +53,7 @@ HEADERS += \
     gamecontroller.h \
     ship.h \
     weapon.h \
-    clickableqlabel.h \
-    my_vector.h
+    clickableqlabel.h
 
 FORMS += \
         mainwindow.ui

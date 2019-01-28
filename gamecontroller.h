@@ -39,6 +39,7 @@ public:
     void setReloadBar(QGraphicsRectItem *reloadBar);
     void setReloadText(QLabel *reloadText);
     void setMultiplicatorLabel(QLabel *multiplicatorLabel);
+    void setPauseMenu(QGraphicsRectItem *pauseMenu, QLabel *pausedLabel, QLabel *backToStart);
 
 private:
     QGraphicsScene *scene_;
@@ -46,6 +47,10 @@ private:
     QGraphicsRectItem *reloadBar_;
     QLabel *reloadText_;
     QLabel *multiplicatorLabel_;
+
+    QGraphicsRectItem *pauseMenu_;
+    QLabel *pausedLabel_;
+    QLabel *backToStart_;
 
     QTimer *timer_;
     QTimer *scrapSpawner_;

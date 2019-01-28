@@ -11,17 +11,20 @@ ClickableQLabel::~ClickableQLabel() {}
 
 void ClickableQLabel::enterEvent(QEvent* e)
 {
+    if(!isVisible()) return;
     setStyleSheet("QLabel { background-color : transparent; color : #00FF00; }");
     qDebug() << "enterEvent()";
 }
 
 void ClickableQLabel::leaveEvent(QEvent* e)
 {
+    if(!isVisible()) return;
     setStyleSheet("QLabel { background-color : transparent; color : #FFF; }");
     qDebug() << "leaveEvent()";
 }
 
 void ClickableQLabel::mousePressEvent(QMouseEvent* e)
 {
+    if(!isVisible()) return;
     qDebug() << "mousePressEvent()";
 }

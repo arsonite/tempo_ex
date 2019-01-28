@@ -169,11 +169,17 @@ void GameController::pauseGame()
         asteroidSpawner_->stop();
         starsSpawner_->stop();
         cooldown_->stop();
+        pauseMenu_->setVisible(true);
+        pausedLabel_->setVisible(true);
+        backToStart_->setVisible(true);
         return;
     }
     scrapSpawner_->start();
     asteroidSpawner_->start();
     starsSpawner_->start();
+    pauseMenu_->setVisible(false);
+    pausedLabel_->setVisible(false);
+    backToStart_->setVisible(false);
     if(isOnCooldown_) cooldown_->start();
 }
 
@@ -211,4 +217,11 @@ void GameController::setMultiplicatorLabel(QLabel *multiplicatorLabel)
 {
     multiplicatorLabel_ = multiplicatorLabel;
     player_->setMultiplicatorLabel(multiplicatorLabel_);
+}
+
+void GameController::setPauseMenu(QGraphicsRectItem *pauseMenu, QLabel *pausedLabel, QLabel *backToStart)
+{
+    pauseMenu_ = pauseMenu;
+    pausedLabel_ = pausedLabel;
+    backToStart_ = backToStart;
 }
