@@ -26,7 +26,7 @@ GameController::GameController(QGraphicsScene *scene, SoundController *s): scene
     scrapSpawner_ = new QTimer();
     scrapSpawner_->setInterval(2500);
     connect(scrapSpawner_, &QTimer::timeout, this, [=](){
-        scene_->addItem(new Scrap(-2)); //z-index: -2
+        scene_->addItem(new Scrap(-2, gameIsPaused_)); //z-index: -2
     });
     scrapSpawner_->start();
 
@@ -34,7 +34,7 @@ GameController::GameController(QGraphicsScene *scene, SoundController *s): scene
     asteroidSpawner_ = new QTimer();
     asteroidSpawner_->setInterval(3500);
     connect(asteroidSpawner_, &QTimer::timeout, this, [=](){
-        scene_->addItem(new Asteroid(-2)); //z-index: -2
+        scene_->addItem(new Asteroid(-2, gameIsPaused_)); //z-index: -2
     });
     asteroidSpawner_->start();
 
@@ -79,9 +79,6 @@ void GameController::keyPressEvent(QKeyEvent *e)
         case Qt::Key_Space:
             shoot();
             break;
-        case Qt::Key_C:
-            superCharge();
-            break;
         case Qt::Key_Escape:
             pauseGame();
             break;
@@ -93,6 +90,7 @@ void GameController::keyPressEvent(QKeyEvent *e)
 
 void GameController::keyReleaseEvent(QKeyEvent *e)
 {
+    if(gameIsPaused_) return;
     timer_->stop();
     switchControl(e, false);
 }
@@ -122,7 +120,7 @@ void GameController::switchControl(QKeyEvent *e, bool b)
 
 void GameController::shoot()
 {
-    if(isOnCooldown_) return;
+    if(gameIsPaused_ || isOnCooldown_) return;
     cooldown_->start();
     reloadText_->setVisible(true);
     isOnCooldown_ = true;
@@ -133,7 +131,7 @@ void GameController::shoot()
         int n = 1;
         if(weapons[0]->getClass() == 2) n = 5;
         while(c < n) {
-            Projectile *p = new Projectile(0,  weapons[i], c * 5, this);
+            Projectile *p = new Projectile(-2, c * 5, gameIsPaused_, weapons[i]); //z-index: -2
             QRectF rect = weapons[i]->rect();
             p->setPos(player_->pos().x(), player_->pos().y());
             p->setRect(rect.x()-rect.width()/2-5/2, rect.y()-rect.height(), 15, 15);
@@ -155,18 +153,11 @@ void GameController::shoot()
     }
 }
 
-void GameController::superCharge()
-{
-}
-
 void GameController::spawnStar()
 {
     int p = player_->getPoints();
-    scene_->addItem(new Star(-3));  //z-index: -3
+    scene_->addItem(new Star(-3, gameIsPaused_));  //z-index: -3
     points_->setNum(p);
-    if(p < 0) {
-        //gameover_ = true;
-    }
 }
 
 void GameController::pauseGame()
@@ -177,11 +168,13 @@ void GameController::pauseGame()
         scrapSpawner_->stop();
         asteroidSpawner_->stop();
         starsSpawner_->stop();
+        cooldown_->stop();
         return;
     }
     scrapSpawner_->start();
     asteroidSpawner_->start();
     starsSpawner_->start();
+    if(isOnCooldown_) cooldown_->start();
 }
 
 bool GameController::gameIsPaused()

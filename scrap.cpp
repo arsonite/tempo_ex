@@ -7,7 +7,7 @@
 #include <QTimer>
 #include <QDebug>
 
-Scrap::Scrap(int zValue)
+Scrap::Scrap(int zValue, bool &gameIsPaused): gameIsPaused_(gameIsPaused)
 {
     setZValue(zValue);
 
@@ -53,6 +53,8 @@ Scrap::Scrap(int zValue)
 
 void Scrap::fly(bool outOfBounds)
 {
+    if(gameIsPaused_) return;
+
     if(outOfBounds) {
         delete this;
         return;

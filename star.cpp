@@ -8,7 +8,7 @@
 #include <QPen>
 #include <QTimer>
 
-Star::Star(int zValue)
+Star::Star(int zValue, bool &gameIsPaused): gameIsPaused_(gameIsPaused)
 {
     setZValue(zValue);
 
@@ -30,6 +30,8 @@ Star::Star(int zValue)
 
 void Star::fly(bool outOfBounds)
 {
+    if(gameIsPaused_) return;
+
     if(outOfBounds) {
         delete this;
         return;

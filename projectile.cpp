@@ -7,7 +7,7 @@
 
 #include <QDebug>
 
-Projectile::Projectile(int zValue, Weapon *w, int modifier, GameController *g): w_(w), modifier_(modifier), g_(g)
+Projectile::Projectile(int zValue, int modifier, bool &gameIsPaused, Weapon *w): modifier_(modifier), gameIsPaused_(gameIsPaused), w_(w)
 {
     setZValue(zValue);
 
@@ -25,7 +25,7 @@ Projectile::Projectile(int zValue, Weapon *w, int modifier, GameController *g): 
 
 void Projectile::fly(bool outOfBounds)
 {
-    if(g_->gameIsPaused()) return;
+    if(gameIsPaused_) return;
 
     if(outOfBounds) {
         delete this;

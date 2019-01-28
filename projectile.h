@@ -10,16 +10,16 @@ class Projectile: public QObject, public QGraphicsEllipseItem
 {
 Q_OBJECT
 public:
-    Projectile(int zValue, Weapon *w, int modifier, GameController *g);
+    Projectile(int zValue, int modifier, bool &gameIsPaused, Weapon *w);
 
     void fly(bool outOfBounds);
 
 private:
     Weapon *w_;
 
-    GameController *g_;
-
     int modifier_;
+
+    bool &gameIsPaused_;
 };
 
 #endif // PROJECTILE_H

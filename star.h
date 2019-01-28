@@ -8,12 +8,14 @@ class Star: public QObject, public QGraphicsEllipseItem
 {
 Q_OBJECT
 public:
-    Star(int zValue);
+    Star(int zValue, bool &gameIsPaused);
 
     void fly(bool outOfBounds);
 
 private:
     int speed_;
+
+    bool &gameIsPaused_;
 };
 
 #endif // STAR_H

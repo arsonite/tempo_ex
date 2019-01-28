@@ -8,7 +8,7 @@ class Scrap: public QObject, public QGraphicsRectItem
 {
 Q_OBJECT
 public:
-    Scrap(int zValue);
+    Scrap(int zValue, bool &gameIsPaused);
 
     void fly(bool outOfBounds);
 
@@ -25,6 +25,7 @@ private:
     int health_;
     int MAX_HEALTH_;
 
+    bool &gameIsPaused_;
     bool collided_;
     bool destroyed_;
 };

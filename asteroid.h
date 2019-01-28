@@ -8,7 +8,7 @@ class Asteroid: public QObject, public QGraphicsRectItem
 {
 Q_OBJECT
 public:
-    Asteroid(int zValue);
+    Asteroid(int zValue, bool &gameIsPaused_);
 
     void fly(bool outOfBounds);
 
@@ -27,6 +27,7 @@ private:
 
     double rotation_;
 
+    bool &gameIsPaused_;
     bool collided_;
     bool destroyed_;
     bool isGold_;

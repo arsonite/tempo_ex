@@ -20,9 +20,8 @@ public:
     void keyReleaseEvent(QKeyEvent *e);
     void switchControl(QKeyEvent *e, bool b);
 
-    /* Offensive control mechanisms of spaceship */
+    /* Offensive control mechanism of spaceship */
     void shoot();
-    void superCharge();
 
     /* Spawning functions */
     void spawnAsteroid();
@@ -34,6 +33,7 @@ public:
 
     Player* getPlayer();
 
+    /* Setter for referencial UI manipulation */
     void setPointLabel(QLabel *points);
     void setHealthBar(std::vector<QGraphicsEllipseItem*> *healthBar);
     void setReloadBar(QGraphicsRectItem *reloadBar);
@@ -47,13 +47,13 @@ private:
     QLabel *reloadText_;
     QLabel *multiplicatorLabel_;
 
-    SoundController *s_;
-
     QTimer *timer_;
     QTimer *scrapSpawner_;
     QTimer *asteroidSpawner_;
     QTimer *starsSpawner_;
     QTimer *cooldown_;
+
+    SoundController *s_;
 
     Player *player_;
 

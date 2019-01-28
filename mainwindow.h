@@ -44,8 +44,6 @@ private:
 
     QGraphicsScene *gameView_;
     GameController *gameController_;
-    //QGraphicsScene *winSceen_;
-    //QGraphicsScene *lostScreen_;
 
     QMap<QString, bool> *locks_;
 

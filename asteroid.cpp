@@ -8,7 +8,7 @@
 #include <QDebug>
 #include <QFontDatabase>
 
-Asteroid::Asteroid(int zValue)
+Asteroid::Asteroid(int zValue, bool &gameIsPaused): gameIsPaused_(gameIsPaused)
 {
     setZValue(zValue);
 
@@ -77,6 +77,8 @@ Asteroid::Asteroid(int zValue)
 
 void Asteroid::fly(bool outOfBounds)
 {
+    if(gameIsPaused_) return;
+
     if(outOfBounds) {
         delete this;
         return;

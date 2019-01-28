@@ -37,7 +37,8 @@ SOURCES += \
         soundcontroller.cpp \
     gamecontroller.cpp \
     ship.cpp \
-    weapon.cpp
+    weapon.cpp \
+    clickableqlabel.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -51,7 +52,9 @@ HEADERS += \
         soundcontroller.h \
     gamecontroller.h \
     ship.h \
-    weapon.h
+    weapon.h \
+    clickableqlabel.h \
+    my_vector.h
 
 FORMS += \
         mainwindow.ui

@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "soundcontroller.h"
+#include "clickableqlabel.h"
 
 #include <ship.h>
 
@@ -85,7 +86,7 @@ MainWindow::MainWindow(QWidget *parent) :
     QLabel *pointsLabel = new QLabel();
     pointsLabel->setFont(bit);
     pointsLabel->setText("Points");
-    pointsLabel->move(395, 10);
+    pointsLabel->move(900/2-115/2, 10);
     pointsLabel->resize(115, 20);
     pointsLabel->setAlignment(Qt::AlignCenter);
     pointsLabel->setStyleSheet(style);
@@ -94,7 +95,7 @@ MainWindow::MainWindow(QWidget *parent) :
     QLabel *points = new QLabel();
     points->setFont(bit);
     points->setText("0");
-    points->move(395, 40);
+    points->move(900/2-115/2, 40);
     points->resize(115, 20);
     points->setAlignment(Qt::AlignCenter);
     points->setStyleSheet("QLabel { background-color : transparent; color : #00FF00; }");
@@ -156,6 +157,36 @@ MainWindow::MainWindow(QWidget *parent) :
     }
     gameController_->setHealthBar(healthBar);
 
+    QGraphicsRectItem *pauseView = new QGraphicsRectItem();
+    pauseView->setZValue(0);
+    pauseView->setRect(0, 0, 900, 700);
+    pauseView->setBrush(QColor(0, 0, 0));
+    pauseView->setPen(QPen(Qt::NoPen));
+    pauseView->setOpacity(0.85);
+    gameView_->addItem(pauseView);
+
+    QLabel *pausedLabel = new QLabel();
+    bit.setPointSize(40);
+    pausedLabel->setFont(bit);
+    pausedLabel->setText("Paused");
+    pausedLabel->move(900/2-250/2, 100);
+    pausedLabel->resize(250, 40);
+    pausedLabel->setAlignment(Qt::AlignCenter);
+    pausedLabel->setStyleSheet("QLabel { background-color : transparent; color : #FFF; }");
+    gameView_->addWidget(pausedLabel);
+
+    ClickableQLabel *backToStart = new ClickableQLabel();
+    bit.setPointSize(30);
+    backToStart->setFont(bit);
+    backToStart->setText("> Back to Home <");
+    backToStart->move(900/2-400/2, 300);
+    backToStart->resize(400, 40);
+    backToStart->setAlignment(Qt::AlignCenter);
+    backToStart->setStyleSheet("QLabel { background-color : transparent; color : #FFF; }");
+    gameView_->addWidget(backToStart);
+
+
+
     ui_->view->setScene(gameView_);
 }
 
@@ -166,8 +197,7 @@ MainWindow::~MainWindow()
 
 bool MainWindow::assignedKey(int const key) const
 {
-    if(key == Qt::Key_C
-            || key == Qt::Key_Space
+    if(key == Qt::Key_Space
             || key == Qt::Key_W
             || key == Qt::Key_S
             || key == Qt::Key_A
