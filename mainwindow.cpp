@@ -31,8 +31,6 @@ MainWindow::MainWindow(QWidget *parent) :
     QFont bit(customFont);
     bit.setPointSize(20);
 
-    /* StartView */
-    QGraphicsScene *startView_ = new QGraphicsScene(this);
     QString style = "QLabel { background-color : transparent; color : white; }";
 
     QMovie *gif = new QMovie(":/res/res/bg.gif");
@@ -42,6 +40,31 @@ MainWindow::MainWindow(QWidget *parent) :
     display_->setMovie(gif);
     display_->setStyleSheet(style);
     gif->start();
+
+    /* Setting up locks */
+    locks_ = new QMap<QString, bool>();
+    locks_->insert("startView", false);
+    locks_->insert("gameView", true);
+    locks_->insert("infoView", false);
+    locks_->insert("customizeView", false);
+    locks_->insert("optionsView", false);
+    locks_->insert("shopView", false);
+
+    i_ = 0;
+    counter_ = 0;
+
+    retrieveStartView(bit, style, gif, s);
+    //retrieveGameView(bit, style, gif, s);
+}
+
+MainWindow::~MainWindow()
+{
+    delete ui_;
+}
+
+void MainWindow::retrieveStartView(QFont bit, QString style, QMovie *gif, SoundController *s)
+{
+    QGraphicsScene *startView_ = new QGraphicsScene(this);
     startView_->addWidget(display_);
 
     infoLabel_ = new QGraphicsTextItem("Info");
@@ -60,21 +83,11 @@ MainWindow::MainWindow(QWidget *parent) :
     pressStartLabel->setStyleSheet(style);
     startView_->addWidget(pressStartLabel);
 
-    /* Setting up locks */
-    locks_ = new QMap<QString, bool>();
-    locks_->insert("startView", false);
-    locks_->insert("gameView", true);
-    locks_->insert("infoView", false);
-    locks_->insert("customizeView", false);
-    locks_->insert("optionsView", false);
-    locks_->insert("shopView", false);
+    ui_->view->setScene(startView_);
+}
 
-    i_ = 0;
-    counter_ = 0;
-
-    //ui_->view->setScene(startView_);
-
-    /* GameView */
+void MainWindow::retrieveGameView(QFont bit, QString style, QMovie *gif, SoundController *s)
+{
     gif->stop();
     s->playMusic("");
 
@@ -141,7 +154,7 @@ MainWindow::MainWindow(QWidget *parent) :
     healthLabel->move(336, 620);
     healthLabel->resize(115, 14);
     healthLabel->setAlignment(Qt::AlignCenter);
-    healthLabel->setStyleSheet("QLabel { background-color : transparent; color : #FFF; }");
+    healthLabel->setStyleSheet(style);
     gameView_->addWidget(healthLabel);
 
     const int n = gameController_->getPlayer()->getMaxHealth();
@@ -191,11 +204,6 @@ MainWindow::MainWindow(QWidget *parent) :
     gameController_->setPauseMenu(pauseMenu, pausedLabel, backToStart);
 
     ui_->view->setScene(gameView_);
-}
-
-MainWindow::~MainWindow()
-{
-    delete ui_;
 }
 
 bool MainWindow::assignedKey(int const key) const

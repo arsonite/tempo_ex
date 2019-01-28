@@ -19,6 +19,9 @@ public:
     explicit MainWindow(QWidget *parent = nullptr);
     virtual ~MainWindow() override;
 
+    void retrieveStartView(QFont bit, QString style, QMovie *gif, SoundController *s);
+    void retrieveGameView(QFont bit, QString style, QMovie *gif, SoundController *s);
+
     bool assignedKey(int const key) const;
 
     void navigate();
