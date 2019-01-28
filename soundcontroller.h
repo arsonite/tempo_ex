@@ -12,18 +12,15 @@ class SoundController {
 public:
     SoundController();
 
-    void thrust();
-
-    void intro();
+    void playSFX(QString s);
+    void playMusic(QString m);
 
 private:
-    std::map<QString, QSoundEffect*> sfx_;
+    std::map<QString, QSoundEffect*> *sfx_;
+    std::map<QString, QString*> *music_;
 
-    QSoundEffect *sfxThrust_;
-
+    QMediaPlayer *musicPlayer_;
     QMediaPlaylist *playlist_;
-
-    QMediaPlayer *musicIntro_;
 };
 
 #endif // SOUNDCONTROLLER_

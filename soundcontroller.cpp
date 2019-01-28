@@ -1,31 +1,40 @@
 #include <soundcontroller.h>
 
+#include <QSound>
+
 SoundController::SoundController()
 {
-    //sfxThrust_ = new QSoundEffect();
-    //sfxThrust_->setSource(QUrl("qrc:/res/res/sfx/thrust.wav"));
+    sfx_ = new std::map<QString, QSoundEffect*>();
 
-    sfx_ = std::map<QString, QSoundEffect*>();
+    /* Initiliazing all sfx */
+    QSoundEffect *sfxMachineGun = new QSoundEffect();
+    sfxMachineGun->setSource(QUrl("qrc:/res/res/sfx/machine_gun.wav"));
+    sfx_->insert(std::make_pair("machineGun", sfxMachineGun));
 
-    musicIntro_ = new QMediaPlayer();
-    musicIntro_->setMedia(QUrl("qrc:/res/res/music/music_intro.mp3"));
+    QSoundEffect *sfxShotgun = new QSoundEffect();
+    sfxShotgun->setSource(QUrl("qrc:/res/res/sfx/shotgun.wav"));
+    sfx_->insert(std::make_pair("shotgun", sfxShotgun));
+
+    QSoundEffect *sfxCannon = new QSoundEffect();
+    sfxCannon->setSource(QUrl("qrc:/res/res/sfx/cannon.wav"));
+    sfx_->insert(std::make_pair("cannon", sfxCannon));
+
+    /* Initiliazing music player and playlist for looping purposes */
+    musicPlayer_ = new QMediaPlayer();
+    musicPlayer_->setMedia(QUrl("qrc:/res/res/music/music_game.mp3"));
 
     playlist_ = new QMediaPlaylist();
-    playlist_ ->setPlaybackMode(QMediaPlaylist::Loop);
 }
 
-void SoundController::thrust()
+void SoundController::playSFX(QString s)
 {
-    if(sfxThrust_->isPlaying()) {
-        return;
-    }
-    sfxThrust_->play();
+    sfx_->at(s)->play();
 }
 
-void SoundController::intro()
+void SoundController::playMusic(QString m)
 {
     playlist_->clear();
-    playlist_->addMedia(QUrl(musicIntro_->currentMedia().canonicalUrl().toString()));
-    musicIntro_->setPlaylist(playlist_);
-    musicIntro_->play();
+    playlist_->addMedia(QUrl("qrc:/res/res/music/music_game.mp3"));
+    musicPlayer_->setPlaylist(playlist_);
+    musicPlayer_->play();
 }

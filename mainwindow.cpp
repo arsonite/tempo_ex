@@ -15,7 +15,6 @@ MainWindow::MainWindow(QWidget *parent) :
     ui_(new Ui::MainWindow)
 {
     SoundController *s = new SoundController();
-    //s->intro();
 
     ui_->setupUi(this);
     this->setFixedSize(900, 700);
@@ -76,6 +75,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     /* GameView */
     gif->stop();
+    s->playMusic("");
 
     QGraphicsScene *gameView_ = new QGraphicsScene(this);
     gameView_->setBackgroundBrush(Qt::black);

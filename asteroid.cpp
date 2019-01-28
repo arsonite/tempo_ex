@@ -16,7 +16,7 @@ Asteroid::Asteroid(int zValue)
     destroyed_ = false;
 
     /* Gold Asteroid */
-    isGold_ = rand() % 100 < 10;
+    isGold_ = rand() % 100 < 25;
     speed_ = (rand() % 2) + (isGold_ ? + 3 : + 18);
     rotation_ = (rand() % 1) + (isGold_ ? - 0.5 : + 1);
 

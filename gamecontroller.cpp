@@ -11,7 +11,7 @@
 
 GameController::GameController(QGraphicsScene *scene, SoundController *s): scene_(scene), s_(s)
 {
-    player_ = new Player(1, 1, -2); //z-index: -2
+    player_ = new Player(2, 2, -2); //z-index: -2
     player_->setPos((900-player_->getShip()->getHitbox().y()/2)/2, (700-player_->getShip()->getHitbox().x()/2)/2);
     scene_->addItem(player_);
 
@@ -24,7 +24,7 @@ GameController::GameController(QGraphicsScene *scene, SoundController *s): scene
 
     /* Spawner for scrapmetal */
     scrapSpawner_ = new QTimer();
-    scrapSpawner_->setInterval(2000);
+    scrapSpawner_->setInterval(2500);
     connect(scrapSpawner_, &QTimer::timeout, this, [=](){
         scene_->addItem(new Scrap(-2)); //z-index: -2
     });
@@ -32,7 +32,7 @@ GameController::GameController(QGraphicsScene *scene, SoundController *s): scene
 
     /* Spawner for normal and golden asteroids */
     asteroidSpawner_ = new QTimer();
-    asteroidSpawner_->setInterval(3000);
+    asteroidSpawner_->setInterval(3500);
     connect(asteroidSpawner_, &QTimer::timeout, this, [=](){
         scene_->addItem(new Asteroid(-2)); //z-index: -2
     });
@@ -141,6 +141,18 @@ void GameController::shoot()
             c++;
         }
     }
+
+    switch(weapons[0]->getClass()) {
+        case 1:
+            s_->playSFX("machineGun");
+            break;
+        case 2:
+            s_->playSFX("shotgun");
+            break;
+        case 3:
+            s_->playSFX("cannon");
+            break;
+    }
 }
 
 void GameController::superCharge()
@@ -152,6 +164,9 @@ void GameController::spawnStar()
     int p = player_->getPoints();
     scene_->addItem(new Star(-3));  //z-index: -3
     points_->setNum(p);
+    if(p < 0) {
+        //gameover_ = true;
+    }
 }
 
 void GameController::pauseGame()
