@@ -14,7 +14,7 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui_(new Ui::MainWindow)
 {
-    SoundController *s = new SoundController();
+    s_ = new SoundController();
 
     ui_->setupUi(this);
     this->setFixedSize(900, 700);
@@ -27,33 +27,22 @@ MainWindow::MainWindow(QWidget *parent) :
     /* Loading custom 8-Bit font */
     int id = QFontDatabase::addApplicationFont(":/res/res/8-Bit Wonder.TTF");
     QString customFont = QFontDatabase::applicationFontFamilies(id).at(0);
-    QFont bit(customFont);
-    bit.setPointSize(20);
+    bit_.setFamily(customFont);
+    bit_.setPointSize(20);
 
-    QString style = "QLabel { background-color : transparent; color : white; }";
-
-    QMovie *gif = new QMovie(":/res/res/bg.gif");
-    display_ = new QLabel();
-    display_->move(-1540, -1750);
-    display_->resize(4000, 4000);
-    display_->setMovie(gif);
-    display_->setStyleSheet(style);
-    gif->start();
+    style_ = "QLabel { background-color : transparent; color : white; }";
 
     /* Setting up locks */
     currentView_ = new QMap<QString, bool>();
-    currentView_->insert("startView", true);
+    currentView_->insert("startView", false);
     currentView_->insert("gameView", false);
     currentView_->insert("infoView", false);
     currentView_->insert("customizeView", false);
-    currentView_->insert("optionsView", false);
-    currentView_->insert("shopView", false);
 
     i_ = 0;
     counter_ = 0;
 
-    retrieveStartView(bit, style, gif, s);
-    //retrieveGameView(bit, style, gif, s);
+    switchView();
 }
 
 MainWindow::~MainWindow()
@@ -61,14 +50,37 @@ MainWindow::~MainWindow()
     delete ui_;
 }
 
-void MainWindow::retrieveStartView(QFont bit, QString style, QMovie *gif, SoundController *s)
+void MainWindow::switchView()
 {
-    QGraphicsScene *startView_ = new QGraphicsScene(this);
+    if(currentView_->value("startView")) {
+        initializeGameView(bit_);
+        return;
+    }
+    initializeStartView(bit_);
+}
+
+void MainWindow::initializeStartView(QFont bit)
+{
+    s_->playMusic("intro");
+
+    gif_ = new QMovie(":/res/res/bg.gif");
+    display_ = new QLabel();
+    display_->move(-1555, -1750);
+    display_->resize(4000, 4000);
+    display_->setMovie(gif_);
+    display_->setStyleSheet(style_);
+    gif_->start();
+    gif_->stop(); //Disabled due to lag
+
+    currentView_->insert("startView", true);
+    currentView_->insert("gameView", false);
+
+    startView_ = new QGraphicsScene(this);
     startView_->addWidget(display_);
 
     infoLabel_ = new QGraphicsTextItem("Info");
     infoLabel_->setFont(bit);
-    infoLabel_->setPos(375, -800);
+    infoLabel_->setPos(-440, 20);
     infoLabel_->setScale(2);
     infoLabel_->setZValue(10);
     startView_->addItem(infoLabel_);
@@ -80,21 +92,24 @@ void MainWindow::retrieveStartView(QFont bit, QString style, QMovie *gif, SoundC
     pressStartLabel_->move(900/2-500/2, 350);
     pressStartLabel_->resize(500, 40);
     pressStartLabel_->setAlignment(Qt::AlignCenter);
-    pressStartLabel_->setStyleSheet(style);
+    pressStartLabel_->setStyleSheet(style_);
+    connect(pressStartLabel_, &ClickableQLabel::clicked, this, &MainWindow::switchView);
     startView_->addWidget(pressStartLabel_);
 
     ui_->view->setScene(startView_);
 }
 
-void MainWindow::retrieveGameView(QFont bit, QString style, QMovie *gif, SoundController *s)
+void MainWindow::initializeGameView(QFont bit)
 {
-    gif->stop();
-    s->playMusic("");
+    s_->playMusic("game");
 
-    QGraphicsScene *gameView_ = new QGraphicsScene(this);
+    currentView_->insert("startView", false);
+    currentView_->insert("gameView", true);
+
+    gameView_ = new QGraphicsScene(this);
     gameView_->setBackgroundBrush(Qt::black);
 
-    gameController_ = new GameController(gameView_, s);
+    gameController_ = new GameController(gameView_, s_);
 
     QLabel *pointsLabel = new QLabel();
     pointsLabel->setFont(bit);
@@ -102,7 +117,7 @@ void MainWindow::retrieveGameView(QFont bit, QString style, QMovie *gif, SoundCo
     pointsLabel->move(900/2-115/2, 10);
     pointsLabel->resize(115, 20);
     pointsLabel->setAlignment(Qt::AlignCenter);
-    pointsLabel->setStyleSheet(style);
+    pointsLabel->setStyleSheet(style_);
     gameView_->addWidget(pointsLabel);
 
     QLabel *points = new QLabel();
@@ -154,7 +169,7 @@ void MainWindow::retrieveGameView(QFont bit, QString style, QMovie *gif, SoundCo
     healthLabel->move(336, 620);
     healthLabel->resize(115, 14);
     healthLabel->setAlignment(Qt::AlignCenter);
-    healthLabel->setStyleSheet(style);
+    healthLabel->setStyleSheet(style_);
     gameView_->addWidget(healthLabel);
 
     const int n = gameController_->getPlayer()->getMaxHealth();
@@ -199,6 +214,7 @@ void MainWindow::retrieveGameView(QFont bit, QString style, QMovie *gif, SoundCo
     backToStart->setAlignment(Qt::AlignCenter);
     backToStart->setStyleSheet("QLabel { background-color : transparent; color : #FFF; }");
     backToStart->setVisible(false);
+    connect(backToStart, &ClickableQLabel::clicked, this, &MainWindow::switchView);
     gameView_->addWidget(backToStart);
 
     gameController_->setPauseMenu(pauseMenu, pausedLabel, backToStart);
@@ -221,13 +237,13 @@ bool MainWindow::assignedKey(int const key) const
 
 void MainWindow::keyPressEvent(QKeyEvent *e)
 {
-    if(!assignedKey(e->key()) || i_ != 0) {
+    if(!assignedKey(e->key()) || i_ != 0) { //Prevents unknown keys to be pressed and in the middle of transitions
         return;
     } else if(currentView_->value("gameView")) {
         gameController_->keyPressEvent(e);
         return;
     }
-    lastKey_ = e->key();
+    lastKey_ = e->key(); //Saves the last key pressed
     navigate();
 }
 
@@ -237,29 +253,28 @@ void MainWindow::keyReleaseEvent(QKeyEvent *e)
         return;
     } else if(currentView_->value("gameView")) {
         gameController_->keyReleaseEvent(e);
-        return;
     }
 }
 
 void MainWindow::navigate()
 {
+    if(lastKey_ == Qt::Key_W || lastKey_ == Qt::Key_S || lastKey_ == Qt::Key_Space) return;
     QTimer *ease = new QTimer();
     int interval = 16;
     ease->setInterval(interval);
     connect(ease, &QTimer::timeout, this, [=]() {
         i_++;
-        int i = i_ * (5 - i_); //Quadratic bezier curve
+        int i = i_ * (5 - i_); //Cubic bezier curve for smooth transition
         counter_ += interval;
 
-        if(lastKey_ == Qt::Key_W) {
+        if(lastKey_ == Qt::Key_A) {
             if(currentView_->value("startView")) moveToInfo(i);
-        } else if(lastKey_ == Qt::Key_S) {
-            if(currentView_->value("infoView")) moveToStart(i);
         } else if(lastKey_ == Qt::Key_D) {
-        } else if(lastKey_ == Qt::Key_A) {
+            if(currentView_->value("infoView")) moveToStart(i);
         }
 
-        if(i_ == 0 || counter_ >= TRANSITION_DURATION_) {
+        if(counter_ >= TRANSITION_DURATION_) {
+            i_ = 0;
             counter_ = 0;
             ease->stop();
         }
@@ -269,20 +284,29 @@ void MainWindow::navigate()
 
 void MainWindow::moveToStart(int i)
 {
-    display_->move(display_->x(), display_->y()+i);
-    infoLabel_->setPos(infoLabel_->x(), infoLabel_->y()+i);
+    if(display_->x() <= -1379) {
+        currentView_->insert("startView", true);
+        currentView_->insert("infoView", false);
+        currentView_->insert("customizeView", false);
+        i_ = 0;
+    }
+    display_->move(display_->x()+i, display_->y());
+    pressStartLabel_->move(pressStartLabel_->x()+i, pressStartLabel_->y());
+
+    infoLabel_->setPos(infoLabel_->x()+i, infoLabel_->y());
 }
 
 void MainWindow::moveToInfo(int i)
 {
-    if(display_->y() >= -1110) {
+    if(display_->x() >= -915) {
         currentView_->insert("infoView", true);
         currentView_->insert("startView", false);
         i_ = 0;
-        return;
     }
-    display_->move(display_->x(), display_->y()-i);
-    infoLabel_->setPos(infoLabel_->x(), infoLabel_->y()-i);
+    display_->move(display_->x()-i, display_->y());
+    pressStartLabel_->move(pressStartLabel_->x()-i, pressStartLabel_->y());
+
+    infoLabel_->setPos(infoLabel_->x()-i, infoLabel_->y());
 }
 
 void MainWindow::moveToCustomize(int i)

@@ -21,4 +21,5 @@ void ClickableQLabel::leaveEvent(QEvent* e)
 void ClickableQLabel::mousePressEvent(QMouseEvent* e)
 {
     if(!isVisible()) return;
+    emit clicked();
 }

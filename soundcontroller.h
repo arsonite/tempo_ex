@@ -17,7 +17,7 @@ public:
 
 private:
     std::map<QString, QSoundEffect*> *sfx_;
-    std::map<QString, QString*> *music_;
+    std::map<QString, QString> *music_;
 
     QMediaPlayer *musicPlayer_;
     QMediaPlaylist *playlist_;

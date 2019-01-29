@@ -9,6 +9,9 @@ public:
     ClickableQLabel(QWidget* parent = Q_NULLPTR, Qt::WindowFlags f = Qt::WindowFlags());
     ~ClickableQLabel();
 
+signals:
+    void clicked();
+
 protected:
     void enterEvent(QEvent* e);
     void leaveEvent(QEvent* e);

@@ -20,8 +20,8 @@ public:
     explicit MainWindow(QWidget *parent = nullptr);
     virtual ~MainWindow() override;
 
-    void retrieveStartView(QFont bit, QString style, QMovie *gif, SoundController *s);
-    void retrieveGameView(QFont bit, QString style, QMovie *gif, SoundController *s);
+    void initializeStartView(QFont bit);
+    void initializeGameView(QFont bit);
 
     bool assignedKey(int const key) const;
 
@@ -30,23 +30,27 @@ public:
     void moveToStart(int i);
     void moveToInfo(int i);
     void moveToCustomize(int i);
-    void moveToOptions(int i);
-    void moveToShop(int i);
 
     void keyPressEvent(QKeyEvent *e) override;
     void keyReleaseEvent(QKeyEvent *e) override;
 
+public slots:
+    void switchView();
+
 private:
     Ui::MainWindow *ui_;
 
+    SoundController *s_;
+
+    QFont bit_;
+    QString style_;
+
     QGraphicsScene *startView_;
+    QMovie *gif_;
     QLabel *display_;
     ClickableQLabel *pressStartLabel_;
-
     QGraphicsTextItem *infoLabel_;
     QGraphicsTextItem *customizeLabel_;
-    QGraphicsTextItem *optionsLabel_;
-    QGraphicsTextItem *shopLabel_;
 
     QGraphicsScene *gameView_;
     GameController *gameController_;
@@ -58,9 +62,6 @@ private:
     int lastKey_;
 
     const int TRANSITION_DURATION_ = 256;
-
-protected:
-
 };
 
 #endif // MAINWINDOW_H
