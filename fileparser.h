@@ -7,13 +7,15 @@
 #ifndef FILEPARSER_H
 #define FILEPARSER_H
 
+#include <vector>
+
 #include <QString>
 
 class FileParser
 {
 public:
-    FileParser();
-    QString readFile();
+    static std::vector<QString> readFile(QString filePath);
+    static void writeFile(std::vector<QString> content);
 };
 
 #endif // FILEPARSER_H

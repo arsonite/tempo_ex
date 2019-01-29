@@ -25,10 +25,15 @@ SoundController::SoundController()
     sfxCannon->setSource(QUrl("qrc:/res/res/sfx/cannon.wav"));
     sfx_->insert(std::make_pair("cannon", sfxCannon));
 
+    QSoundEffect *jingleLost = new QSoundEffect();
+    jingleLost->setSource(QUrl("qrc:/res/res/sfx/jingle_lost.wav"));
+    sfx_->insert(std::make_pair("lost", jingleLost));
+
     /* Initiliazing music player and playlist for looping purposes */
     music_ = new std::map<QString, QString>();
     music_->insert(std::make_pair("intro", "qrc:/res/res/music/music_intro.mp3"));
     music_->insert(std::make_pair("game", "qrc:/res/res/music/music_game.mp3"));
+    music_->insert(std::make_pair("lost", "qrc:/res/res/music/music_lost.mp3"));
 
     playlist_ = new QMediaPlaylist();
     playlist_->setPlaybackMode(QMediaPlaylist::Loop);

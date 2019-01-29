@@ -6,9 +6,9 @@
  */
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "soundcontroller.h"
 
-#include <ship.h>
+#include "soundcontroller.h"
+#include "ship.h"
 
 #include <QDebug>
 #include <QGraphicsScene>
@@ -45,6 +45,7 @@ MainWindow::MainWindow(QWidget *parent) :
     currentView_->insert("gameView", true);
     currentView_->insert("infoView", false);
     currentView_->insert("customizeView", false);
+    currentView_->insert("lostView", false);
 
     i_ = 0;
     counter_ = 0;
@@ -65,7 +66,7 @@ void MainWindow::switchView()
             return;
         }
         initializeStartView(bit_);
-    } else if(currentView_->value("startView")) {
+    } else if(currentView_->value("startView") || currentView_->value("lostView")) {
         initializeGameView(bit_);
     }
 }
@@ -81,10 +82,11 @@ void MainWindow::initializeStartView(QFont bit)
     display_->setMovie(gif_);
     display_->setStyleSheet(style_);
     gif_->start();
-    gif_->stop(); //Disabled due to lag
+    //gif_->stop(); //Disabled due to lag
 
     currentView_->insert("startView", true);
     currentView_->insert("gameView", false);
+    currentView_->insert("lostView", false);
 
     startView_ = new QGraphicsScene(this);
     startView_->addWidget(display_);
@@ -112,10 +114,13 @@ void MainWindow::initializeStartView(QFont bit)
 
 void MainWindow::initializeGameView(QFont bit)
 {
+    gif_->stop();
+
     s_->playMusic("game");
 
     currentView_->insert("startView", false);
     currentView_->insert("gameView", true);
+    currentView_->insert("lostView", false);
 
     gameView_ = new QGraphicsScene(this);
     gameView_->setBackgroundBrush(Qt::black);
@@ -236,8 +241,37 @@ void MainWindow::initializeGameView(QFont bit)
 
 void MainWindow::initializeLostView(QFont bit)
 {
+    s_->playSFX("lost");
+    s_->playMusic("lost");
 
-    //ui_->view->setScene(lostView_);
+    currentView_->insert("lostView", true);
+    currentView_->insert("gameView", false);
+
+    QGraphicsScene *lostView_ = new QGraphicsScene(this);
+    lostView_->setBackgroundBrush(Qt::black);
+
+    QLabel *gameoverLabel = new QLabel();
+    bit.setPointSize(40);
+    gameoverLabel->setFont(bit);
+    gameoverLabel->setText("Gameover");
+    gameoverLabel->move(900/2-400/2, 100);
+    gameoverLabel->resize(400, 40);
+    gameoverLabel->setAlignment(Qt::AlignCenter);
+    gameoverLabel->setStyleSheet("QLabel { background-color : transparent; color : #FFF; }");
+    lostView_->addWidget(gameoverLabel);
+
+    ClickableQLabel *restartGame = new ClickableQLabel();
+    bit.setPointSize(30);
+    restartGame->setFont(bit);
+    restartGame->setText("> Restart <");
+    restartGame->move(900/2-300/2, 300);
+    restartGame->resize(300, 40);
+    restartGame->setAlignment(Qt::AlignCenter);
+    restartGame->setStyleSheet("QLabel { background-color : transparent; color : #FFF; }");
+    connect(restartGame, &ClickableQLabel::clicked, this, &MainWindow::switchView);
+    lostView_->addWidget(restartGame);
+
+    ui_->view->setScene(lostView_);
 }
 
 bool MainWindow::assignedKey(int const key) const
@@ -285,6 +319,7 @@ void MainWindow::navigate()
         int i = i_ * (5 - i_); //Cubic bezier curve for smooth transition
         counter_ += interval;
 
+        /* Stops the timer after reaching the maximum transition allowance */
         if(counter_ >= TRANSITION_DURATION_) {
             i_ = 0;
             counter_ = 0;

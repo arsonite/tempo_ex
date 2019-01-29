@@ -10,6 +10,7 @@
 #include "asteroid.h"
 #include "star.h"
 #include "ship.h"
+#include "fileparser.h"
 
 #include <stdlib.h>
 
@@ -17,7 +18,10 @@
 
 GameController::GameController(QGraphicsScene *scene, SoundController *s): scene_(scene), s_(s)
 {
-    player_ = new Player(1, 1, -2); //z-index: -2
+    //point weapon and ship parsing here
+    std::vector<QString> arr = FileParser::readFile(":/res/res/savedata.ini");
+
+    player_ = new Player(arr[1].toInt(), arr[2].toInt(), -2); //z-index: -2
     player_->setPos(900/2-player_->getShip()->getHitbox().y()/2, 700/2);
     scene_->addItem(player_);
 

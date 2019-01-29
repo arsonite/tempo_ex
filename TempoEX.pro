@@ -8,7 +8,6 @@ QT       += core gui \
          multimedia
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
-
 TARGET = TempoEX
 TEMPLATE = app
 
@@ -35,10 +34,10 @@ SOURCES += \
         scrap.cpp \
         asteroid.cpp \
         soundcontroller.cpp \
-    gamecontroller.cpp \
-    ship.cpp \
-    weapon.cpp \
-    clickableqlabel.cpp
+        gamecontroller.cpp \
+        ship.cpp \
+        weapon.cpp \
+        clickableqlabel.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -50,10 +49,10 @@ HEADERS += \
         scrap.h \
         asteroid.h \
         soundcontroller.h \
-    gamecontroller.h \
-    ship.h \
-    weapon.h \
-    clickableqlabel.h
+        gamecontroller.h \
+        ship.h \
+        weapon.h \
+        clickableqlabel.h
 
 FORMS += \
         mainwindow.ui

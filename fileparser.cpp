@@ -10,25 +10,25 @@
 #include <QDebug>
 #include <QApplication>
 
-FileParser::FileParser()
+std::vector<QString> FileParser::readFile(QString filePath)
 {
-
-}
-
-QString FileParser::readFile()
-{
-    QDir dir(QDir::currentPath());
-    dir.cdUp();
-    dir.cdUp();
-    dir.cdUp();
-    dir.cdUp();
-
-    QString filename = dir.relativeFilePath("/TempoEX/config.xml");
-    QFile file(filename);
+    QFile file(filePath);
     QString fileContent = "";
 
     QTextStream in(&file);
-    if(file.open(QIODevice::ReadWrite)) {
+    // TODO: Umwandeln in map
+    std::vector<QString> arr;
+    arr.reserve(3);
+    if(file.open(QIODevice::ReadOnly)) {
+        while(!in.atEnd()) {
+            QString content = in.readLine();
+            content = content.remove(QRegExp("^.*:\\s+")).remove(";");
+            arr.push_back(content);
+        }
+    }
+    return arr;
+
+    /*if(file.open(QIODevice::ReadWrite)) {
         while(!in.atEnd()) {
             QString line = in.readLine();
             fileContent += line;
@@ -36,8 +36,13 @@ QString FileParser::readFile()
     }
     qDebug() << fileContent;
 
-    /*if(file.open(QIODevice::ReadWrite)) {
+    if(file.open(QIODevice::ReadWrite)) {
         QTextStream stream(&file);
         stream << "<config>" << endl << "</config>" << endl;
     }*/
+}
+
+void FileParser::writeFile(std::vector<QString> content)
+{
+
 }

@@ -12,5 +12,7 @@
         <file>res/sfx/shotgun.wav</file>
         <file>res/sfx/machine_gun.wav</file>
         <file>res/savedata.ini</file>
+        <file>res/sfx/jingle_lost.wav</file>
+        <file>res/music/music_lost.mp3</file>
     </qresource>
 </RCC>
