@@ -8,6 +8,14 @@
 
 #include <QDebug>
 
+/**
+ * A custom class extending from <QLabel> to allow the creation of
+ * clickable <QLabel> objects.
+ *
+ * @brief ClickableQLabel::ClickableQLabel
+ * @param parent
+ * @param f
+ */
 ClickableQLabel::ClickableQLabel(QWidget *parent, Qt::WindowFlags f): QLabel(parent) {}
 
 ClickableQLabel::~ClickableQLabel() {}

@@ -8,6 +8,7 @@
 #define PLAYER_H
 
 #include "ship.h"
+#include "soundcontroller.h"
 
 #include <array>
 
@@ -55,6 +56,8 @@ public slots:
 
 signals:
     void valueChanged(bool value);
+    void collected();
+    void damaged(int health);
 
 private:
     QLabel *multiplicatorLabel_;

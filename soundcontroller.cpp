@@ -29,6 +29,14 @@ SoundController::SoundController()
     jingleLost->setSource(QUrl("qrc:/res/res/sfx/jingle_lost.wav"));
     sfx_->insert(std::make_pair("lost", jingleLost));
 
+    QSoundEffect *sfxDamaged = new QSoundEffect();
+    sfxDamaged->setSource(QUrl("qrc:/res/res/sfx/damaged.wav"));
+    sfx_->insert(std::make_pair("damaged", sfxDamaged));
+
+    QSoundEffect *sfxCollect = new QSoundEffect();
+    sfxCollect->setSource(QUrl("qrc:/res/res/sfx/collect.wav"));
+    sfx_->insert(std::make_pair("collect", sfxCollect));
+
     /* Initiliazing music player and playlist for looping purposes */
     music_ = new std::map<QString, QString>();
     music_->insert(std::make_pair("intro", "qrc:/res/res/music/music_intro.mp3"));
@@ -52,4 +60,14 @@ void SoundController::playMusic(QString m)
     playlist_->clear();
     playlist_->addMedia(QUrl(music_->at(m)));
     musicPlayer_->play();
+}
+
+void SoundController::playerGetsDamaged()
+{
+    playSFX("damaged");
+}
+
+void SoundController::playerCollects()
+{
+    playSFX("collect");
 }

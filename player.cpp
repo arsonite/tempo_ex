@@ -11,7 +11,16 @@
 
 #include <QDebug>
 #include <QPen>
+#include <QSound>
 
+/**
+ * The player, represented by an internal <Ship> object.
+ *
+ * @brief Player::Player
+ * @param shipC
+ * @param weaponC
+ * @param zValue
+ */
 Player::Player(int shipC, int weaponC, int zValue)
 {
     setZValue(zValue);
@@ -60,8 +69,17 @@ void Player::moveY(int incr)
     setY(this->y()+incr);
 }
 
+/**
+ * Allows external manipulation by overriding the advance method of QGraphicsItem without
+ * the need to cross-reference the player object with other objects.
+ * Ensures clean code.
+ *
+ * @brief Player::advance
+ * @param code
+ */
 void Player::advance(int code)
 {
+    if(code == 0 || code == 1 || code == 2) emit collected();
     switch(code) {
         case 0: //Health increase
         if(health_ >= MAX_HEALTH_) break;
@@ -71,6 +89,7 @@ void Player::advance(int code)
         case 1: //Point multiplicator
             if(multiplicator_ == INT_MAX) return;
             multiplicator_ *= 2;
+            //Prevents overflow
             if(multiplicator_ * 2 > INT_MAX) multiplicator_ = INT_MAX;
             multiplicatorLabel_->setVisible(true);
             multiplicatorLabel_->setText(QString::number(multiplicator_) + "x");
@@ -78,20 +97,20 @@ void Player::advance(int code)
         case 2: //Point
             if(points_ == INT_MAX) return;
             points_+= (multiplicator_ * 1);
+            //Prevents overflow
             if(points_ + 1 > INT_MAX) points_ = INT_MAX;
             break;
         case 3: //Health decrease
             health_--;
             capsizeHealthBar();
+            multiplicator_ = 1;
+            multiplicatorLabel_->setVisible(false);
+            multiplicatorLabel_->setText(QString::number(multiplicator_) + "x");
+            emit damaged(health_);
             if(health_ == 0) {
                 gameover_ = true;
                 emit valueChanged(gameover_);
             }
-            break;
-        case 4: //Reset multiplier
-            multiplicator_ = 1;
-            multiplicatorLabel_->setVisible(false);
-            multiplicatorLabel_->setText(QString::number(multiplicator_) + "x");
             break;
     }
 }

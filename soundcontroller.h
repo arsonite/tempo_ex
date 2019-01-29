@@ -14,12 +14,17 @@
 #include <QMediaPlaylist>
 #include <QMediaPlayer>
 
-class SoundController {
+class SoundController: public QObject {
+Q_OBJECT
 public:
     SoundController();
 
     void playSFX(QString s);
     void playMusic(QString m);
+
+public slots:
+    void playerGetsDamaged();
+    void playerCollects();
 
 private:
     std::map<QString, QSoundEffect*> *sfx_;

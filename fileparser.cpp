@@ -10,6 +10,13 @@
 #include <QDebug>
 #include <QApplication>
 
+/**
+ * A mandatory, unfinished, but functioning simple static file reader and parser function.
+ *
+ * @brief FileParser::readFile
+ * @param filePath
+ * @return
+ */
 std::vector<QString> FileParser::readFile(QString filePath)
 {
     QFile file(filePath);
@@ -27,7 +34,10 @@ std::vector<QString> FileParser::readFile(QString filePath)
         }
     }
     return arr;
+}
 
+void FileParser::writeFile(std::vector<QString> content)
+{
     /*if(file.open(QIODevice::ReadWrite)) {
         while(!in.atEnd()) {
             QString line = in.readLine();
@@ -40,9 +50,4 @@ std::vector<QString> FileParser::readFile(QString filePath)
         QTextStream stream(&file);
         stream << "<config>" << endl << "</config>" << endl;
     }*/
-}
-
-void FileParser::writeFile(std::vector<QString> content)
-{
-
 }

@@ -14,5 +14,7 @@
         <file>res/savedata.ini</file>
         <file>res/sfx/jingle_lost.wav</file>
         <file>res/music/music_lost.mp3</file>
+        <file>res/sfx/collect.wav</file>
+        <file>res/sfx/damaged.wav</file>
     </qresource>
 </RCC>

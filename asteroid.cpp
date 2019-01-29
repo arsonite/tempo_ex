@@ -97,7 +97,7 @@ Asteroid::Asteroid(int zValue, bool &gameIsPaused): gameIsPaused_(gameIsPaused)
 }
 
 /**
- *
+ * Animates the flight path and rotation of the singular asteroid.
  *
  * @brief Asteroid::fly
  * @param outOfBounds
@@ -128,8 +128,7 @@ void Asteroid::fly(bool outOfBounds)
                 return;
             }
             if(collided_) return; //Prohibits continoues collision detection
-            colliding_items[i]->advance(3); //Decrease player health by one
-            colliding_items[i]->advance(4); //Reset point multiplier
+            colliding_items[i]->advance(3); //Decrease player health by one and reset multiplier
             collided_ = true;
             return;
         }
@@ -137,6 +136,13 @@ void Asteroid::fly(bool outOfBounds)
     if(!containsPlayer) collided_ = false;
 }
 
+/**
+ * Overriden method determining remaining health of asteroid after getting hit
+ * by a <Projectile> object.
+ *
+ * @brief Asteroid::advance
+ * @param dmg
+ */
 void Asteroid::advance(int dmg)
 {
     if(!isGold_ || destroyed_) return;
@@ -161,6 +167,11 @@ void Asteroid::advance(int dmg)
     }
 }
 
+/**
+ * Determines by chance which items to drop if asteroid is gold.
+ *
+ * @brief Asteroid::drop
+ */
 void Asteroid::drop()
 {
     /* Deletes the remaining childitems */

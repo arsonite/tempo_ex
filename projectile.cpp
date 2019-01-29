@@ -14,7 +14,7 @@
 #include <QDebug>
 
 /**
- * The <Projectile> class is responsible for
+ * The <Projectile> class is responsible for damaging and destroying other objects.
  *
  * @brief Projectile::Projectile
  * @param zValue
@@ -33,17 +33,12 @@ Projectile::Projectile(int zValue, int modifier, bool &gameIsPaused, Weapon *w):
     timer->setInterval(32);
 
     connect(timer, &QTimer::timeout, this, [=](){
+        /* Conditional statement to determine wether projectile left world boundaries */
         fly(y() + rect().height() + 20 < 0);
     });
     timer->start();
 }
 
-/**
- *
- *
- * @brief Projectile::fly
- * @param outOfBounds
- */
 void Projectile::fly(bool outOfBounds)
 {
     /* Halts the movement of the projectile when the game is paused */

@@ -16,6 +16,12 @@
 #include <QFontDatabase>
 #include <QMovie>
 
+/**
+ * Main and only view.
+ *
+ * @brief MainWindow::MainWindow
+ * @param parent
+ */
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui_(new Ui::MainWindow)
@@ -58,6 +64,13 @@ MainWindow::~MainWindow()
     delete ui_;
 }
 
+/**
+ * Switches and initializes inbetween the views.
+ * Performance is almost the same as just saving the objects and switching the scenes.
+ * Other than that, allows to avoid spaghetti code.
+ *
+ * @brief MainWindow::switchView
+ */
 void MainWindow::switchView()
 {
     if(currentView_->value("gameView")) {
@@ -289,7 +302,8 @@ bool MainWindow::assignedKey(int const key) const
 
 void MainWindow::keyPressEvent(QKeyEvent *e)
 {
-    if(!assignedKey(e->key()) || i_ != 0) { //Prevents unknown keys to be pressed and in the middle of transitions
+    /* Prevents unknown keys to be pressed and in the middle of transitions or if you're in the lost screen */
+    if(!assignedKey(e->key()) || i_ != 0 || currentView_->value("lostView")) {
         return;
     } else if(currentView_->value("gameView")) {
         gameController_->keyPressEvent(e);
