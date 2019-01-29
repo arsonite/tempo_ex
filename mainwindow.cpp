@@ -23,6 +23,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui_->view->resize(900, 700);
     ui_->view->setSceneRect(0, 0, 900, 700);
     ui_->view->setAlignment(Qt::AlignTop | Qt::AlignLeft);
+    setWindowTitle("Tempo EX");
 
     /* Loading custom 8-Bit font */
     int id = QFontDatabase::addApplicationFont(":/res/res/8-Bit Wonder.TTF");
@@ -110,6 +111,7 @@ void MainWindow::initializeGameView(QFont bit)
     gameView_->setBackgroundBrush(Qt::black);
 
     gameController_ = new GameController(gameView_, s_);
+    connect(gameController_, &GameController::gameover, this, )
 
     QLabel *pointsLabel = new QLabel();
     pointsLabel->setFont(bit);
@@ -190,7 +192,7 @@ void MainWindow::initializeGameView(QFont bit)
     pauseMenu->setRect(0, 0, 900, 700);
     pauseMenu->setBrush(QColor(0, 0, 0));
     pauseMenu->setPen(QPen(Qt::NoPen));
-    pauseMenu->setOpacity(0.85);
+    pauseMenu->setOpacity(0.65);
     pauseMenu->setVisible(false);
     gameView_->addItem(pauseMenu);
 
@@ -267,16 +269,24 @@ void MainWindow::navigate()
         int i = i_ * (5 - i_); //Cubic bezier curve for smooth transition
         counter_ += interval;
 
-        if(lastKey_ == Qt::Key_A) {
-            if(currentView_->value("startView")) moveToInfo(i);
-        } else if(lastKey_ == Qt::Key_D) {
-            if(currentView_->value("infoView")) moveToStart(i);
-        }
-
         if(counter_ >= TRANSITION_DURATION_) {
             i_ = 0;
             counter_ = 0;
             ease->stop();
+        }
+
+        if(lastKey_ == Qt::Key_A) {
+            if(currentView_->value("startView")) {
+                moveToInfo(i);
+            } else if(currentView_->value("customizeView")) {
+                moveToStart(i);
+            }
+        } else if(lastKey_ == Qt::Key_D) {
+            if(currentView_->value("infoView")) {
+                moveToStart(i);
+            } else if(currentView_->value("startView")) {
+                moveToCustomize(i);
+            }
         }
     });
     ease->start();
@@ -284,12 +294,12 @@ void MainWindow::navigate()
 
 void MainWindow::moveToStart(int i)
 {
-    if(display_->x() <= -1379) {
+    if(i_ == 0) {
         currentView_->insert("startView", true);
         currentView_->insert("infoView", false);
         currentView_->insert("customizeView", false);
-        i_ = 0;
     }
+
     display_->move(display_->x()+i, display_->y());
     pressStartLabel_->move(pressStartLabel_->x()+i, pressStartLabel_->y());
 
@@ -298,11 +308,11 @@ void MainWindow::moveToStart(int i)
 
 void MainWindow::moveToInfo(int i)
 {
-    if(display_->x() >= -915) {
+    if(i_ == 0) {
         currentView_->insert("infoView", true);
         currentView_->insert("startView", false);
-        i_ = 0;
     }
+
     display_->move(display_->x()-i, display_->y());
     pressStartLabel_->move(pressStartLabel_->x()-i, pressStartLabel_->y());
 
@@ -311,5 +321,11 @@ void MainWindow::moveToInfo(int i)
 
 void MainWindow::moveToCustomize(int i)
 {
+    if(i_ == 0) {
+        currentView_->insert("customizeView", true);
+        currentView_->insert("startView", false);
+    }
 
+    display_->move(display_->x()+i, display_->y());
+    pressStartLabel_->move(pressStartLabel_->x()+i, pressStartLabel_->y());
 }

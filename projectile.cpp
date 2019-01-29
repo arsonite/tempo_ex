@@ -7,6 +7,15 @@
 
 #include <QDebug>
 
+/**
+ * The <Projectile> class is responsible for
+ *
+ * @brief Projectile::Projectile
+ * @param zValue
+ * @param modifier
+ * @param gameIsPaused
+ * @param w
+ */
 Projectile::Projectile(int zValue, int modifier, bool &gameIsPaused, Weapon *w): modifier_(modifier), gameIsPaused_(gameIsPaused), w_(w)
 {
     setZValue(zValue);
@@ -23,17 +32,27 @@ Projectile::Projectile(int zValue, int modifier, bool &gameIsPaused, Weapon *w):
     timer->start();
 }
 
+/**
+ *
+ *
+ * @brief Projectile::fly
+ * @param outOfBounds
+ */
 void Projectile::fly(bool outOfBounds)
 {
+    /* Halts the movement of the projectile when the game is paused */
     if(gameIsPaused_) return;
 
+    /* If the projectile is out of the predefined world bounds, it gets deleted */
     if(outOfBounds) {
         delete this;
         return;
     }
 
+    /* */
     setPos(x()+w_->getSpeed().x() + modifier_, y()-w_->getSpeed().y());
 
+    /* */
     QList<QGraphicsItem *> colliding_items = collidingItems();
     for(int i = 0; i < colliding_items.size(); ++i) {
         if(typeid(*(colliding_items[i])) == typeid(Scrap)) {

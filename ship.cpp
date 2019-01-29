@@ -27,7 +27,7 @@ void Ship::constructRocket()
     hitboxX_ = 50;
     hitboxY_ = 100;
 
-    speed_ = 15;
+    speed_ = 12;
 
     weapons_.push_back(new Weapon(this, weaponC_, hitboxX_, 0));
 
@@ -151,7 +151,7 @@ void Ship::constructCruiser()
     hitboxX_ = 125;
     hitboxY_ = 150;
 
-    speed_ = 5;
+    speed_ = 8;
 
     weapons_.push_back(new Weapon(this, weaponC_, hitboxX_-(5/2), 0));
     weapons_.push_back(new Weapon(this, weaponC_, hitboxX_/2-10, 60));

@@ -41,6 +41,12 @@ public:
     void setMultiplicatorLabel(QLabel *multiplicatorLabel);
     void setPauseMenu(QGraphicsRectItem *pauseMenu, QLabel *pausedLabel, QLabel *backToStart);
 
+public slots:
+    void gameover();
+
+signals:
+    void valueChanged(int value);
+
 private:
     QGraphicsScene *scene_;
     QLabel *points_;
@@ -66,5 +72,6 @@ private:
 
     bool gameIsPaused_;
     bool isOnCooldown_;
+    bool gameIsOver_;
 };
 #endif // CONTROLLER_H

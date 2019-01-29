@@ -10,10 +10,12 @@
 #include <QGraphicsEllipseItem>
 #include <QLabel>
 
-class Player: public QGraphicsRectItem
+class Player: public QObject, public QGraphicsRectItem
 {
+Q_OBJECT
 public:
-    Player(int shipC, int weaponC, int zValue);
+    explicit Player(int shipC, int weaponC, int zValue);
+    virtual ~Player() override {}
 
     double x() const;
     double y() const;
@@ -26,7 +28,6 @@ public:
     void moveX(int incr);
     void moveY(int incr);
 
-    void advance(int dmg) override;
     void capsizeHealthBar();
 
     /* Collision detection */
@@ -36,9 +37,6 @@ public:
     int getRemainingHealth();
     int getMaxHealth();
 
-    void win();
-    void loose();
-
     Ship *getShip();
 
     void setHealthBar(std::vector<QGraphicsEllipseItem*> *healthBar);
@@ -47,7 +45,12 @@ public:
 public slots:
     void moveShip();
 
-private slots:
+    void advance(int dmg) override;
+
+signals:
+    void valueChanged(int value);
+
+private:
     QLabel *multiplicatorLabel_;
 
     Ship *s_;
@@ -60,6 +63,8 @@ private slots:
     int multiplicator_;
     int health_;
     int MAX_HEALTH_;
+
+    bool gameover_;
 };
 
 #endif // PLAYER_H

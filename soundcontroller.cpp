@@ -29,7 +29,6 @@ SoundController::SoundController()
 
     musicPlayer_ = new QMediaPlayer();
     musicPlayer_->setPlaylist(playlist_);
-
 }
 
 void SoundController::playSFX(QString s)

@@ -21,6 +21,7 @@ Player::Player(int shipC, int weaponC, int zValue)
 
     points_ = 0;
     multiplicator_ = 1;
+    gameover_ = false;
 }
 
 double Player::x() const
@@ -74,9 +75,12 @@ void Player::advance(int code)
             if(points_ + 1 > INT_MAX) points_ = INT_MAX;
             break;
         case 3: //Health decrease
-            if(health_ <= 0) return;
             health_--;
             capsizeHealthBar();
+            if(health_ == 0) {
+                gameover_ = true;
+                emit valueChanged(gameover_);
+            }
             break;
         case 4: //Reset multiplier
             multiplicator_ = 1;
@@ -167,4 +171,3 @@ void Player::setMultiplicatorLabel(QLabel *multiplicatorLabel)
 {
     multiplicatorLabel_ = multiplicatorLabel;
 }
-

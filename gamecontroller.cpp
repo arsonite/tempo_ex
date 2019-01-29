@@ -11,13 +11,16 @@
 
 GameController::GameController(QGraphicsScene *scene, SoundController *s): scene_(scene), s_(s)
 {
-    player_ = new Player(2, 2, -2); //z-index: -2
-    player_->setPos((900-player_->getShip()->getHitbox().y()/2)/2, (700-player_->getShip()->getHitbox().x()/2)/2);
+    player_ = new Player(1, 1, -2); //z-index: -2
+    player_->setPos(900/2-player_->getShip()->getHitbox().y()/2, 700/2);
     scene_->addItem(player_);
+
+    connect(player_, &Player::valueChanged, this, &GameController::gameover);
 
     /* Timer for player move animation */
     timer_ = new QTimer();
     timer_->setInterval((1000/60)*2); //Half of 60Hz - 16.7
+
     connect(timer_, &QTimer::timeout, this, [=](){
         player_->moveShip();
     });
@@ -66,6 +69,7 @@ GameController::GameController(QGraphicsScene *scene, SoundController *s): scene
 
     gameIsPaused_ = false;
     isOnCooldown_ = false;
+    gameIsOver_ = false;
 }
 
 GameController::~GameController()
@@ -224,4 +228,10 @@ void GameController::setPauseMenu(QGraphicsRectItem *pauseMenu, QLabel *pausedLa
     pauseMenu_ = pauseMenu;
     pausedLabel_ = pausedLabel;
     backToStart_ = backToStart;
+}
+
+void GameController::gameover()
+{
+    gameIsOver_ = true;
+    emit valueChanged(gameIsOver_);
 }
