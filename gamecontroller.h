@@ -1,3 +1,9 @@
+/** DISCLAIMER
+ * Beuth-Hochschule
+ * Effiziente Software entwickeln mit C++
+ * Aufgabe 3
+ * Burak Günaydin (2019)
+ */
 #ifndef CONTROLLER_H
 #define CONTROLLER_H
 
@@ -43,9 +49,10 @@ public:
 
 public slots:
     void gameover();
+    bool isGameOver();
 
 signals:
-    void valueChanged(int value);
+    void valueChanged(bool value);
 
 private:
     QGraphicsScene *scene_;

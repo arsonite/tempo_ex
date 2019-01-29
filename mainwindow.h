@@ -1,3 +1,9 @@
+/** DISCLAIMER
+ * Beuth-Hochschule
+ * Effiziente Software entwickeln mit C++
+ * Aufgabe 3
+ * Burak Günaydin (2019)
+ */
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
@@ -22,6 +28,7 @@ public:
 
     void initializeStartView(QFont bit);
     void initializeGameView(QFont bit);
+    void initializeLostView(QFont bit);
 
     bool assignedKey(int const key) const;
 

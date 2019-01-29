@@ -1,3 +1,9 @@
+/** DISCLAIMER
+ * Beuth-Hochschule
+ * Effiziente Software entwickeln mit C++
+ * Aufgabe 3
+ * Burak Günaydin (2019)
+ */
 #ifndef SHIP_H
 #define SHIP_H
 

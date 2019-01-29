@@ -1,3 +1,9 @@
+/** DISCLAIMER
+ * Beuth-Hochschule
+ * Effiziente Software entwickeln mit C++
+ * Aufgabe 3
+ * Burak Günaydin (2019)
+ */
 #include "asteroid.h"
 #include "player.h"
 
@@ -8,6 +14,18 @@
 #include <QDebug>
 #include <QFontDatabase>
 
+/**
+ * A randomly generated <QGraphicsRectItem> that is supposed to resemble an
+ * extraterrestial celestial body, an asteroid.
+ * There is a small calculated chance, that the <Asteroid> object has a golden
+ * paint on it, meaning the player can destroy it and receive goodies.
+ * The asteroid itself detects collision with the <Player> object and the surrounding
+ * game boundaries defined by the window width and height.
+ *
+ * @brief Asteroid::Asteroid
+ * @param zValue, the z-value that determines the lateral order in the view
+ * @param gameIsPaused
+ */
 Asteroid::Asteroid(int zValue, bool &gameIsPaused): gameIsPaused_(gameIsPaused)
 {
     setZValue(zValue);
@@ -15,7 +33,7 @@ Asteroid::Asteroid(int zValue, bool &gameIsPaused): gameIsPaused_(gameIsPaused)
     collided_ = false;
     destroyed_ = false;
 
-    /* Gold Asteroid */
+    /* Determining the chance of the asteroid becoming a golden one */
     isGold_ = rand() % 100 < 25;
     speed_ = (rand() % 2) + (isGold_ ? + 3 : + 18);
     rotation_ = (rand() % 1) + (isGold_ ? - 0.5 : + 1);
@@ -26,12 +44,13 @@ Asteroid::Asteroid(int zValue, bool &gameIsPaused): gameIsPaused_(gameIsPaused)
     setRect(0, 0, size_, size_);
     setPen(QPen(Qt::NoPen));
 
-    int n = (rand() % 25) + 25;
+    int n = (rand() % 25) + 25; //The amount of smaller bodies inside the hitbox
     scraps_ = n;
     for(int i = 0; i < n; i++) {
         int rSize = rand() % size_;
-        int m = i + i;
+        int m = i + i; //Lighting-modifier for the color
 
+        /* Necessary steps to ensure the asteroid rotates around its centre */
         QPoint *q = new QPoint(size_/2, size_/2);
         QTransform *t = new QTransform();
         auto angle = rand() % 360;
@@ -39,6 +58,7 @@ Asteroid::Asteroid(int zValue, bool &gameIsPaused): gameIsPaused_(gameIsPaused)
         t->rotate(angle);
         t->translate(-q->x(), -q->y());
 
+        /* If i is even, create a sphere instead of a rectangle */
         if(i % 2 == 0) {
             QGraphicsRectItem *r = new QGraphicsRectItem(this);
             r->setRect(0, 0, rSize, rSize);
@@ -70,11 +90,18 @@ Asteroid::Asteroid(int zValue, bool &gameIsPaused): gameIsPaused_(gameIsPaused)
     QTimer *timer = new QTimer();
     timer->setInterval(32);
     connect(timer, &QTimer::timeout, this, [=](){
+        /* Conditional statement to determine wether asteroid left world boundaries */
         this->fly(y() + rect().height() >= 660 + size_ + 100);
     });
     timer->start();
 }
 
+/**
+ *
+ *
+ * @brief Asteroid::fly
+ * @param outOfBounds
+ */
 void Asteroid::fly(bool outOfBounds)
 {
     if(gameIsPaused_) return;
@@ -87,19 +114,22 @@ void Asteroid::fly(bool outOfBounds)
     setRotation(rotation() + rotation_);
     setPos(x(), y() + speed_);
 
+    /* Retrieve all QGraphicsItems that collide with the asteroid */
     bool containsPlayer = false;
     QList<QGraphicsItem *> colliding_items = collidingItems();
     for(int i = 0; i < colliding_items.size(); ++i) {
+        /* Determines wether the collided item is the <Player> object */
         if(typeid(*(colliding_items[i])) == typeid(Player)) {
             containsPlayer = true;
+            /* If the asteroid is destroyed, add health or a multiplier to the player */
             if(destroyed_) {
                 colliding_items[i]->advance(drop_);
                 delete this;
                 return;
             }
-            if(collided_) return;
-            colliding_items[i]->advance(3); //Decrease Health by one
-            colliding_items[i]->advance(4); //Reset multiplier
+            if(collided_) return; //Prohibits continoues collision detection
+            colliding_items[i]->advance(3); //Decrease player health by one
+            colliding_items[i]->advance(4); //Reset point multiplier
             collided_ = true;
             return;
         }
@@ -112,8 +142,12 @@ void Asteroid::advance(int dmg)
     if(!isGold_ || destroyed_) return;
 
     health_-= dmg;
+    /* Calculates the percentage of smaller QGraphicsItems that have to be deleted
+     * in dependency of the asteroids remaining health
+     */
     double n = scraps_ * (((health_ * 100.0) / MAX_HEALTH_) / 100);
     scraps_ = n < 0 ? 0 : int (n);
+    /* Deletes all the childitems up until the calculated percentage */
     for(int i = 0; i < childItems().count(); i++) {
         if(i <= scraps_) {
             delete childItems().at(i);
@@ -129,8 +163,10 @@ void Asteroid::advance(int dmg)
 
 void Asteroid::drop()
 {
+    /* Deletes the remaining childitems */
     while(childItems().count() > 0) delete childItems().first();
 
+    /* Calculates wether the (golden) asteroid should drop health or a multiplier */
     drop_ = (rand() % 99) / 50;
     if(drop_ == 0) {
         QGraphicsEllipseItem *health = new QGraphicsEllipseItem(this);
@@ -140,7 +176,7 @@ void Asteroid::drop()
         health->setPen(QPen(Qt::NoPen));
         return;
     }
-    /* Font anders lösen, redundanz */
+    /* Rather redudant font implementation */
     int id = QFontDatabase::addApplicationFont(":/res/res/8-Bit Wonder.TTF");
     QString customFont = QFontDatabase::applicationFontFamilies(id).at(0);
     QFont bit(customFont);

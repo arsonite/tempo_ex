@@ -1,3 +1,9 @@
+/** DISCLAIMER
+ * Beuth-Hochschule
+ * Effiziente Software entwickeln mit C++
+ * Aufgabe 3
+ * Burak Günaydin (2019)
+ */
 #include "gamecontroller.h"
 #include "projectile.h"
 #include "scrap.h"
@@ -234,4 +240,9 @@ void GameController::gameover()
 {
     gameIsOver_ = true;
     emit valueChanged(gameIsOver_);
+}
+
+bool GameController::isGameOver()
+{
+    return gameIsOver_;
 }

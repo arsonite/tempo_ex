@@ -1,3 +1,9 @@
+/** DISCLAIMER
+ * Beuth-Hochschule
+ * Effiziente Software entwickeln mit C++
+ * Aufgabe 3
+ * Burak Günaydin (2019)
+ */
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "soundcontroller.h"
@@ -36,7 +42,7 @@ MainWindow::MainWindow(QWidget *parent) :
     /* Setting up locks */
     currentView_ = new QMap<QString, bool>();
     currentView_->insert("startView", false);
-    currentView_->insert("gameView", false);
+    currentView_->insert("gameView", true);
     currentView_->insert("infoView", false);
     currentView_->insert("customizeView", false);
 
@@ -53,11 +59,15 @@ MainWindow::~MainWindow()
 
 void MainWindow::switchView()
 {
-    if(currentView_->value("startView")) {
+    if(currentView_->value("gameView")) {
+        if(gameController_->isGameOver()) {
+            initializeLostView(bit_);
+            return;
+        }
+        initializeStartView(bit_);
+    } else if(currentView_->value("startView")) {
         initializeGameView(bit_);
-        return;
     }
-    initializeStartView(bit_);
 }
 
 void MainWindow::initializeStartView(QFont bit)
@@ -111,7 +121,7 @@ void MainWindow::initializeGameView(QFont bit)
     gameView_->setBackgroundBrush(Qt::black);
 
     gameController_ = new GameController(gameView_, s_);
-    connect(gameController_, &GameController::gameover, this, )
+    connect(gameController_, &GameController::valueChanged, this, &MainWindow::switchView);
 
     QLabel *pointsLabel = new QLabel();
     pointsLabel->setFont(bit);
@@ -222,6 +232,12 @@ void MainWindow::initializeGameView(QFont bit)
     gameController_->setPauseMenu(pauseMenu, pausedLabel, backToStart);
 
     ui_->view->setScene(gameView_);
+}
+
+void MainWindow::initializeLostView(QFont bit)
+{
+
+    //ui_->view->setScene(lostView_);
 }
 
 bool MainWindow::assignedKey(int const key) const

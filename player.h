@@ -1,3 +1,9 @@
+/** DISCLAIMER
+ * Beuth-Hochschule
+ * Effiziente Software entwickeln mit C++
+ * Aufgabe 3
+ * Burak Günaydin (2019)
+ */
 #ifndef PLAYER_H
 #define PLAYER_H
 
@@ -48,7 +54,7 @@ public slots:
     void advance(int dmg) override;
 
 signals:
-    void valueChanged(int value);
+    void valueChanged(bool value);
 
 private:
     QLabel *multiplicatorLabel_;
