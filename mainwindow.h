@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include "gamecontroller.h"
+#include "clickableqlabel.h"
 
 #include <QMap>
 #include <QMainWindow>
@@ -40,6 +41,8 @@ private:
 
     QGraphicsScene *startView_;
     QLabel *display_;
+    ClickableQLabel *pressStartLabel_;
+
     QGraphicsTextItem *infoLabel_;
     QGraphicsTextItem *customizeLabel_;
     QGraphicsTextItem *optionsLabel_;
@@ -48,7 +51,7 @@ private:
     QGraphicsScene *gameView_;
     GameController *gameController_;
 
-    QMap<QString, bool> *locks_;
+    QMap<QString, bool> *currentView_;
 
     int i_;
     int counter_;

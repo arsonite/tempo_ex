@@ -1,5 +1,0 @@
-name: Burak;
-score: 0;
-weapons: [laser];
-ships: [basic];
-ammo: [0, 0, 0];

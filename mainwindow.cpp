@@ -1,7 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "soundcontroller.h"
-#include "clickableqlabel.h"
 
 #include <ship.h>
 
@@ -42,13 +41,13 @@ MainWindow::MainWindow(QWidget *parent) :
     gif->start();
 
     /* Setting up locks */
-    locks_ = new QMap<QString, bool>();
-    locks_->insert("startView", false);
-    locks_->insert("gameView", true);
-    locks_->insert("infoView", false);
-    locks_->insert("customizeView", false);
-    locks_->insert("optionsView", false);
-    locks_->insert("shopView", false);
+    currentView_ = new QMap<QString, bool>();
+    currentView_->insert("startView", true);
+    currentView_->insert("gameView", false);
+    currentView_->insert("infoView", false);
+    currentView_->insert("customizeView", false);
+    currentView_->insert("optionsView", false);
+    currentView_->insert("shopView", false);
 
     i_ = 0;
     counter_ = 0;
@@ -74,14 +73,15 @@ void MainWindow::retrieveStartView(QFont bit, QString style, QMovie *gif, SoundC
     infoLabel_->setZValue(10);
     startView_->addItem(infoLabel_);
 
-    QLabel *pressStartLabel = new QLabel();
-    pressStartLabel->setFont(bit);
-    pressStartLabel->setText("Press [Space]");
-    pressStartLabel->move(395, 10);
-    pressStartLabel->resize(115, 20);
-    pressStartLabel->setAlignment(Qt::AlignCenter);
-    pressStartLabel->setStyleSheet(style);
-    startView_->addWidget(pressStartLabel);
+    pressStartLabel_ = new ClickableQLabel();
+    bit.setPointSize(30);
+    pressStartLabel_->setFont(bit);
+    pressStartLabel_->setText("> Press to Start <");
+    pressStartLabel_->move(900/2-500/2, 350);
+    pressStartLabel_->resize(500, 40);
+    pressStartLabel_->setAlignment(Qt::AlignCenter);
+    pressStartLabel_->setStyleSheet(style);
+    startView_->addWidget(pressStartLabel_);
 
     ui_->view->setScene(startView_);
 }
@@ -223,19 +223,19 @@ void MainWindow::keyPressEvent(QKeyEvent *e)
 {
     if(!assignedKey(e->key()) || i_ != 0) {
         return;
-    } else if(locks_->value("gameView")) {
+    } else if(currentView_->value("gameView")) {
         gameController_->keyPressEvent(e);
         return;
     }
-    //lastKey_ = e->key();
-    //navigate();
+    lastKey_ = e->key();
+    navigate();
 }
 
 void MainWindow::keyReleaseEvent(QKeyEvent *e)
 {
     if(!assignedKey(e->key())) {
         return;
-    } else if(locks_->value("gameView")) {
+    } else if(currentView_->value("gameView")) {
         gameController_->keyReleaseEvent(e);
         return;
     }
@@ -252,17 +252,14 @@ void MainWindow::navigate()
         counter_ += interval;
 
         if(lastKey_ == Qt::Key_W) {
-            if(!locks_->value("infoView")) moveToInfo(i);
+            if(currentView_->value("startView")) moveToInfo(i);
         } else if(lastKey_ == Qt::Key_S) {
-
+            if(currentView_->value("infoView")) moveToStart(i);
         } else if(lastKey_ == Qt::Key_D) {
-
         } else if(lastKey_ == Qt::Key_A) {
-
         }
 
         if(i_ == 0 || counter_ >= TRANSITION_DURATION_) {
-            i_ = 0;
             counter_ = 0;
             ease->stop();
         }
@@ -278,25 +275,17 @@ void MainWindow::moveToStart(int i)
 
 void MainWindow::moveToInfo(int i)
 {
-    if(display_->y() >= -934) {
-        locks_->insert("infoView", true);
-        locks_->insert("startView", false);
+    if(display_->y() >= -1110) {
+        currentView_->insert("infoView", true);
+        currentView_->insert("startView", false);
         i_ = 0;
         return;
     }
-
     display_->move(display_->x(), display_->y()-i);
     infoLabel_->setPos(infoLabel_->x(), infoLabel_->y()-i);
 }
 
 void MainWindow::moveToCustomize(int i)
 {
-}
 
-void MainWindow::moveToOptions(int i)
-{
-}
-
-void MainWindow::moveToShop(int i)
-{
 }
