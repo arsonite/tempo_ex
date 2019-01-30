@@ -5,10 +5,6 @@
         <file>res/bg.gif</file>
         <file>res/music/music_game.mp3</file>
         <file>res/sfx/cannon.wav</file>
-        <file>res/sfx/damage_2.wav</file>
-        <file>res/sfx/damage.wav</file>
-        <file>res/sfx/explode_2.wav</file>
-        <file>res/sfx/explode.wav</file>
         <file>res/sfx/shotgun.wav</file>
         <file>res/sfx/machine_gun.wav</file>
         <file>res/savedata.ini</file>
