@@ -4,10 +4,8 @@
 #
 #-------------------------------------------------
 
-QT       += core gui \
-         multimedia
+QT       += core gui multimedia widgets
 
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = TempoEX
 TEMPLATE = app
 

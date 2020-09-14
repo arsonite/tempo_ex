@@ -61,12 +61,12 @@ void Player::y(double y)
 
 void Player::moveX(int incr)
 {
-    setX(this->x()+incr);
+    setX(this->x() + incr);
 }
 
 void Player::moveY(int incr)
 {
-    setY(this->y()+incr);
+    setY(this->y() + incr);
 }
 
 /**
@@ -79,46 +79,56 @@ void Player::moveY(int incr)
  */
 void Player::advance(int code)
 {
-    if(code == 0 || code == 1 || code == 2) emit collected();
-    switch(code) {
-        case 0: //Health increase
-        if(health_ >= MAX_HEALTH_) break;
-            health_++;
-            capsizeHealthBar();
+    if (code == 0 || code == 1 || code == 2)
+        emit collected();
+    switch (code)
+    {
+    case 0: //Health increase
+        if (health_ >= MAX_HEALTH_)
             break;
-        case 1: //Point multiplicator
-            if(multiplicator_ == INT_MAX) return;
-            multiplicator_ *= 2;
-            //Prevents overflow
-            if(multiplicator_ * 2 > INT_MAX) multiplicator_ = INT_MAX;
-            multiplicatorLabel_->setVisible(true);
-            multiplicatorLabel_->setText(QString::number(multiplicator_) + "x");
-            break;
-        case 2: //Point
-            if(points_ == INT_MAX) return;
-            points_+= (multiplicator_ * 1);
-            //Prevents overflow
-            if(points_ + 1 > INT_MAX) points_ = INT_MAX;
-            break;
-        case 3: //Health decrease
-            health_--;
-            capsizeHealthBar();
-            multiplicator_ = 1;
-            multiplicatorLabel_->setVisible(false);
-            multiplicatorLabel_->setText(QString::number(multiplicator_) + "x");
-            emit damaged(health_);
-            if(health_ == 0) {
-                gameover_ = true;
-                emit valueChanged(gameover_);
-            }
-            break;
+        health_++;
+        capsizeHealthBar();
+        break;
+    case 1: //Point multiplicator
+        if (multiplicator_ == INT_MAX)
+            return;
+        multiplicator_ *= 2;
+        //Prevents overflow
+        if (multiplicator_ * 2 > INT_MAX)
+            multiplicator_ = INT_MAX;
+        multiplicatorLabel_->setVisible(true);
+        multiplicatorLabel_->setText(QString::number(multiplicator_) + "x");
+        break;
+    case 2: //Point
+        if (points_ == INT_MAX)
+            return;
+        points_ += (multiplicator_ * 1);
+        //Prevents overflow
+        if (points_ + 1 > INT_MAX)
+            points_ = INT_MAX;
+        break;
+    case 3: //Health decrease
+        health_--;
+        capsizeHealthBar();
+        multiplicator_ = 1;
+        multiplicatorLabel_->setVisible(false);
+        multiplicatorLabel_->setText(QString::number(multiplicator_) + "x");
+        emit damaged(health_);
+        if (health_ == 0)
+        {
+            gameover_ = true;
+            emit valueChanged(gameover_);
+        }
+        break;
     }
 }
 
 void Player::capsizeHealthBar()
 {
-    for(int i = 0; i < healthBar_->size(); i++) {
-        if(i <= health_-1) {
+    for (int i = 0; i < healthBar_->size(); i++)
+    {
+        if (i <= health_ - 1)
+        {
             healthBar_->at(i)->setBrush(QBrush(QColor(255, 75, 75)));
             continue;
         }
@@ -134,16 +144,20 @@ void Player::keyPress(int i, bool b)
 void Player::moveShip()
 {
     int speed = s_->getSpeed();
-    if(keysPressed_[0]) {
+    if (keysPressed_[0])
+    {
         moveY(-speed);
     }
-    if(keysPressed_[1]) {
+    if (keysPressed_[1])
+    {
         moveY(speed);
     }
-    if(keysPressed_[2]) {
+    if (keysPressed_[2])
+    {
         moveX(-speed);
     }
-    if(keysPressed_[3]) {
+    if (keysPressed_[3])
+    {
         moveX(speed);
     }
     wallCollisionRedirect();
@@ -151,18 +165,22 @@ void Player::moveShip()
 
 void Player::wallCollisionRedirect()
 {
-    int tempX = 900-getShip()->getHitbox().x();
-    int tempY = 700-getShip()->getHitbox().y()-getShip()->getHitbox().y()/2;
-    if(x() > tempX) {
+    int tempX = 900 - getShip()->getHitbox().x();
+    int tempY = 700 - getShip()->getHitbox().y() - getShip()->getHitbox().y() / 2;
+    if (x() > tempX)
+    {
         x(tempX);
     }
-    if(x() < 0) {
+    if (x() < 0)
+    {
         x(0);
     }
-    if(y() > tempY) {
+    if (y() > tempY)
+    {
         y(tempY);
     }
-    if(y() < 0) {
+    if (y() < 0)
+    {
         y(0);
     }
 }
@@ -187,7 +205,7 @@ Ship *Player::getShip()
     return s_;
 }
 
-void Player::setHealthBar(std::vector<QGraphicsEllipseItem*> *healthBar)
+void Player::setHealthBar(std::vector<QGraphicsEllipseItem *> *healthBar)
 {
     healthBar_ = healthBar;
 }

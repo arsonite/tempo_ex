@@ -13,14 +13,14 @@
 
 #include <QGraphicsRectItem>
 
-class Ship: public QGraphicsRectItem
+class Ship : public QGraphicsRectItem
 {
 public:
     Ship(int c, int weaponC, QGraphicsRectItem *parent);
 
     QPoint getHitbox();
 
-    std::vector<Weapon*> getWeapons();
+    std::vector<Weapon *> getWeapons();
 
     int getClass();
     int getHealth();
@@ -38,7 +38,7 @@ private:
     int health_;
     int speed_;
 
-    std::vector<Weapon*> weapons_;
+    std::vector<Weapon *> weapons_;
 };
 
 #endif // SHIP_H

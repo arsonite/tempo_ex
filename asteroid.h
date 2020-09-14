@@ -10,9 +10,9 @@
 #include <QGraphicsRectItem>
 #include <QObject>
 
-class Asteroid: public QObject, public QGraphicsRectItem
+class Asteroid : public QObject, public QGraphicsRectItem
 {
-Q_OBJECT
+    Q_OBJECT
 public:
     Asteroid(int zValue, bool &gameIsPaused_);
 

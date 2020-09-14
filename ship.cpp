@@ -9,18 +9,19 @@
 #include <QBrush>
 #include <QPen>
 
-Ship::Ship(int c, int weaponC, QGraphicsRectItem *parent): c_(c), weaponC_(weaponC), health_(c*2)
+Ship::Ship(int c, int weaponC, QGraphicsRectItem *parent) : c_(c), weaponC_(weaponC), health_(c * 2)
 {
-    switch(c) {
-        case 1:
-            constructRocket();
-            break;
-        case 2:
-            constructFighter();
-            break;
-        case 3:
-            constructCruiser();
-            break;
+    switch (c)
+    {
+    case 1:
+        constructRocket();
+        break;
+    case 2:
+        constructFighter();
+        break;
+    case 3:
+        constructCruiser();
+        break;
     }
     setPen(QPen(Qt::NoPen));
     setRect(0, 0, hitboxX_, hitboxY_);
@@ -40,27 +41,27 @@ void Ship::constructRocket()
     QGraphicsRectItem *r1 = new QGraphicsRectItem(this);
     int r1W = 25;
     int r1H = 65;
-    r1->setRect(hitboxX_/2-r1W/2, 25, r1W, r1H);
+    r1->setRect(hitboxX_ / 2 - r1W / 2, 25, r1W, r1H);
     r1->setBrush(QBrush(QColor(45, 135, 255)));
     r1->setPen(QPen(Qt::NoPen));
 
     QGraphicsEllipseItem *e1 = new QGraphicsEllipseItem(this);
     int e1S = 25;
-    e1->setRect(hitboxX_/2-r1W/2, r1W/2, e1S, e1S);
+    e1->setRect(hitboxX_ / 2 - r1W / 2, r1W / 2, e1S, e1S);
     e1->setBrush(QBrush(QColor(45, 135, 255)));
     e1->setPen(QPen(Qt::NoPen));
 
     QGraphicsRectItem *r2 = new QGraphicsRectItem(this);
     int r2W = 25;
     int r2H = 50;
-    r2->setRect(hitboxX_/2-r2W/2, 30, r2W, r2H);
+    r2->setRect(hitboxX_ / 2 - r2W / 2, 30, r2W, r2H);
     r2->setBrush(QBrush(QColor(60, 80, 100)));
     r2->setPen(QPen(Qt::NoPen));
 
     QGraphicsRectItem *r3 = new QGraphicsRectItem(this);
     int r3W = 5;
     int r3H = 50;
-    r3->setRect(hitboxX_/2-r3W/2, 30, r3W, r3H);
+    r3->setRect(hitboxX_ / 2 - r3W / 2, 30, r3W, r3H);
     r3->setBrush(QBrush(QColor(200, 200, 255)));
     r3->setPen(QPen(Qt::NoPen));
 
@@ -72,7 +73,7 @@ void Ship::constructRocket()
     leftFlap->setPolygon(leftFlapTriangle);
     leftFlap->setBrush(QBrush(QColor(45, 90, 180)));
     leftFlap->setPen(QPen(Qt::NoPen));
-    leftFlap->setPos(hitboxX_/2-1.8, 65);
+    leftFlap->setPos(hitboxX_ / 2 - 1.8, 65);
 
     QPolygonF rightFlapTriangle;
     rightFlapTriangle.append(QPoint(0, 0));
@@ -82,7 +83,7 @@ void Ship::constructRocket()
     rightFlap->setPolygon(rightFlapTriangle);
     rightFlap->setBrush(QBrush(QColor(45, 90, 180)));
     rightFlap->setPen(QPen(Qt::NoPen));
-    rightFlap->setPos(hitboxX_/2+2.8, 65);
+    rightFlap->setPos(hitboxX_ / 2 + 2.8, 65);
 }
 
 void Ship::constructFighter()
@@ -92,12 +93,12 @@ void Ship::constructFighter()
 
     speed_ = 10;
 
-    weapons_.push_back(new Weapon(this, weaponC_, hitboxX_/2, 35));
-    weapons_.push_back(new Weapon(this, weaponC_, hitboxX_ + hitboxX_/2, 35));
+    weapons_.push_back(new Weapon(this, weaponC_, hitboxX_ / 2, 35));
+    weapons_.push_back(new Weapon(this, weaponC_, hitboxX_ + hitboxX_ / 2, 35));
 
     QPolygonF leftFlapTriangle;
     leftFlapTriangle.append(QPoint(0, 10));
-    leftFlapTriangle.append(QPoint(-hitboxX_/2, 100));
+    leftFlapTriangle.append(QPoint(-hitboxX_ / 2, 100));
     leftFlapTriangle.append(QPoint(0, 80));
     QGraphicsPolygonItem *leftFlap = new QGraphicsPolygonItem(this);
     leftFlap->setPolygon(leftFlapTriangle);
@@ -107,7 +108,7 @@ void Ship::constructFighter()
 
     QPolygonF rightFlapTriangle;
     rightFlapTriangle.append(QPoint(0, 10));
-    rightFlapTriangle.append(QPoint(hitboxX_/2, 100));
+    rightFlapTriangle.append(QPoint(hitboxX_ / 2, 100));
     rightFlapTriangle.append(QPoint(0, 80));
     QGraphicsPolygonItem *rightFlap = new QGraphicsPolygonItem(this);
     rightFlap->setPolygon(rightFlapTriangle);
@@ -145,23 +146,23 @@ void Ship::constructFighter()
     QGraphicsEllipseItem *cockpit = new QGraphicsEllipseItem(this);
     int eW = 15;
     int eH = 25;
-    cockpit->setRect(hitboxX_/2-eW/2, hitboxY_-eH*2-eH/2, eW, eH);
+    cockpit->setRect(hitboxX_ / 2 - eW / 2, hitboxY_ - eH * 2 - eH / 2, eW, eH);
     cockpit->setBrush(QBrush(QColor(120, 200, 230)));
     cockpit->setPen(QPen(Qt::NoPen));
 }
 
 void Ship::constructCruiser()
 {
-    setPen(QPen(QColor(255, 0 ,0)));
+    setPen(QPen(QColor(255, 0, 0)));
 
     hitboxX_ = 125;
     hitboxY_ = 150;
 
     speed_ = 8;
 
-    weapons_.push_back(new Weapon(this, weaponC_, hitboxX_-(5/2), 0));
-    weapons_.push_back(new Weapon(this, weaponC_, hitboxX_/2-10, 60));
-    weapons_.push_back(new Weapon(this, weaponC_, hitboxX_+hitboxX_/2+10, 60));
+    weapons_.push_back(new Weapon(this, weaponC_, hitboxX_ - (5 / 2), 0));
+    weapons_.push_back(new Weapon(this, weaponC_, hitboxX_ / 2 - 10, 60));
+    weapons_.push_back(new Weapon(this, weaponC_, hitboxX_ + hitboxX_ / 2 + 10, 60));
 
     QPolygonF thrusterRectangle;
     thrusterRectangle.append(QPoint(-15, 50));
@@ -254,7 +255,7 @@ QPoint Ship::getHitbox()
     return QPoint(hitboxX_, hitboxY_);
 }
 
-std::vector<Weapon*> Ship::getWeapons()
+std::vector<Weapon *> Ship::getWeapons()
 {
     return weapons_;
 }

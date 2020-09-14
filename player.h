@@ -17,9 +17,9 @@
 #include <QGraphicsEllipseItem>
 #include <QLabel>
 
-class Player: public QObject, public QGraphicsRectItem
+class Player : public QObject, public QGraphicsRectItem
 {
-Q_OBJECT
+    Q_OBJECT
 public:
     explicit Player(int shipC, int weaponC, int zValue);
     virtual ~Player() override {}
@@ -46,7 +46,7 @@ public:
 
     Ship *getShip();
 
-    void setHealthBar(std::vector<QGraphicsEllipseItem*> *healthBar);
+    void setHealthBar(std::vector<QGraphicsEllipseItem *> *healthBar);
     void setMultiplicatorLabel(QLabel *multiplicatorLabel);
 
 public slots:
@@ -64,7 +64,7 @@ private:
 
     Ship *s_;
 
-    std::vector<QGraphicsEllipseItem*> *healthBar_;
+    std::vector<QGraphicsEllipseItem *> *healthBar_;
 
     std::array<bool, 4> keysPressed_;
 

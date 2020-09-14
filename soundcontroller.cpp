@@ -10,7 +10,7 @@
 
 SoundController::SoundController()
 {
-    sfx_ = new std::map<QString, QSoundEffect*>();
+    sfx_ = new std::map<QString, QSoundEffect *>();
 
     /* Initiliazing all sfx */
     QSoundEffect *sfxMachineGun = new QSoundEffect();

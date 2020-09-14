@@ -17,7 +17,7 @@
 
 class GameController : public QObject
 {
-Q_OBJECT
+    Q_OBJECT
 public:
     GameController(QGraphicsScene *scene, SoundController *s);
     ~GameController();
@@ -37,11 +37,11 @@ public:
     void pauseGame();
     bool gameIsPaused();
 
-    Player* getPlayer();
+    Player *getPlayer();
 
     /* Setter for referencial UI manipulation */
     void setPointLabel(QLabel *points);
-    void setHealthBar(std::vector<QGraphicsEllipseItem*> *healthBar);
+    void setHealthBar(std::vector<QGraphicsEllipseItem *> *healthBar);
     void setReloadBar(QGraphicsRectItem *reloadBar);
     void setReloadText(QLabel *reloadText);
     void setMultiplicatorLabel(QLabel *multiplicatorLabel);

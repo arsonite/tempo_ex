@@ -15,13 +15,14 @@
 #include <QGraphicsScene>
 #include <QKeyEvent>
 
-namespace Ui {
+namespace Ui
+{
 class MainWindow;
 }
 
 class MainWindow : public QMainWindow
 {
-Q_OBJECT
+    Q_OBJECT
 public:
     explicit MainWindow(QWidget *parent = nullptr);
     virtual ~MainWindow() override;
